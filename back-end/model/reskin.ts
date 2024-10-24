@@ -22,4 +22,31 @@ export class Reskin {
         this.theme = reskin.theme;
     }
 
+    getId(): number | undefined {
+        return this.id;
+    }
+    
+    getPieceType(): PieceType {
+        return this.for;
+    }
+
+    getColor(): Color {
+        return this.as;
+    }
+
+    getImagePath(): string {
+        return this.imagePath;
+    }
+
+    getTheme(): Theme {
+        return this.theme;
+    }
+
+    equals(reskin: Reskin): boolean {
+        return (
+            this.for === reskin.getPieceType() &&
+            this.theme.equals(reskin.getTheme())
+        );
+    }
+
 }

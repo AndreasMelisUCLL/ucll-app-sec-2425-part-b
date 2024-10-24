@@ -7,7 +7,7 @@ test('given: valid values for preset, when: preset is created, then: preset is c
     // given
     const name = 'preset1';
     const reskins: Reskin [] = [];
-    const user = new User({ username: 'johnDoe', password: 'john123' });
+    const user = new User({ username: 'john_doe', password: 'john123' });
     const isCurrent = true;
 
     // when

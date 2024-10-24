@@ -3,14 +3,14 @@ export class Theme {
     private name: string;
     private description: string;
 
-    constructor(
+    constructor(theme: {
+        id?: number,
         name: string, 
         description: string, 
-        id?: number
-    ) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    }) {
+        this.id = theme.id;
+        this.name = theme.name;
+        this.description = theme.description;
     }
 
     getId(): number | undefined {

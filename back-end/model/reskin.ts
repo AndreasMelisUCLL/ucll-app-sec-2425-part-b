@@ -5,20 +5,17 @@ export class Reskin {
     private id?: number;
     private for: PieceType;
     private as: Color;
-    private imagePath: string;
     private theme: Theme;
 
     constructor(reskin: {
         id?: number,
         for: PieceType,
         as: Color,
-        imagePath: string,
         theme: Theme
     }) {
         this.id = reskin.id;
         this.for = reskin.for;
         this.as = reskin.as;
-        this.imagePath = reskin.imagePath;
         this.theme = reskin.theme;
     }
 
@@ -34,10 +31,6 @@ export class Reskin {
         return this.as;
     }
 
-    getImagePath(): string {
-        return this.imagePath;
-    }
-
     getTheme(): Theme {
         return this.theme;
     }
@@ -48,5 +41,4 @@ export class Reskin {
             this.theme.equals(reskin.getTheme())
         );
     }
-
 }

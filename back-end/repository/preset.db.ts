@@ -7,6 +7,7 @@ import { PresetInput } from "../types";
 
 
 const user: User = new User({
+    id: 1,
     username: 'john_doe',
     password: 'john123'
 });
@@ -22,63 +23,87 @@ const minionTheme = new Theme({
 
 const reskins: Reskin[] = [
     new Reskin({
-        for: PieceType.KING,
-        as: Color.WHITE,
+        for: {
+            type: PieceType.KING,
+            color: Color.WHITE
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.KING,
-        as: Color.BLACK,
+        for: {
+            type: PieceType.KING,
+            color: Color.BLACK
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.QUEEN,
-        as: Color.WHITE,
+        for: {
+            type: PieceType.QUEEN,
+            color: Color.WHITE
+        },
         theme: minionTheme
     }),
     new Reskin({
-        for: PieceType.QUEEN,
-        as: Color.BLACK,
+        for: {
+            type: PieceType.QUEEN,
+            color: Color.BLACK
+        },
         theme: minionTheme
     }),
     new Reskin({
-        for: PieceType.ROOK,
-        as: Color.WHITE,
+        for: {
+            type: PieceType.ROOK,
+            color: Color.WHITE
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.ROOK,
-        as: Color.BLACK,
+        for: {
+            type: PieceType.ROOK,
+            color: Color.BLACK
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.BISHOP,
-        as: Color.WHITE,
+        for: {
+            type: PieceType.BISHOP,
+            color: Color.WHITE
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.BISHOP,
-        as: Color.BLACK,
+        for: {
+            type: PieceType.BISHOP,
+            color: Color.BLACK
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.KNIGHT,
-        as: Color.WHITE,
+        for: {
+            type: PieceType.KNIGHT,
+            color: Color.WHITE
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.KNIGHT,
-        as: Color.BLACK,
+        for: {
+            type: PieceType.KNIGHT,
+            color: Color.BLACK
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.PAWN,
-        as: Color.WHITE,
+        for: {
+            type: PieceType.PAWN,
+            color: Color.WHITE
+        },
         theme: defaultTheme
     }),
     new Reskin({
-        for: PieceType.PAWN,
-        as: Color.BLACK,
+        for: {
+            type: PieceType.PAWN,
+            color: Color.BLACK
+        },
         theme: defaultTheme
     }),
 ];
@@ -121,10 +146,10 @@ const createPreset = (preset: Preset): Preset => {
     return preset;
 }
 
-const getPresetByNameAndUser = ({ name, userId }: { name: string, userId: number }): Preset | undefined => {
+const getPresetByNameAndUser = ({ name, user }: { name: string, user: User }): Preset | undefined => {
     try {
         return presets.find(preset => 
-            preset.getName() === name && preset.getUser().getId() === userId
+            preset.getName() === name && preset.getUser() === user
         );
     } catch (error) {
         console.error(error);

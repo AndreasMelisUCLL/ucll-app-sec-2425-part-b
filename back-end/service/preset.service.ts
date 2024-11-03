@@ -3,7 +3,7 @@ import presetDB from '../repository/preset.db';
 import { PresetInput } from '../types';
 import userService from './user.service';
 import reskinDb from '../repository/reskin.db';
-import presetDb from '../repository/preset.db';
+
 
 const getPresetsByUserId = ({ userId }: { userId: number }): Preset[] => {
     const user = userService.getUserById({ id: userId });
@@ -38,9 +38,8 @@ const createPreset = ({
         throw new Error('Reskin not found');
     }
 
-    // TODO: check for existing preset
-
-    const existingPreset = presetDB.getPresetByNameAndUser({ name, userId: user.getId()! });
+    // check for existing preset
+    const existingPreset = presetDB.getPresetByNameAndUser({ name, user });
     if (existingPreset) {
         throw new Error(`Preset with name "${name}" already exists for this user.`);
     }       

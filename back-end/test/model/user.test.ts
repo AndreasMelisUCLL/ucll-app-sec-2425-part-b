@@ -17,7 +17,7 @@ test('given: valid values for user, when: user is created, then: user is created
     expect(user.getPassword()).toBe(password);
 });
 
-test('given: invalid values for user, when: user is created, then: error is thrown', () => {
+test('given: invalid username for user, when: user is created, then: error is thrown', () => {
     // given
     const username = '';
     const password = 'john123';

@@ -29,10 +29,8 @@ const createPreset = ({
     
     const reskins = new Array();
     for (const reskin of reskinInputs) {
-        if (!reskin.id) {
-            throw new Error('Reskin ids are required');
-        }
-        reskins.push(reskinDb.getReskinById({ id: reskin.id }));
+        reskins.push(reskinDb.getReskinByPieceAndThemeName({ piece: reskin.for.type, theme: reskin.theme.name }));
+        console.log(reskin.for.type, reskin.theme.name);
     }
     if (reskins.some(reskin => !reskin)) {
         throw new Error('Reskin not found');

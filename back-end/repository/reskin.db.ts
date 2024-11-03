@@ -2,27 +2,95 @@ import { PieceType, Color } from '../types';
 import { Reskin } from '../model/reskin';
 import { Theme } from '../model/theme';
 
-const minions = new Theme({
-    name: 'minion queen',
-    description: 'your most valuable piece got even more valuable'
+const defaultTheme = new Theme({
+    name: 'default',
+    description: 'The default theme for chess pieces.'
 });
-const reskins = [
+const reskins: Reskin[] = [
     new Reskin({
-        id: 1,
         for: {
-            type: PieceType.QUEEN,
+            type: PieceType.KING,
             color: Color.WHITE
         },
-        theme: minions
+        theme: defaultTheme
     }),
     new Reskin({
-        id: 2,
+        for: {
+            type: PieceType.KING,
+            color: Color.BLACK
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
         for: {
             type: PieceType.QUEEN,
             color: Color.WHITE
         },
-        theme: minions
-    })
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.QUEEN,
+            color: Color.BLACK
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.ROOK,
+            color: Color.WHITE
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.ROOK,
+            color: Color.BLACK
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.BISHOP,
+            color: Color.WHITE
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.BISHOP,
+            color: Color.BLACK
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.KNIGHT,
+            color: Color.WHITE
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.KNIGHT,
+            color: Color.BLACK
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.PAWN,
+            color: Color.WHITE
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        for: {
+            type: PieceType.PAWN,
+            color: Color.BLACK
+        },
+        theme: defaultTheme
+    }),
 ];
 
 const getReskinById = ({ id }: { id: number }): Reskin | undefined => {
@@ -33,6 +101,16 @@ const getReskinById = ({ id }: { id: number }): Reskin | undefined => {
         throw new Error('Database error. See server log for details.');
     }
 }
+
+const getReskinByPieceAndThemeName = ({ piece, theme }: { piece: PieceType, theme: string }): Reskin | undefined => {
+    try {
+        return reskins.find(reskin => reskin.getPiece().type === piece && reskin.getTheme().getName() === theme);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+}
+
 
 const getReskinsByTheme = ({ theme }: { theme: Theme }): Reskin[] => {
     try {
@@ -55,5 +133,6 @@ const getReskinsByPieceType = ({ pieceType }: { pieceType: PieceType }): Reskin[
 export default {
     getReskinById,
     getReskinsByTheme,
-    getReskinsByPieceType
+    getReskinsByPieceType,
+    getReskinByPieceAndThemeName
 };

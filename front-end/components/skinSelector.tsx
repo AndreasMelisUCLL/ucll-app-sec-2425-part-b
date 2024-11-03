@@ -1,27 +1,30 @@
-import PresetService from "@/service/presetService";
+import PresetService from "@/services/presetService";
+import { PieceType } from "@/types";
 import { Loadout } from "@/types";
 import { useState } from "react";
 
 const SkinSelector: React.FC = () => {
     // create a state to store the theme per piece type (Rook, Bishop, etc)
     const [loadout, setLoadout] = useState<Loadout>({
-        KING: "Classic",
-        QUEEN: "Classic",
-        ROOK: "Classic",
-        BISHOP: "Classic",
-        KNIGHT: "Classic",
-        PAWN: "Classic",
+        KING: "Default",
+        QUEEN: "Default",
+        ROOK: "Default",
+        BISHOP: "Default",
+        KNIGHT: "Default",
+        PAWN: "Default",
     });
+
+    const toPieceType = (piece: string): PieceType => {
+        return PieceType[piece];
+    };
 
     // create a function to save the selected preset
     const savePreset = async () => {
-        console.log(loadout);
         const presetInput = {
             id: 1,
             name: "My Preset",
             reskins: Object.keys(loadout).map((piece) => ({
-                id: 1,
-                for: piece,
+                for: toPieceType(piece),
                 theme: loadout[piece],
             })),
             user: {
@@ -31,6 +34,7 @@ const SkinSelector: React.FC = () => {
             },
             isCurrent: true,
         }
+        console.log(presetInput);
         await PresetService.savePreset(presetInput);
     }
 
@@ -46,9 +50,9 @@ const SkinSelector: React.FC = () => {
                             value={loadout[piece]}
                             onChange={(e) => setLoadout({ ...loadout, [piece]: e.target.value })}
                         >
-                            <option value="Classic">Classic</option>
-                            <option value="Modern">Modern</option>
-                            <option value="Fancy">Fancy</option>
+                            <option value="default">Default</option>
+                            <option value="modern">Modern</option>
+                            <option value="fancy">Fancy</option>
                         </select>
                     </div>
                 ))}

@@ -1,6 +1,6 @@
 export const enum Color {
-    WHITE,
-    BLACK
+    "WHITE",
+    "BLACK"
 }
 
 export const enum PieceType {

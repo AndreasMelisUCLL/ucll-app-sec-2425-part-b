@@ -8,11 +8,13 @@ const minions = new Theme({
 });
 const reskins = [
     new Reskin({
+        id: 1,
         for: PieceType.QUEEN,
         as: Color.WHITE,
         theme: minions
     }),
     new Reskin({
+        id: 2,
         for: PieceType.QUEEN,
         as: Color.BLACK,
         theme: minions

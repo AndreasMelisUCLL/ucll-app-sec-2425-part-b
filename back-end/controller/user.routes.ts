@@ -25,6 +25,25 @@ import userService from '../service/user.service';
 
 const userRouter = express.Router();
 
+/**
+ * @swagger
+ * /user/{Id}:
+ *   get:
+ *     summary: Get a user by their id
+ *     parameters:
+ *       - in: path
+ *         name: Id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A user Object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
 // get user by id
 userRouter.get('/:id', (req: Request, res: Response, next: NextFunction) => {
     try {

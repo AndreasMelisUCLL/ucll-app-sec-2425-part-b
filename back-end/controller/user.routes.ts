@@ -1,11 +1,11 @@
 /**
  * @swagger
- *   components:
- *     securitySchemes:
- *       bearerAuth:
- *         type: http
- *         scheme: bearer
- *         bearerFormat: JWT
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     User:
  *       type: object
@@ -27,18 +27,18 @@ const userRouter = express.Router();
 
 /**
  * @swagger
- * /user/{Id}:
+ * /user/{id}:
  *   get:
  *     summary: Get a user by their id
  *     parameters:
  *       - in: path
- *         name: Id
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: A user Object.
+ *         description: A user object.
  *         content:
  *           application/json:
  *             schema:

@@ -3,9 +3,9 @@ import { Theme } from "./theme";
 
 export class Reskin {
     private id?: number;
-    private for: PieceType;
-    private as: Color;
-    private theme: Theme;
+    private for!: PieceType;
+    private as!: Color;
+    private theme!: Theme;
 
     constructor(reskin: {
         id?: number,
@@ -13,10 +13,12 @@ export class Reskin {
         as: Color,
         theme: Theme
     }) {
-        this.id = reskin.id;
-        this.for = reskin.for;
-        this.as = reskin.as;
-        this.theme = reskin.theme;
+        if (reskin.id !== undefined) {
+            this.setId(reskin.id);
+        }
+        this.setPieceType(reskin.for);
+        this.setColor(reskin.as);
+        this.setTheme(reskin.theme);
     }
 
     getId(): number | undefined {
@@ -33,6 +35,22 @@ export class Reskin {
 
     getTheme(): Theme {
         return this.theme;
+    }
+
+    setId(id: number): void {
+        this.id = id;
+    }
+
+    setPieceType(pieceType: PieceType): void {
+        this.for = pieceType;
+    }
+
+    setColor(color: Color): void {
+        this.as = color;
+    }
+
+    setTheme(theme: Theme): void {
+        this.theme = theme;
     }
 
     equals(reskin: Reskin): boolean {

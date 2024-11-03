@@ -11,9 +11,7 @@ export class User {
         password: string
     }) {
         // Use setters to initialize the properties
-        if (user.id !== undefined) {
-            this.setId(user.id);
-        }
+        this.id = user.id;
         this.setUsername(user.username);
         this.setPassword(user.password);
     }
@@ -26,26 +24,18 @@ export class User {
         return this.username;
     }
 
-    getPassword(): string {
-        return this.password;
-    }
-
-    equals(user: User): boolean {
-        return this.username === user.getUsername();
-    }
-
-    public setId(id: number): void {
-        this.id = id;
-    }
-
-    public setUsername(username: string): void {
+    setUsername(username: string): void {
         if (!username || username.trim() === '') {
             throw new Error('Username is required');
         }
         this.username = username;
     }
 
-    public setPassword(password: string): void {
+    getPassword(): string {
+        return this.password;
+    }
+
+    setPassword(password: string): void {
         if (!password || password.trim() === '') {
             throw new Error('Password is required');
         }
@@ -53,5 +43,9 @@ export class User {
             throw new Error("Password must be at least 6 characters long");
         }
         this.password = password;
+    }
+
+    equals(user: User): boolean {
+        return this.username === user.getUsername();
     }
 }

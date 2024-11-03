@@ -15,8 +15,7 @@ type PresetInput = {
 
 type ReskinInput = {
     id?: number;
-    for: PieceType;
-    as: Color;
+    for: Piece;
     theme: ThemeInput;
 }
 
@@ -28,7 +27,7 @@ type ThemeInput = {
 type UserInput = {
     id?: number;
     username: string;
-    email: string;
+    password: string;
 }
 
 export type { Piece, PresetInput, ReskinInput, ThemeInput, UserInput };

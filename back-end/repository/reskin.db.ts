@@ -9,14 +9,18 @@ const minions = new Theme({
 const reskins = [
     new Reskin({
         id: 1,
-        for: PieceType.QUEEN,
-        as: Color.WHITE,
+        for: {
+            type: PieceType.QUEEN,
+            color: Color.WHITE
+        },
         theme: minions
     }),
     new Reskin({
         id: 2,
-        for: PieceType.QUEEN,
-        as: Color.BLACK,
+        for: {
+            type: PieceType.QUEEN,
+            color: Color.WHITE
+        },
         theme: minions
     })
 ];
@@ -41,7 +45,7 @@ const getReskinsByTheme = ({ theme }: { theme: Theme }): Reskin[] => {
 
 const getReskinsByPieceType = ({ pieceType }: { pieceType: PieceType }): Reskin[] => {
     try {
-        return reskins.filter(reskin => reskin.getPieceType() === pieceType);
+        return reskins.filter(reskin => reskin.getPiece().type === pieceType);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');

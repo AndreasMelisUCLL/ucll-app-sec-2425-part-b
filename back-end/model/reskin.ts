@@ -1,61 +1,36 @@
-import { Color, PieceType } from "./enumTypes";
+import { Piece } from "../types";
 import { Theme } from "./theme";
 
 export class Reskin {
     private id?: number;
-    private for!: PieceType;
-    private as!: Color;
-    private theme!: Theme;
+    private for: Piece;
+    private theme: Theme;
 
     constructor(reskin: {
         id?: number,
-        for: PieceType,
-        as: Color,
+        for: Piece,
         theme: Theme
     }) {
-        if (reskin.id !== undefined) {
-            this.setId(reskin.id);
-        }
-        this.setPieceType(reskin.for);
-        this.setColor(reskin.as);
-        this.setTheme(reskin.theme);
+        this.id = reskin.id;
+        this.for = reskin.for;
+        this.theme = reskin.theme;
     }
 
     getId(): number | undefined {
         return this.id;
     }
     
-    getPieceType(): PieceType {
+    getPiece(): Piece {
         return this.for;
-    }
-
-    getColor(): Color {
-        return this.as;
     }
 
     getTheme(): Theme {
         return this.theme;
     }
 
-    setId(id: number): void {
-        this.id = id;
-    }
-
-    setPieceType(pieceType: PieceType): void {
-        this.for = pieceType;
-    }
-
-    setColor(color: Color): void {
-        this.as = color;
-    }
-
-    setTheme(theme: Theme): void {
-        this.theme = theme;
-    }
-
     equals(reskin: Reskin): boolean {
         return (
-            this.for === reskin.getPieceType() &&
+            this.for === reskin.getPiece() &&
             this.theme.equals(reskin.getTheme())
         );
     }

@@ -9,9 +9,7 @@ export class Theme {
         description: string, 
     }) {
         // Use setters to initialize the properties
-        if (theme.id !== undefined) {
-            this.setId(theme.id);
-        }
+        this.id = theme.id;
         this.setName(theme.name);
         this.setDescription(theme.description);
     }
@@ -26,10 +24,6 @@ export class Theme {
 
     getDescription(): string {
         return this.description;
-    }
-
-    setId(id: number): void {
-        this.id = id;
     }
 
     setName(name: string): void {

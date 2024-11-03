@@ -1,5 +1,10 @@
 import { Color, PieceType } from "../model/enumTypes";
 
+type Piece = {
+    type: PieceType;
+    color: Color;
+}
+
 type PresetInput = {
     id?: number;
     name: string;
@@ -26,4 +31,4 @@ type UserInput = {
     email: string;
 }
 
-export type { PresetInput, ReskinInput, ThemeInput, UserInput };
+export type { Piece, PresetInput, ReskinInput, ThemeInput, UserInput };

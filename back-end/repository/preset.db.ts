@@ -121,9 +121,20 @@ const createPreset = (preset: Preset): Preset => {
     return preset;
 }
 
+const getPresetByNameAndUser = ({ name, userId }: { name: string, userId: number }): Preset | undefined => {
+    try {
+        return presets.find(preset => 
+            preset.getName() === name && preset.getUser().getId() === userId
+        );
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+}
 
 export default {
     getPresetsByUser,
     getCurrentPresetByUser,
-    createPreset
+    createPreset, 
+    getPresetByNameAndUser
 };

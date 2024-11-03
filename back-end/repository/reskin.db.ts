@@ -4,90 +4,101 @@ import { Theme } from '../model/theme';
 
 const defaultTheme = new Theme({
     name: 'default',
-    description: 'The default theme for chess pieces.'
+    description: 'default Theme'
 });
-const reskins: Reskin[] = [
+const reskins = [
     new Reskin({
         for: {
             type: PieceType.KING,
-            color: Color.WHITE
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.KING,
-            color: Color.BLACK
+            color: Color.WHITE,
         },
         theme: defaultTheme
     }),
     new Reskin({
         for: {
             type: PieceType.QUEEN,
-            color: Color.WHITE
+            color: Color.WHITE,
         },
         theme: defaultTheme
     }),
     new Reskin({
+        id: 3,
+        for: {
+            type: PieceType.ROOK,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 4,
+        for: {
+            type: PieceType.BISHOP,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 5,
+        for: {
+            type: PieceType.KNIGHT,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 6,
+        for: {
+            type: PieceType.PAWN,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    // Optionally, add the same for black pieces
+    new Reskin({
+        id: 7,
+        for: {
+            type: PieceType.KING,
+            color: Color.BLACK,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 8,
         for: {
             type: PieceType.QUEEN,
-            color: Color.BLACK
+            color: Color.BLACK,
         },
         theme: defaultTheme
     }),
     new Reskin({
+        id: 9,
         for: {
             type: PieceType.ROOK,
-            color: Color.WHITE
+            color: Color.BLACK,
         },
         theme: defaultTheme
     }),
     new Reskin({
-        for: {
-            type: PieceType.ROOK,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
+        id: 10,
         for: {
             type: PieceType.BISHOP,
-            color: Color.WHITE
+            color: Color.BLACK,
         },
         theme: defaultTheme
     }),
     new Reskin({
-        for: {
-            type: PieceType.BISHOP,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
+        id: 11,
         for: {
             type: PieceType.KNIGHT,
-            color: Color.WHITE
+            color: Color.BLACK,
         },
         theme: defaultTheme
     }),
     new Reskin({
-        for: {
-            type: PieceType.KNIGHT,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
+        id: 12,
         for: {
             type: PieceType.PAWN,
-            color: Color.WHITE
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.PAWN,
-            color: Color.BLACK
+            color: Color.BLACK,
         },
         theme: defaultTheme
     }),
@@ -96,15 +107,6 @@ const reskins: Reskin[] = [
 const getReskinById = ({ id }: { id: number }): Reskin | undefined => {
     try {
         return reskins.find(reskin => reskin.getId() === id);
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-}
-
-const getReskinByPieceAndThemeName = ({ piece, theme }: { piece: PieceType, theme: string }): Reskin | undefined => {
-    try {
-        return reskins.find(reskin => reskin.getPiece().type === piece && reskin.getTheme().getName() === theme);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');

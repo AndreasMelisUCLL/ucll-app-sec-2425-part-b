@@ -40,6 +40,11 @@ const createPreset = ({
 
     // TODO: check for existing preset
 
+    const existingPreset = presetDB.getPresetByNameAndUser({ name, userId: user.getId()! });
+    if (existingPreset) {
+        throw new Error(`Preset with name "${name}" already exists for this user.`);
+    }       
+
     const preset = new Preset({
         name,
         reskins,

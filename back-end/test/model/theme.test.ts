@@ -17,9 +17,9 @@ test('given: valid values for theme, when: theme is created, then: theme is crea
     expect(theme.getDescription()).toBe('default theme');
 });
 
-test('given: invalid name for theme, when: theme is created, then: error is thrown', () => {
+test('given: blank name for theme, when: theme is created, then: error is thrown', () => {
     // given
-    const name = '';
+    const name = ' ';
     const description = 'default theme';
 
     // when then
@@ -31,10 +31,10 @@ test('given: invalid name for theme, when: theme is created, then: error is thro
     }).toThrow('Name is required'); 
 });
 
-test('given: invalid description for theme, when: theme is created, then: error is thrown', () => {
+test('given: blank description for theme, when: theme is created, then: error is thrown', () => {
     // given
     const name = 'default theme';
-    const description = '';
+    const description = ' ';
     
     // when then
     expect(() => {

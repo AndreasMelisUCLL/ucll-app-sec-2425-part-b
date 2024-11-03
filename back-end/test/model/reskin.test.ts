@@ -5,8 +5,10 @@ import { Theme } from '../../model/theme';
 
 test('given: valid values for reskin, when: reskin is created, then: reskin is created', () => {
     // given
-    const pieceType = PieceType.KING;
-    const color = Color.WHITE;
+    const piece = {
+        type: PieceType.KING,
+        color: Color.WHITE
+    };
     const theme = new Theme({
         name: 'default',
         description: 'default theme',
@@ -14,13 +16,12 @@ test('given: valid values for reskin, when: reskin is created, then: reskin is c
 
     // when
     const reskin = new Reskin({
-        for: pieceType,
-        as: color,
+        for: piece,
         theme,
     });
 
     // then
-    expect(reskin.getPieceType()).toBe(PieceType.KING);
-    expect(reskin.getColor()).toBe(Color.WHITE);
+    expect(reskin.getPiece().type).toBe(PieceType.KING);
+    expect(reskin.getPiece().color).toBe(Color.WHITE);
     expect(reskin.getTheme()).toBe(theme);
 });

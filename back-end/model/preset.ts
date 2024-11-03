@@ -1,3 +1,4 @@
+import { Piece } from "../types";
 import { Color, PieceType } from "./enumTypes";
 import { Reskin } from "./reskin";
 import { User } from "./user";
@@ -43,14 +44,14 @@ export class Preset {
     }
 
     private setReskins(reskins: Reskin[]): void {
-        const typeColorSet: Set<[PieceType, Color]> = new Set();
-        // create a set of piece types and colors
-        reskins.forEach(reskin => {
-            typeColorSet.add([reskin.getPieceType(), reskin.getColor()]);
-        });
-        // assert no duplicates
-        if (typeColorSet.size != reskins.length) {
-            throw new Error("Preset can't have multiple reskins for the same piece type");
+        // ensure the piece for each reskin is unique
+        const reskinnedPieces: Piece[] = [];
+        for (const reskin of reskins) {
+            const piece = reskin.getPiece();
+            if (reskinnedPieces.includes(piece)) {
+                throw new Error("Cannot have multiple reskins for the same piece");
+            }
+            reskinnedPieces.push(piece);
         }
         this.reskins = reskins;
     }

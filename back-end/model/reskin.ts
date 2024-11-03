@@ -1,21 +1,18 @@
-import { Color, PieceType } from "./enumTypes";
+import { Piece } from "../types";
 import { Theme } from "./theme";
 
 export class Reskin {
     private id?: number;
-    private for: PieceType;
-    private as: Color;
+    private for: Piece;
     private theme: Theme;
 
     constructor(reskin: {
         id?: number,
-        for: PieceType,
-        as: Color,
+        for: Piece,
         theme: Theme
     }) {
         this.id = reskin.id;
         this.for = reskin.for;
-        this.as = reskin.as;
         this.theme = reskin.theme;
     }
 
@@ -23,12 +20,8 @@ export class Reskin {
         return this.id;
     }
     
-    getPieceType(): PieceType {
+    getPiece(): Piece {
         return this.for;
-    }
-
-    getColor(): Color {
-        return this.as;
     }
 
     getTheme(): Theme {
@@ -37,7 +30,7 @@ export class Reskin {
 
     equals(reskin: Reskin): boolean {
         return (
-            this.for === reskin.getPieceType() &&
+            this.for === reskin.getPiece() &&
             this.theme.equals(reskin.getTheme())
         );
     }

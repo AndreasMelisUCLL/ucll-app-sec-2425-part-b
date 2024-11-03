@@ -16,3 +16,31 @@ test('given: valid values for theme, when: theme is created, then: theme is crea
     expect(theme.getName()).toBe('default');
     expect(theme.getDescription()).toBe('default theme');
 });
+
+test('given: invalid name for theme, when: theme is created, then: error is thrown', () => {
+    // given
+    const name = '';
+    const description = 'default theme';
+
+    // when then
+    expect(() => {
+        new Theme({
+            name,
+            description,
+        });
+    }).toThrow('Name is required'); 
+});
+
+test('given: invalid description for theme, when: theme is created, then: error is thrown', () => {
+    // given
+    const name = 'default theme';
+    const description = '';
+    
+    // when then
+    expect(() => {
+        new Theme({
+            name,
+            description,
+        });
+    }).toThrow('Description is required'); 
+});

@@ -29,14 +29,14 @@ const createPreset = ({
     
     const reskins = new Array();
     for (const reskin of reskinInputs) {
-        if (!reskin.id) {
-            throw new Error('Reskin ids are required');
-        }
-        reskins.push(reskinDb.getReskinById({ id: reskin.id }));
+        // if (!reskin.id) {
+        //     throw new Error('Reskin ids are required');
+        // }
+        reskins.push(reskin);
     }
-    if (reskins.some(reskin => !reskin)) {
-        throw new Error('Reskin not found');
-    }
+    // if (reskins.some(reskin => !reskin)) {
+    //     throw new Error('Reskin not found');
+    // }
 
     // check for existing preset
     const existingPreset = presetDB.getPresetByNameAndUser({ name, user });

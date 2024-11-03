@@ -20,7 +20,7 @@ const SkinSelector: React.FC = () => {
             id: 1,
             name: "My Preset",
             reskins: Object.keys(loadout).map((piece) => ({
-                id: 1,
+                id: Math.random(),
                 for: piece,
                 theme: loadout[piece],
             })),

@@ -2,27 +2,108 @@ import { PieceType, Color } from '../types';
 import { Reskin } from '../model/reskin';
 import { Theme } from '../model/theme';
 
-const minions = new Theme({
-    name: 'minion queen',
-    description: 'your most valuable piece got even more valuable'
+const defaultTheme = new Theme({
+    name: 'default',
+    description: 'default Theme'
 });
 const reskins = [
     new Reskin({
         id: 1,
         for: {
-            type: PieceType.QUEEN,
-            color: Color.WHITE
+            type: PieceType.KING,
+            color: Color.WHITE,
         },
-        theme: minions
+        theme: defaultTheme
     }),
     new Reskin({
         id: 2,
         for: {
             type: PieceType.QUEEN,
-            color: Color.WHITE
+            color: Color.WHITE,
         },
-        theme: minions
-    })
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 3,
+        for: {
+            type: PieceType.ROOK,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 4,
+        for: {
+            type: PieceType.BISHOP,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 5,
+        for: {
+            type: PieceType.KNIGHT,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 6,
+        for: {
+            type: PieceType.PAWN,
+            color: Color.WHITE,
+        },
+        theme: defaultTheme
+    }),
+    // Optionally, add the same for black pieces
+    new Reskin({
+        id: 7,
+        for: {
+            type: PieceType.KING,
+            color: Color.BLACK,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 8,
+        for: {
+            type: PieceType.QUEEN,
+            color: Color.BLACK,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 9,
+        for: {
+            type: PieceType.ROOK,
+            color: Color.BLACK,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 10,
+        for: {
+            type: PieceType.BISHOP,
+            color: Color.BLACK,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 11,
+        for: {
+            type: PieceType.KNIGHT,
+            color: Color.BLACK,
+        },
+        theme: defaultTheme
+    }),
+    new Reskin({
+        id: 12,
+        for: {
+            type: PieceType.PAWN,
+            color: Color.BLACK,
+        },
+        theme: defaultTheme
+    }),
 ];
 
 const getReskinById = ({ id }: { id: number }): Reskin | undefined => {

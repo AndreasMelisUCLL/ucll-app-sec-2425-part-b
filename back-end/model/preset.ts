@@ -44,14 +44,14 @@ export class Preset {
 
     private setReskins(reskins: Reskin[]): void {
         // ensure the piece for each reskin is unique
-        const reskinnedPieces: Piece[] = [];
-        for (const reskin of reskins) {
-            const piece = reskin.getPiece();
-            if (reskinnedPieces.includes(piece)) {
-                throw new Error("Cannot have multiple reskins for the same piece");
-            }
-            reskinnedPieces.push(piece);
-        }
+        // const reskinnedPieces: Piece[] = [];
+        // for (const reskin of reskins) {
+        //     const piece = reskin.getPiece();
+        //     if (reskinnedPieces.includes(piece)) {
+        //         throw new Error("Cannot have multiple reskins for the same piece");
+        //     }
+        //     reskinnedPieces.push(piece);
+        // }
         this.reskins = reskins;
     }
 

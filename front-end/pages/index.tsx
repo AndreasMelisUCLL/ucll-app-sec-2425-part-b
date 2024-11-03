@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import Header from "@/components/header";
+import SkinSelector from "@/components/skinSelector";
 
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
       </Head>
       <Header />
       <main className={`${styles.main}`}>
-        Welcome
+        <SkinSelector/>
       </main>
     </>
   );

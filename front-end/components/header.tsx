@@ -3,7 +3,7 @@ const Header: React.FC = () => {
     return (
       <header className={`${styles.center}`}>
         <a>
-          Chesser
+          BoardFlex
         </a>
       </header>
     );

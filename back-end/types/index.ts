@@ -1,4 +1,16 @@
-import { Color, PieceType } from "../model/enumTypes";
+export const enum Color {
+    WHITE,
+    BLACK
+}
+
+export const enum PieceType {
+    KING,
+    QUEEN,
+    ROOK,
+    BISHOP,
+    KNIGHT,
+    PAWN
+}
 
 type Piece = {
     type: PieceType;

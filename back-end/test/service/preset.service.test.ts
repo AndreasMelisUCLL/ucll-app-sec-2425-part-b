@@ -3,7 +3,7 @@ import presetDB from '../../repository/preset.db';
 import presetService from '../../service/preset.service';
 import userService from '../../service/user.service';
 import reskinDb from '../../repository/reskin.db';
-import { Color, PieceType } from '../../model/enumTypes';
+import { Color, PieceType } from '../../types';
 
 
 let mockUserServiceGetUserById: jest.Mock;

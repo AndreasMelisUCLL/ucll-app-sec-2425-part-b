@@ -1,9 +1,8 @@
-import { PieceType, Color } from "../model/enumTypes";
 import { Preset } from "../model/preset";
 import { Reskin } from "../model/reskin";
 import { Theme } from "../model/theme";
 import { User } from "../model/user";
-import { PresetInput } from "../types";
+import { PieceType, Color } from "../types";
 
 
 const user: User = new User({

@@ -1,4 +1,4 @@
-import { Color, PieceType } from '../../model/enumTypes';
+import { Color, PieceType } from '../../types';
 import { Reskin } from '../../model/reskin';
 import { Theme } from '../../model/theme';
 

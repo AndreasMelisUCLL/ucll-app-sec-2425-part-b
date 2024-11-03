@@ -1,5 +1,4 @@
-import { Piece } from "../types";
-import { Color, PieceType } from "./enumTypes";
+import { Piece, Color, PieceType } from "../types";
 import { Reskin } from "./reskin";
 import { User } from "./user";
 

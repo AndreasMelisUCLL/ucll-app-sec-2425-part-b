@@ -20,7 +20,7 @@ test('given: valid values for reskin, when: reskin is created, then: reskin is c
     });
 
     // then
-    expect(reskin.getPieceType()).toBe(PieceType.BISHOP);
+    expect(reskin.getPieceType()).toBe(PieceType.KING);
     expect(reskin.getColor()).toBe(Color.WHITE);
     expect(reskin.getTheme()).toBe(theme);
 });

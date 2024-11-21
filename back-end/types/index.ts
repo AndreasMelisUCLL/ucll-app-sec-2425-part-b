@@ -1,39 +1,21 @@
-export const enum Color {
-    WHITE,
-    BLACK
-}
+type Color = "w" | "b";
+type ColorString = "WHITE" | "BLACK";
 
-export const enum PieceType {
-    KING,
-    QUEEN,
-    ROOK,
-    BISHOP,
-    KNIGHT,
-    PAWN
-}
+type PieceType = "K" | "Q" | "R" | "B" | "N" | "P";
+type PieceTypeString = "KING" | "QUEEN" | "ROOK" | "BISHOP" | "KNIGHT" | "PAWN";
 
-type Piece = {
-    type: PieceType;
-    color: Color;
-}
+type Piece = `${Color}${PieceType}`;
+type PieceString = `${ColorString} ${PieceTypeString}`;
 
 type PresetInput = {
-    id?: number;
+    userId: number;
     name: string;
-    reskins: ReskinInput[];
-    user: UserInput;
-    isCurrent: boolean;
+    reskinInputs: ReskinInput[];
 };
 
 type ReskinInput = {
-    id?: number;
-    for: Piece;
-    theme: ThemeInput;
-}
-
-type ThemeInput = {
-    name: string;
-    description: string;
+    piece: Piece;
+    themeId: number;
 }
 
 type UserInput = {
@@ -41,5 +23,3 @@ type UserInput = {
     username: string;
     password: string;
 }
-
-export type { Piece, PresetInput, ReskinInput, ThemeInput, UserInput };

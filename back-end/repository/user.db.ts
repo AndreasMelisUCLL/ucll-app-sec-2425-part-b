@@ -1,5 +1,7 @@
 import { User } from "../model/user";
 
+// DUMMY DATA _____________________________________________________________________________________
+
 const users: User[] = [
     new User({
         id: 1,
@@ -13,9 +15,11 @@ const users: User[] = [
     })
 ];
 
+// METHODS _______________________________________________________________________________________
+
 const getUserById = ({ id }: { id: number }): User | undefined => {
     try {
-        return users.find((user) => user.getId() === id);
+        return users.find((user) => user.id === id);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
@@ -24,12 +28,13 @@ const getUserById = ({ id }: { id: number }): User | undefined => {
 
 const getUserByUsername = ({ username }: { username: string }): User | undefined => {
     try {
-        return users.find((user) => user.getUsername() === username);
+        return users.find((user) => user.username === username);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 };
+
 
 export default { 
     getUserById,

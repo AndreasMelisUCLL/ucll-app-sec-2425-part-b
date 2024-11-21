@@ -1,9 +1,11 @@
-import { Preset } from '../model/preset';
-import presetDB from '../repository/preset.db';
-import { PresetInput } from '../types';
-import userService from './user.service';
-import reskinDb from '../repository/reskin.db';
+import { Preset }       from '../model/preset';
 
+import presetDB         from '../repository/preset.db';
+
+import userService      from './user.service';
+import reskinService    from './reskin.service';
+
+// RETRIEVAL _______________________________________________________________________________________
 
 const getPresetsByUserId = ({ userId }: { userId: number }): Preset[] => {
     const user = userService.getUserById({ id: userId });
@@ -13,46 +15,36 @@ const getPresetsByUserId = ({ userId }: { userId: number }): Preset[] => {
     return presetDB.getPresetsByUser({ user });
 }
 
+// CREATION ________________________________________________________________________________________
+
 const createPreset = ({ 
+    userId,
     name,
-    reskins: reskinInputs,
-    user: userInput,
-    isCurrent
+    reskinInputs,
 }: PresetInput): Preset => {
-    if (!userInput.id) {
-        throw new Error('User id is required');
-    }
-    const user = userService.getUserById({ id: userInput.id });
-    if (!user) {
-        throw new Error('User not found');
-    }
-    
-    const reskins = new Array();
-    for (const reskin of reskinInputs) {
-        // if (!reskin.id) {
-        //     throw new Error('Reskin ids are required');
-        // }
-        reskins.push(reskin);
-    }
-    // if (reskins.some(reskin => !reskin)) {
-    //     throw new Error('Reskin not found');
-    // }
+    // retrieve user by id
+    const user = userService.getUserById({ id: userId });
 
-    // check for existing preset
-    const existingPreset = presetDB.getPresetByNameAndUser({ name, user });
-    if (existingPreset) {
+    // check presetname is unique for user
+    if (presetDB.getPresetByUserAndName({ user, name })) {
         throw new Error(`Preset with name "${name}" already exists for this user.`);
-    }       
+    };
+    
+    // retrieve reskins by piece and theme id
+    const reskins = reskinInputs.map(reskinInput =>
+        reskinService.getReskinByPieceAndThemeId(reskinInput)
+    );
 
+    // exclude domain errors during creation
     const preset = new Preset({
         name,
         reskins,
-        user,
-        isCurrent
+        user
     });
 
-    return presetDB.createPreset(preset);
+    return presetDB.save(preset);
 }
+
 
 export default { 
     getPresetsByUserId, 

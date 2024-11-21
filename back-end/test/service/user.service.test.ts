@@ -1,23 +1,42 @@
-import { User } from "../../model/user";
-import userDB from "../../repository/user.db";
-import userService from "../../service/user.service";
+import { User }     from "../../model/user";
 
+import userService  from "../../service/user.service";
+
+import userDB       from "../../repository/user.db";
+
+// MOCK SETUP ____________________________________________________________________________________
 
 let mockUserDbGetUserById: jest.Mock;
 
+beforeEach(() => {
+    mockUserDbGetUserById = jest.fn();
+});
+afterEach(() => {
+    jest.clearAllMocks();
+});
+
+// EXPECTED VALUES _______________________________________________________________________________
+
+const valid = {
+    id: 1,
+    username: 'john_doe',
+    password: 'john123'
+};
+
+// GET USER BY ID ________________________________________________________________________________
 
 test('given: valid id, when: invoking getUserById, then: user is returned', () => {  
-    // given
-    const id = 1;
-    const johnDoe = new User({ id, username: 'john_doe', password: 'john123' });
+    // GIVEN ------------------------------------
+    const id = valid.id;
 
-    mockUserDbGetUserById = jest.fn();
-    userDB.getUserById = mockUserDbGetUserById.mockReturnValue(johnDoe);
+    // MOCK -------------------------------------
+    userDB.getUserById = mockUserDbGetUserById.mockReturnValue(new User(valid));
     
-    // when
+    // WHEN -------------------------------------
     const foundUser = userService.getUserById({ id });
 
-    // then
+    // THEN -------------------------------------
     expect(mockUserDbGetUserById).toHaveBeenCalledWith({ id })
-    expect(foundUser).toEqual(johnDoe);
+    expect(foundUser.id).toEqual(id);
+
 });

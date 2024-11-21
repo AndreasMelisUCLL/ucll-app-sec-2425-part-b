@@ -1,47 +1,46 @@
+// THEME _________________________________________________________________________________________
 export class Theme {
-    private id?: number;
-    private name!: string;
-    private description!: string;
 
+    readonly id?: number;
+    readonly name: string;
+    readonly description!: string;
+
+
+    // CONSTRUCTOR ------------------------------
     constructor(theme: {
         id?: number,
         name: string, 
         description: string, 
     }) {
-        // Use setters to initialize the properties
+        Theme.validate(theme);
+
         this.id = theme.id;
-        this.setName(theme.name);
-        this.setDescription(theme.description);
+        this.name =theme.name;
+        this.description = theme.description;
     }
 
-    getId(): number | undefined {
-        return this.id;
-    }
 
-    getName(): string {
-        return this.name;
-    }
-
-    getDescription(): string {
-        return this.description;
-    }
-
-    setName(name: string): void {
-        if (!name || name.trim() === '') {
+    // STATICS ----------------------------------
+    static validate(theme: {
+        id?: number,
+        name: string,
+        description: string,
+    }) {
+        // name
+        if (!theme.name || theme.name.trim() === '') {
             throw new Error('Name is required');
         }
-        this.name = name;
-    }
 
-    setDescription(description: string): void {
-        if (!description || description.trim() === '') {
+        // description
+        if (!theme.description || theme.description.trim() === '') {
             throw new Error('Description is required');
         }
-        this.description = description;
     }
 
 
+    // EQUALS -----------------------------------
     equals(theme: Theme): boolean {
-        return this.name === theme.getName();
+        return this.name === theme.name;
     }
+
 }

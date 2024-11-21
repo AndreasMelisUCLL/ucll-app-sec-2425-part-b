@@ -1,5 +1,7 @@
 import userDB from '../repository/user.db';
 
+// RETRIEVAL _______________________________________________________________________________________
+
 const getUserById = ({ id }: { id: number }) => {
     const user = userDB.getUserById({ id });
     if (!user) {
@@ -8,4 +10,7 @@ const getUserById = ({ id }: { id: number }) => {
     return user;
 }
 
-export default { getUserById };
+
+export default { 
+    getUserById,
+};

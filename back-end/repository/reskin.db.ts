@@ -1,140 +1,58 @@
-import { PieceType, Color } from '../types';
-import { Reskin } from '../model/reskin';
-import { Theme } from '../model/theme';
+import { Reskin }   from '../model/reskin';
+import { Theme }    from '../model/theme';
 
-const defaultTheme = new Theme({
-    name: 'default',
-    description: 'default Theme'
+import utils from '../util';
+
+// DUMMY DATA _____________________________________________________________________________________
+
+const sniperTheme = new Theme({
+    name: 'sniper bishop',
+    description: 'lining up the shots'
 });
 const reskins = [
     new Reskin({
-        for: {
-            type: PieceType.KING,
-            color: Color.WHITE,
-        },
-        theme: defaultTheme
+        piece: utils.pieceOf({
+            color: 'BLACK',
+            type: 'BISHOP',
+        }),
+        theme: sniperTheme
     }),
     new Reskin({
-        for: {
-            type: PieceType.QUEEN,
-            color: Color.WHITE,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 3,
-        for: {
-            type: PieceType.ROOK,
-            color: Color.WHITE,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 4,
-        for: {
-            type: PieceType.BISHOP,
-            color: Color.WHITE,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 5,
-        for: {
-            type: PieceType.KNIGHT,
-            color: Color.WHITE,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 6,
-        for: {
-            type: PieceType.PAWN,
-            color: Color.WHITE,
-        },
-        theme: defaultTheme
-    }),
-    // Optionally, add the same for black pieces
-    new Reskin({
-        id: 7,
-        for: {
-            type: PieceType.KING,
-            color: Color.BLACK,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 8,
-        for: {
-            type: PieceType.QUEEN,
-            color: Color.BLACK,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 9,
-        for: {
-            type: PieceType.ROOK,
-            color: Color.BLACK,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 10,
-        for: {
-            type: PieceType.BISHOP,
-            color: Color.BLACK,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 11,
-        for: {
-            type: PieceType.KNIGHT,
-            color: Color.BLACK,
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        id: 12,
-        for: {
-            type: PieceType.PAWN,
-            color: Color.BLACK,
-        },
-        theme: defaultTheme
+        piece: utils.pieceOf({
+            color: 'WHITE',
+            type: 'BISHOP',
+        }),
+        theme: sniperTheme
     }),
 ];
 
-const getReskinById = ({ id }: { id: number }): Reskin | undefined => {
+// METHODS _______________________________________________________________________________________
+
+const getReskinsByPiece = ({ piece }: { piece: Piece }): Reskin[] => {
     try {
-        return reskins.find(reskin => reskin.getId() === id);
+        return reskins.filter(reskin => 
+            reskin.piece === piece
+        );
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 }
 
-
-const getReskinsByTheme = ({ theme }: { theme: Theme }): Reskin[] => {
+const getReskinByPieceAndTheme = ({ piece, theme }: { piece: Piece, theme: Theme }): Reskin | undefined => {
     try {
-        return reskins.filter(reskin => reskin.getTheme().equals(theme));
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-};
-
-const getReskinsByPieceType = ({ pieceType }: { pieceType: PieceType }): Reskin[] => {
-    try {
-        return reskins.filter(reskin => reskin.getPiece().type === pieceType);
+        return reskins.find(reskin => 
+            reskin.piece === piece &&
+            reskin.theme.equals(theme)
+        );
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 }
+
 
 export default {
-    getReskinById,
-    getReskinsByTheme,
-    getReskinsByPieceType,
-    getReskinByPieceAndThemeName
+    getReskinsByPiece,
+    getReskinByPieceAndTheme,
 };

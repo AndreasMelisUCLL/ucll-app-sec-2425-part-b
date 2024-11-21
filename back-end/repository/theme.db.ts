@@ -1,5 +1,6 @@
 import { Theme } from '../model/theme';
 
+// DUMMY DATA _____________________________________________________________________________________
 
 const themes = [
     new Theme({
@@ -9,14 +10,16 @@ const themes = [
     }),
     new Theme({
         id: 2,
-        name: 'minion',
-        description: 'The better one.'
-    })
+        name: 'sniper bishop',
+        description: 'lining up the shots'
+    }),
 ];
+
+// METHODS _______________________________________________________________________________________
 
 const getThemeByName = ({ name }: { name: string }): Theme | undefined => {
     try {
-        return themes.find(theme => theme.getName() === name);
+        return themes.find(theme => theme.name === name);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
@@ -25,12 +28,13 @@ const getThemeByName = ({ name }: { name: string }): Theme | undefined => {
 
 const getThemeById = ({ id }: { id: number }): Theme | undefined => {
     try {
-        return themes.find(theme => theme.getId() === id);
+        return themes.find(theme => theme.id === id);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 };
+
 
 export default {
     getThemeByName,

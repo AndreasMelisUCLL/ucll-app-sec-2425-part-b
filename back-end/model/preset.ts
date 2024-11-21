@@ -1,65 +1,63 @@
-import { Piece, Color, PieceType } from "../types";
-import { Reskin } from "./reskin";
-import { User } from "./user";
+import { Reskin }   from "./reskin";
+import { User }     from "./user";
 
+
+// PRESET ________________________________________________________________________________________
 export class Preset {
-    private id?: number;
-    private name!: string;
-    private reskins!: Reskin[];
-    private user: User;
-    private isCurrent: boolean;
 
+    readonly id?: number;
+    readonly name: string;
+    readonly reskins!: Reskin[];
+    readonly user: User;
+    readonly isCurrent: boolean;
+
+    
+    // CONSTRUCTOR ------------------------------
     constructor(preset: {
         id?: number,
         name: string,
         reskins: Reskin[],
         user: User,
-        isCurrent: boolean
     }) {
+        Preset.validate(preset);
+
         this.id = preset.id;
-        this.setName(preset.name);
-        this.setReskins(preset.reskins);
+        this.name = preset.name;
+        this.reskins = preset.reskins;
         this.user = preset.user;
-        this.isCurrent = preset.isCurrent;
+        this.isCurrent = false;
     }
     
-    getId(): number | undefined {
-        return this.id;
-    }
 
-    getName(): string {
-        return this.name;
-    }
-
-    private setName(value: string): void {
-        if (!value || value.trim() === "") {
+    // STATICS ----------------------------------
+    static validate(preset: {
+        id?: number,
+        name: string,
+        reskins: Reskin[],
+        user: User,
+    }) {
+        // name
+        if (!preset.name || preset.name.trim() === "") {
             throw new Error("Name cannot be blank");
         }
-        this.name = value;
+
+        // reskins
+        if (preset.reskins.length > 12) {
+            throw new Error("Presets cannot have more than 12 reskins");
+        }
+        const reskinnedPieces: Piece[] = preset.reskins.map(reskin => reskin.piece);        
+        if (reskinnedPieces.length !== new Set(reskinnedPieces).size) {
+            throw new Error("Cannot have multiple reskins for the same piece");
+        }
     }
 
-    getReskins(): Reskin[] {
-        return this.reskins;
+
+    // EQUALS -----------------------------------
+    equals(preset: Preset): boolean {
+        return(
+            this.user === preset.user &&
+            this.name === preset.name
+        )
     }
 
-    private setReskins(reskins: Reskin[]): void {
-        // ensure the piece for each reskin is unique
-        // const reskinnedPieces: Piece[] = [];
-        // for (const reskin of reskins) {
-        //     const piece = reskin.getPiece();
-        //     if (reskinnedPieces.includes(piece)) {
-        //         throw new Error("Cannot have multiple reskins for the same piece");
-        //     }
-        //     reskinnedPieces.push(piece);
-        // }
-        this.reskins = reskins;
-    }
-
-    getUser(): User {
-        return this.user;
-    }
-
-    getIsCurrent(): boolean {
-        return this.isCurrent;
-    }
 }

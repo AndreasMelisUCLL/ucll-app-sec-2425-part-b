@@ -1,81 +1,109 @@
-import { Color, PieceType } from "../../types";
-import { Preset } from "../../model/preset";
-import { Reskin } from "../../model/reskin";
-import { Theme } from "../../model/theme";
-import { User } from "../../model/user";
+import { Preset }   from "../../model/preset";
+import { Reskin }   from "../../model/reskin";
+import { Theme }    from "../../model/theme";
+import { User }     from "../../model/user";
 
+import utils from "../../util";
+
+// EXPECTED VALUES _______________________________________________________________________________
+
+const valid = {
+    name: 'preset1',
+    user: new User({ 
+            username: 'john_doe', 
+            password: 'john123'
+        }),
+    reskins: [
+        new Reskin({
+            piece: utils.pieceOf({
+                color: 'WHITE',
+                type: 'KING',
+            }),
+            theme: new Theme({
+                name: "sniper bishop",
+                description: "sniper bishops",
+            })
+        })
+    ]
+}
+
+// CREATE PRESET _________________________________________________________________________________
 
 test('given: valid values for preset, when: preset is created, then: preset is created', () => {
-    // given
-    const name = 'preset1';
-    const reskins: Reskin[] = [
+    // GIVEN ------------------------------------
+    const name = valid.name;
+    const user = valid.user;
+    const reskins = valid.reskins
 
-    ];
-    const user = new User({ username: 'john_doe', password: 'john123' });
-    const isCurrent = true;
-
-    // when
+    // WHEN -------------------------------------
     const preset = new Preset({
         name, 
+        user,
         reskins, 
-        user, 
-        isCurrent
     });
 
-    // then
-    expect(preset.getName()).toBe(name);
-    expect(preset.getReskins()).toBe(reskins);
-    expect(preset.getUser()).toBe(user);
-    expect(preset.getIsCurrent()).toBe(isCurrent);
+    // THEN -------------------------------------
+    expect(preset.name).toBe(name);
+    expect(preset.user).toBe(user);
+    expect(preset.reskins).toBe(reskins);
+
 });
 
 test('given: blank name, when: preset is created, then: error is thrown', () => {
-    // given
+    // GIVEN ------------------------------------
     const name = ' ';
-    const reskins: Reskin [] = [];
-    const user = new User({ username: 'john_doe', password: 'john123' });
-    const isCurrent = true;
+    const reskins = valid.reskins;
+    const user = valid.user;
 
-    // when, then
+    // WHEN -------------------------------------
     expect(() => {
         new Preset({
             name, 
             reskins, 
-            user, 
-            isCurrent
+            user,
         })
+
+    // THEN -------------------------------------
     }).toThrow('Name cannot be blank');
+
 });
 
-test('given: multiple reskins for the same piece type and color, when: preset is created, then: error is thrown', () => {
-    // given
-    const name = 'preset1';
-    const user = new User({ username: 'john_doe', password: 'john123' });
-    const isCurrent = true;
+test('given: multiple reskins for the same piece, when: preset is created, then: error is thrown', () => {
+    // GIVEN ------------------------------------
+    const name = valid.name;
+    const user = valid.user
 
-    const theme = new Theme({name: 'default', description: 'default theme'});
-    const duplicatePiece = {
-        type: PieceType.KING,
-        color: Color.WHITE
-    };
+    const duplicatePiece = utils.pieceOf({
+        color: 'WHITE',
+        type: 'KING',
+    });
+
     const reskins: Reskin[] = [
         new Reskin({
-            for: duplicatePiece,
-            theme
+            piece: duplicatePiece,
+            theme: new Theme({
+                name: 'default', 
+                description: 'default theme'
+            })
         }),
         new Reskin({
-            for: duplicatePiece,
-            theme
+            piece: duplicatePiece,
+            theme: new Theme({
+                name: 'default', 
+                description: 'default theme'
+            })
         }),
     ];
 
-    // when, then
+    // WHEN -------------------------------------
     expect(() => {
         new Preset({
             name, 
             reskins, 
-            user, 
-            isCurrent
+            user
         })
+
+    // THEN -------------------------------------
     }).toThrow("Cannot have multiple reskins for the same piece");
+
 });

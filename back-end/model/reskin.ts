@@ -1,37 +1,44 @@
-import { Piece } from "../types";
 import { Theme } from "./theme";
 
-export class Reskin {
-    private id?: number;
-    private for: Piece;
-    private theme: Theme;
 
+// RESKIN ________________________________________________________________________________________
+export class Reskin {
+
+    readonly id?: number;
+    readonly piece: Piece;
+    readonly theme: Theme;
+
+
+    // CONSTRUCTOR ------------------------------
     constructor(reskin: {
         id?: number,
-        for: Piece,
+        piece: Piece,
         theme: Theme
     }) {
         this.id = reskin.id;
-        this.for = reskin.for;
+        this.piece = reskin.piece;
         this.theme = reskin.theme;
     }
 
-    getId(): number | undefined {
-        return this.id;
-    }
-    
-    getPiece(): Piece {
-        return this.for;
+
+    // STATICS ---------------------------------
+    static toInput = (reskin: Reskin): ReskinInput => {
+        if (!reskin.theme.id) {
+            throw new Error("Reskin theme must have an id");
+        }
+        return {
+            piece: reskin.piece,
+            themeId: reskin.theme.id,
+        }
     }
 
-    getTheme(): Theme {
-        return this.theme;
-    }
 
+    // EQUALS -----------------------------------
     equals(reskin: Reskin): boolean {
         return (
-            this.for === reskin.getPiece() &&
-            this.theme.equals(reskin.getTheme())
+            this.piece === reskin.piece &&
+            this.theme.equals(reskin.theme)
         );
     }
+
 }

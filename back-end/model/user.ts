@@ -1,51 +1,48 @@
-import { error } from "console";
-
+// USER __________________________________________________________________________________________
 export class User {
-    private id?: number;
-    private username!: string;
-    private password!: string;
 
+    readonly id?: number;
+    readonly username!: string;
+    readonly password!: string;
+
+
+    // CONSRUCTOR -------------------------------
     constructor(user: {
         id?: number,
         username: string, 
         password: string
     }) {
-        // Use setters to initialize the properties
+        User.validate(user);
+
         this.id = user.id;
-        this.setUsername(user.username);
-        this.setPassword(user.password);
+        this.username = user.username;
+        this.password = user.password;
     }
 
-    getId(): number | undefined {
-        return this.id;
-    }
 
-    getUsername(): string {
-        return this.username;
-    }
-
-    setUsername(username: string): void {
-        if (!username || username.trim() === '') {
+    // STATICS ----------------------------------
+    static validate(user: {
+        id?: number,
+        username: string, 
+        password: string
+    }) {
+        // username
+        if (!user.username || user.username.trim() === '') {
             throw new Error('Username is required');
         }
-        this.username = username;
-    }
 
-    getPassword(): string {
-        return this.password;
-    }
-
-    setPassword(password: string): void {
-        if (!password || password.trim() === '') {
+        // password
+        if (!user.password || user.password.trim() === '') {
             throw new Error('Password is required');
         }
-        if (password.length <= 6) {
+        if (user.password.length <= 6) {
             throw new Error("Password must be at least 6 characters long");
         }
-        this.password = password;
     }
 
+    
+    // EQUALS -----------------------------------
     equals(user: User): boolean {
-        return this.username === user.getUsername();
+        return this.username === user.username;
     }
 }

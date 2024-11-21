@@ -1,9 +1,11 @@
-import { Preset } from "../model/preset";
-import { Reskin } from "../model/reskin";
-import { Theme } from "../model/theme";
-import { User } from "../model/user";
-import { PieceType, Color } from "../types";
+import { Preset }   from "../model/preset";
+import { Reskin }   from "../model/reskin";
+import { Theme }    from "../model/theme";
+import { User }     from "../model/user";
 
+import utils from "../util";
+
+// DUMMY DATA _____________________________________________________________________________________
 
 const user: User = new User({
     id: 1,
@@ -11,154 +13,72 @@ const user: User = new User({
     password: 'john123'
 });
 
-const defaultTheme = new Theme({
-    name: 'default',
-    description: 'the classic pieces'
-});
-const minionTheme = new Theme({
-    name: 'minion queen',
-    description: 'your most valuable piece got even more valuable'
+const sniperTheme = new Theme({
+    name: 'sniper bishop',
+    description: 'lining up the shots'
 });
 
-const reskins: Reskin[] = [
+const sniperReskins = [
     new Reskin({
-        for: {
-            type: PieceType.KING,
-            color: Color.WHITE
-        },
-        theme: defaultTheme
+        piece: utils.pieceOf({
+            color: 'BLACK',
+            type: 'BISHOP',
+        }),
+        theme: sniperTheme
     }),
     new Reskin({
-        for: {
-            type: PieceType.KING,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.QUEEN,
-            color: Color.WHITE
-        },
-        theme: minionTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.QUEEN,
-            color: Color.BLACK
-        },
-        theme: minionTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.ROOK,
-            color: Color.WHITE
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.ROOK,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.BISHOP,
-            color: Color.WHITE
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.BISHOP,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.KNIGHT,
-            color: Color.WHITE
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.KNIGHT,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.PAWN,
-            color: Color.WHITE
-        },
-        theme: defaultTheme
-    }),
-    new Reskin({
-        for: {
-            type: PieceType.PAWN,
-            color: Color.BLACK
-        },
-        theme: defaultTheme
+        piece: utils.pieceOf({
+            color: 'WHITE',
+            type: 'BISHOP',
+        }),
+        theme: sniperTheme
     }),
 ];
 
 const presets: Preset[] = [
     new Preset({
         name: 'default',
-        reskins,
-        user,
-        isCurrent: true
+        reskins: [],
+        user
     }),
     new Preset({
-        name: 'minion queen',
-        reskins,
-        user,
-        isCurrent: false
+        name: 'american sniper',
+        reskins: sniperReskins,
+        user
     })
 ];
 
-const getPresetsByUser = ({ user }: { user: User }): Preset[] => {
-    try {
-        return presets.filter(preset => preset.getUser().equals(user));
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-}
+// METHODS _______________________________________________________________________________________
 
-const getCurrentPresetByUser = ({ user }: { user: User }): Preset | undefined => {
-    try {
-        return presets.find(preset => preset.getUser().equals(user) && preset.getIsCurrent());
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-}
-
-const createPreset = (preset: Preset): Preset => {
+const save = (preset: Preset): Preset => {
     presets.push(preset);
     return preset;
 }
 
-const getPresetByNameAndUser = ({ name, user }: { name: string, user: User }): Preset | undefined => {
-    try {
-        return presets.find(preset => 
-            preset.getName() === name && preset.getUser() === user
-        );
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
+const getPresetsByUser = ({ user }: { user: User }): Preset[] => {
+    return presets.filter(preset => 
+        preset.user.equals(user)
+    );
 }
 
+const getCurrentPresetByUser = ({ user }: { user: User }): Preset | undefined => {
+    return presets.find(preset => 
+        preset.user.equals(user) && 
+        preset.isCurrent
+    );
+}
+
+const getPresetByUserAndName = ({ user, name }: { user: User, name: string }): Preset[] => {
+    return presets.filter(preset => 
+        preset.user === user &&
+        preset.name === name 
+    );
+}
+
+
 export default {
+    save, 
     getPresetsByUser,
+    getPresetByUserAndName,
     getCurrentPresetByUser,
-    createPreset, 
-    getPresetByNameAndUser
 };

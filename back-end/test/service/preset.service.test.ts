@@ -1,148 +1,141 @@
-import { User } from '../../model/user';
-import presetDB from '../../repository/preset.db';
-import presetService from '../../service/preset.service';
-import userService from '../../service/user.service';
-import reskinDb from '../../repository/reskin.db';
-import { Color, PieceType } from '../../types';
+import { Preset }       from '../../model/preset';
+import { Reskin }       from '../../model/reskin';
+import { Theme }        from '../../model/theme';
+import { User }         from '../../model/user';
 
+import presetService    from '../../service/preset.service';
+import userService      from '../../service/user.service';
+import reskinService    from '../../service/reskin.service';
+
+import presetDB         from '../../repository/preset.db';
+
+import utils            from '../../util';
+
+// MOCK SETUP ____________________________________________________________________________________
 
 let mockUserServiceGetUserById: jest.Mock;
-let mockPresetDbCreatePreset: jest.Mock;
+let mockPresetDbSave: jest.Mock;
 let mockPresetDbGetPresetsByUser: jest.Mock;
-let mockPresetDbGetPresetByNameAndUser: jest.Mock;
-let mockReskinDbGetReskinById: jest.Mock;
-
+let mockPresetDbGetPresetByUserAndName: jest.Mock;
+let mockReskinServiceGetReskinByPieceAndThemeId: jest.Mock;
 
 beforeEach(() => {
     mockUserServiceGetUserById = jest.fn();
-    mockPresetDbCreatePreset = jest.fn();
+    mockPresetDbSave = jest.fn();
     mockPresetDbGetPresetsByUser = jest.fn();
-    mockPresetDbGetPresetByNameAndUser = jest.fn();
-    mockReskinDbGetReskinById = jest.fn();
+    mockPresetDbGetPresetByUserAndName = jest.fn();
+    mockReskinServiceGetReskinByPieceAndThemeId = jest.fn();
 });
 
 afterEach(() => {
     jest.clearAllMocks();
 });
 
+// EXPECTED VALUES _______________________________________________________________________________
+
+const valid = {
+    name: 'preset1',
+    user: new User({ 
+            id: 1,
+            username: 'john_doe', 
+            password: 'john123'
+        }),
+    reskins: [
+        new Reskin({ 
+            id: 1,
+            piece: utils.pieceOf({
+                color: 'WHITE',
+                type: 'KING',
+            }),
+            theme: new Theme({
+                id: 1,
+                name: 'default',
+                description: 'default theme',
+            }),
+        })
+    ]
+};
+
+
+// GET PRESETS BY USER ID ________________________________________________________________________
 
 test('given: valid user id, when: invoking getPresetByUserId, then: the users presets are returned', () => {
-    // given
-    const userId = 1;
-    const johnDoe = new User({ id: userId, username: 'john_doe', password: 'john123' });
-    const johnDoePreset = { 
-        name: 'johns_preset', 
-        reskins: [], 
-        user: johnDoe, 
-        isCurrent: true
-    };
+    // GIVEN ------------------------------------
+    const userId = valid.user.id!;
 
-    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(johnDoe);
-    presetDB.getPresetsByUser = mockPresetDbGetPresetsByUser.mockReturnValue(johnDoePreset);
+    // MOCK -------------------------------------
+    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(valid.user);
+    presetDB.getPresetsByUser = mockPresetDbGetPresetsByUser.mockReturnValue([new Preset(valid)]);
 
-    // when
+    // WHEN -------------------------------------
     const foundPresets = presetService.getPresetsByUserId({ userId });
 
-    // then
+    // THEN -------------------------------------
     expect(mockUserServiceGetUserById).toHaveBeenCalledWith({ id: userId });
-    expect(mockPresetDbGetPresetsByUser).toHaveBeenCalledWith({ user: johnDoe });
-    expect(foundPresets).toEqual(johnDoePreset);
+    expect(mockPresetDbGetPresetsByUser).toHaveBeenCalledWith({ user: valid.user });
+    expect(foundPresets).toEqual([new Preset(valid)]);
+
 });
 
 test('given: invalid user id, when: invoking getPresetByUserId, then: an error is thrown', () => {
-    // given
+    // GIVEN ------------------------------------
     const userId = 0;
-
+    
+    // MOCK -------------------------------------
     userService.getUserById = mockUserServiceGetUserById.mockReturnValue(null);
-
-    // when, then
+    
+    // WHEN -------------------------------------
     expect(() => {
         presetService.getPresetsByUserId({ userId });
+    
+    // THEN -------------------------------------
     }).toThrow('User not found');
+
 });
+
+
+// CREATE PRESET _________________________________________________________________________________
 
 test('given: valid preset input, when: invoking createPreset, then: the preset is created', () => {
-    // given
-    const userId = 1;
-    const johnDoe = { id: userId, username: 'john_doe', password: 'john123' };
-    const presetInput = { 
-        name: 'johns_preset', 
-        reskins: [], 
-        user: johnDoe, 
-        isCurrent: true
-    };
+    // GIVEN ------------------------------------
+    const userId = valid.user.id!;
+    const name = valid.name;
+    const reskinInputs = valid.reskins.map(Reskin.toInput);
 
-    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(johnDoe);
-    presetDB.getPresetByNameAndUser = mockPresetDbGetPresetByNameAndUser.mockReturnValue(null);
-    presetDB.createPreset = mockPresetDbCreatePreset.mockReturnValue(presetInput);
+    // MOCK -------------------------------------
+    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(valid.user);
+    presetDB.getPresetByUserAndName = mockPresetDbGetPresetByUserAndName.mockReturnValue(null);
+    presetDB.save = mockPresetDbSave.mockReturnValue(new Preset(valid));
+    reskinService.getReskinByPieceAndThemeId = mockReskinServiceGetReskinByPieceAndThemeId.mockReturnValue(valid.reskins[0]);
 
-    // when
-    const createdPreset = presetService.createPreset(presetInput);
+    // WHEN -------------------------------------
+    const createdPreset = presetService.createPreset({ userId, name, reskinInputs });
 
-    // then
-    expect(presetDB.createPreset).toHaveBeenCalledWith(presetInput);
-    expect(createdPreset).toEqual(presetInput);
+    // THEN -------------------------------------
+    expect(createdPreset).toEqual(new Preset(valid));
+    expect(createdPreset.reskins).toEqual(valid.reskins);
+    expect(presetDB.save).toHaveBeenCalledWith(new Preset(valid));
+    expect(mockReskinServiceGetReskinByPieceAndThemeId).toHaveBeenCalled();
+
 });
 
-test('given: invalid user id, when: invoking createPreset, then: an error is thrown', () => {
-    // given
-    const userId = 999;
-    const presetInput = { 
-        name: 'johns_preset', 
-        reskins: [], 
-        user: { id: userId, username: 'john_doe', password: 'john123' }, 
-        isCurrent: true
-    };
+test('given: userId and name matching existing preset, when: invoking createPreset, then: an error is thrown', () => {
+    // GIVEN ------------------------------------
+    const existingPreset = new Preset(valid);
 
-    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(null);
+    const userId = existingPreset.user.id!;
+    const name = existingPreset.name; 
+    const reskinInputs = valid.reskins.map(Reskin.toInput);
 
-    // when, then
+    // MOCK -------------------------------------
+    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(valid.user);
+    presetDB.getPresetByUserAndName = mockPresetDbGetPresetByUserAndName.mockReturnValue(existingPreset);
+
+    // WHEN -------------------------------------
     expect(() => {
-        presetService.createPreset(presetInput);
-    }).toThrow('User not found');
-});
+        presetService.createPreset({ userId, name, reskinInputs });
 
-test('given: existing preset name, when: invoking createPreset, then: an error is thrown', () => {
-    // given
-    const userId = 1;
-    const johnDoe = { id: userId, username: 'john_doe', password: 'john123' };
-    const presetInput = { 
-        name: 'johns_preset', 
-        reskins: [], 
-        user: johnDoe, 
-        isCurrent: true
-    };
+    // THEN -------------------------------------
+    }).toThrow(`Preset with name "${name}" already exists for this user.`);
 
-    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(johnDoe);
-    presetDB.getPresetByNameAndUser = mockPresetDbGetPresetByNameAndUser.mockReturnValue(presetInput);
-
-    // when, then
-    expect(() => {
-        presetService.createPreset(presetInput);
-    }).toThrow(`Preset with name "${presetInput.name}" already exists for this user.`);
-});
-
-test('given: invalid reskin id, when: invoking createPreset, then: an error is thrown', () => {
-    // given
-    const userId = 1;
-    const johnDoe = { id: userId, username: 'john_doe', password: 'john123' };
-    const presetInput = { 
-        name: 'johns_preset', 
-        reskins: [{ 
-            id: 1,
-            for: { type: PieceType.KING, color: Color.WHITE },
-            theme: { name: 'minion', description: 'its the minions!' }
-        }], 
-        user: johnDoe, 
-        isCurrent: true
-    };
-
-    userService.getUserById = mockUserServiceGetUserById.mockReturnValue(johnDoe);
-    presetDB.getPresetByNameAndUser = mockPresetDbGetPresetByNameAndUser.mockReturnValue(null);
-    reskinDb.getReskinById = mockReskinDbGetReskinById.mockReturnValue(null);
-
-    // when, then
-    expect(() => {
-        presetService.createPreset(presetInput);
-    }).toThrow('Reskin not found');
 });

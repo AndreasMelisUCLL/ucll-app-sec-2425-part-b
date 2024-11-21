@@ -17,13 +17,19 @@ type Piece = {
     color: Color;
 }
 
-type Loadout = {
-    KING: string;
-    QUEEN: string;
-    ROOK: string;
-    BISHOP: string;
-    KNIGHT: string;
-    PAWN: string;
+type PieceDTO = {
+    type: string;
+    color: string;
 }
 
-export type { Piece, Loadout };
+type Loadout = Map<PieceDTO, string>;
+
+type Reskin = {
+    piece: PieceDTO;
+    theme: {
+        id: number;
+        name: string;
+    }
+}
+
+export type { Piece, Loadout, Reskin, PieceDTO };

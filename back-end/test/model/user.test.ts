@@ -1,60 +1,83 @@
 import { User } from "../../model/user";
 
+// EXPECTED VALUES _______________________________________________________________________________
+
+const valid = {
+    username: 'john_doe',
+    password: 'john123',
+}
+const error = {
+    blankUserName: 'Username is required',
+    blankPassword: 'Password is required',
+    shortPassword: 'Password must be at least 6 characters long',
+}
+
+// CREATE USER ___________________________________________________________________________________
 
 test('given: valid values for user, when: user is created, then: user is created', () => {
-    // given
-    const username = 'john_doe';
-    const password = 'john123';
+    // GIVEN ------------------------------------
+    const username = valid.username;
+    const password = valid.password;
 
-    // when
+    // WHEN -------------------------------------
     const user = new User({
         username,
         password,
     });
 
-    // then
-    expect(user.getUsername()).toBe(username);
-    expect(user.getPassword()).toBe(password);
+    // THEN -------------------------------------
+    expect(user.username).toBe(username);
+    expect(user.password).toBe(password);
+
 });
 
 test('given: blank username for user, when: user is created, then: error is thrown', () => {
-    // given
-    const username = ' ';
-    const password = 'john123';
+    // GIVEN ------------------------------------
+    const blankUsername = ' ';
+    const password = valid.password;
 
-    // when then
+    // WHEN -------------------------------------
     expect(() => {
         new User({
-            username,
+            username: blankUsername,
             password,
         });
-    }).toThrow('Username is required'); 
+
+    // THEN -------------------------------------
+    }).toThrow(error.blankUserName); 
+
 });
 
 test('given: blank password for user, when: user is created, then: error is thrown', () => {
-    // given
-    const username = 'john_doe';
-    const password = ' '; // Invalid password (blank)
+    // GIVEN ------------------------------------
+    const username = valid.username;
+    const blankPassword = ' ';
 
-    // when then
+    // WHEN -------------------------------------
     expect(() => {
         new User({
             username,
-            password,
+            password: blankPassword,
         });
-    }).toThrow('Password is required'); 
+
+    // THEN -------------------------------------
+    }).toThrow(error.blankPassword); 
+
 });
 
 test('given: too short of a password for user, when: user is created, then: error is thrown', () => {
-    // given
-    const username = 'john_doe';
-    const password = 'short'; // Invalid password (less than 6 characters)
+    // GIVEN ------------------------------------
+    const username = valid.username;
+    const shortPassword = '123';
 
-    // when then
+    // WHEN -------------------------------------
     expect(() => {
         new User({
             username,
-            password,
+            password: shortPassword,
         });
-    }).toThrow('Password must be at least 6 characters long'); 
+
+    // THEN -------------------------------------
+    }).toThrow(error.shortPassword);
+
 });

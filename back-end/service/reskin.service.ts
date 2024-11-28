@@ -4,6 +4,8 @@ import themeService from "./theme.service";
 
 import utils from "../util"
 
+import { Piece } from '../types';
+
 // RETRIEVAL _______________________________________________________________________________________
 
 const getReskinsByPiece = ({ piece }: { piece: Piece }) => {

@@ -1,3 +1,5 @@
+import { Color, ColorString, PieceType, PieceTypeString } from '../types';
+
 const colorMap: Record<ColorString, Color> = {
     "WHITE": 'w',
     "BLACK": 'b',

@@ -23,3 +23,15 @@ type UserInput = {
     username: string;
     password: string;
 }
+
+export {
+    Color,
+    PieceType,
+    Piece,
+    ColorString,
+    PieceTypeString,
+    PieceString,
+    PresetInput,
+    ReskinInput,
+    UserInput,
+}

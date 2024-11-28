@@ -1,5 +1,7 @@
 import { Theme } from "./theme";
 
+import { Piece, ReskinInput } from '../types';
+
 
 // RESKIN ________________________________________________________________________________________
 export class Reskin {

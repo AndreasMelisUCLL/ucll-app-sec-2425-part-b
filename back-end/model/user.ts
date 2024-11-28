@@ -6,7 +6,7 @@ export class User {
     readonly password!: string;
 
 
-    // CONSRUCTOR -------------------------------
+    // CONSTRUCTOR -------------------------------
     constructor(user: {
         id?: number,
         username: string, 

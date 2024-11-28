@@ -5,6 +5,8 @@ import presetDB         from '../repository/preset.db';
 import userService      from './user.service';
 import reskinService    from './reskin.service';
 
+import { PresetInput }  from '../types'
+
 // RETRIEVAL _______________________________________________________________________________________
 
 const getPresetsByUserId = ({ userId }: { userId: number }): Preset[] => {
@@ -25,10 +27,10 @@ const createPreset = ({
     // retrieve user by id
     const user = userService.getUserById({ id: userId });
 
-    // check presetname is unique for user
+    // check preset name is unique for user
     if (presetDB.getPresetByUserAndName({ user, name })) {
         throw new Error(`Preset with name "${name}" already exists for this user.`);
-    };
+    }
     
     // retrieve reskins by piece and theme id
     const reskins = reskinInputs.map(reskinInput =>

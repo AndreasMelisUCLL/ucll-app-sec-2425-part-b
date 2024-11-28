@@ -3,6 +3,8 @@ import { Theme }    from '../model/theme';
 
 import utils from '../util';
 
+import { Piece } from '../types';
+
 // DUMMY DATA _____________________________________________________________________________________
 
 const sniperTheme = new Theme({

@@ -5,6 +5,14 @@ import {
     pieceTypeStringMap,
 } from "./constants";
 
+import {
+    Color,
+    ColorString,
+    Piece,
+    PieceType,
+    PieceTypeString
+} from '../types';
+
 const pieceToString = (piece: Piece): string => {
     const colorString = colorStringMap[piece[0] as Color];
     const typeString = pieceTypeStringMap[piece[1] as PieceType];

@@ -1,6 +1,7 @@
 import { Reskin }   from "./reskin";
 import { User }     from "./user";
 
+import { Piece } from '../types';
 
 // PRESET ________________________________________________________________________________________
 export class Preset {
@@ -10,7 +11,6 @@ export class Preset {
     readonly reskins!: Reskin[];
     readonly user: User;
     readonly isCurrent: boolean;
-
     
     // CONSTRUCTOR ------------------------------
     constructor(preset: {
@@ -27,7 +27,6 @@ export class Preset {
         this.user = preset.user;
         this.isCurrent = false;
     }
-    
 
     // STATICS ----------------------------------
     static validate(preset: {
@@ -50,7 +49,6 @@ export class Preset {
             throw new Error("Cannot have multiple reskins for the same piece");
         }
     }
-
 
     // EQUALS -----------------------------------
     equals(preset: Preset): boolean {

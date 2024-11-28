@@ -1,5 +1,6 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import reskinService from '../service/reskin.service';
+import { Piece } from '../types';
 
 const reskinRouter = express.Router();
 

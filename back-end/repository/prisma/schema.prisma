@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  username    String    @unique
+  password    String
+
+  presets     Preset[]
+}
+
+model Preset {
+  id          Int       @id @default(autoincrement())
+  name        String
+  isCurrent   Boolean
+
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+
+  reskins     ReskinsForPresets[]
+
+  @@unique([userId, name])
+}
+
+model Reskin {
+  id          Int       @id @default(autoincrement())
+  piece       String
+
+  themeId     Int
+  theme       Theme     @relation(fields: [themeId], references: [id])
+
+  presets     ReskinsForPresets[]
+
+  @@unique([themeId, piece])
+}
+
+model ReskinsForPresets {
+  presetId    Int
+  preset      Preset    @relation(fields: [presetId], references: [id])
+  reskinId    Int
+  reskin      Reskin    @relation(fields: [reskinId], references: [id])
+
+  @@id([presetId, reskinId])
+}
+
+model Theme {
+  id          Int       @id @default(autoincrement())
+  name        String  @unique
+  description String
+
+  reskins     Reskin[]
+}
+
+

@@ -1,7 +1,6 @@
+import { Piece }    from './piece';
 import { Reskin }   from "./reskin";
 import { User }     from "./user";
-
-import { Piece } from '../types';
 
 // PRESET ________________________________________________________________________________________
 export class Preset {

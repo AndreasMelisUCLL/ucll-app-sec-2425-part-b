@@ -1,10 +1,8 @@
-import reskinDb     from "../repository/reskin.db";
+import { Piece, pieceString } from "../model/piece";
 
-import themeService from "./theme.service";
+import themeService from "../service/theme.service";
 
-import utils from "../util"
-
-import { Piece } from '../types';
+import reskinDb from "../repository/reskin.db";
 
 // RETRIEVAL _______________________________________________________________________________________
 
@@ -22,7 +20,7 @@ const getReskinByPieceAndThemeId = ({ piece, themeId }: { piece: Piece, themeId:
 
     // ensure reskin exists
     if (!reskin) {
-        throw new Error(`Theme ${theme.name} does not have a reskin for ${utils.pieceToString(piece)}`);
+        throw new Error(`Theme ${theme.name} does not have a reskin for ${pieceString(piece)}`);
     }
 
     return reskin;

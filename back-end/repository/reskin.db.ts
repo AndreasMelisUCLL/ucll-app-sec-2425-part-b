@@ -1,9 +1,6 @@
-import { Reskin }   from '../model/reskin';
-import { Theme }    from '../model/theme';
-
-import utils from '../util';
-
-import { Piece } from '../types';
+import { Piece, pieceOf }   from '../model/piece';
+import { Reskin }           from '../model/reskin';
+import { Theme }            from '../model/theme';
 
 // DUMMY DATA _____________________________________________________________________________________
 
@@ -13,14 +10,14 @@ const sniperTheme = new Theme({
 });
 const reskins = [
     new Reskin({
-        piece: utils.pieceOf({
+        piece: pieceOf({
             color: 'BLACK',
             type: 'BISHOP',
         }),
         theme: sniperTheme
     }),
     new Reskin({
-        piece: utils.pieceOf({
+        piece: pieceOf({
             color: 'WHITE',
             type: 'BISHOP',
         }),

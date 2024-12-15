@@ -1,3 +1,4 @@
+import { pieceOf, pieceString }      from "../../model/piece";
 import { Reskin }       from "../../model/reskin";
 import { Theme }        from "../../model/theme";
 
@@ -5,13 +6,11 @@ import reskinService    from "../../service/reskin.service";
 
 import reskinDb         from "../../repository/reskin.db";
 
-import utils from "../../util"
-
 // EXPECTED VALUES _______________________________________________________________________________
 
 const valid = {
     id: 1,
-    piece: utils.pieceOf({
+    piece: pieceOf({
         color: 'WHITE',
         type: 'KING',
     }),
@@ -85,6 +84,6 @@ test('given: id of a theme without reskin for piece, when: invoking getReskinByP
         reskinService.getReskinByPieceAndThemeId({ piece, themeId });
 
     // THEN -------------------------------------
-    }).toThrow(`Theme ${themeWithoutReskin.name} does not have a reskin for ${utils.pieceToString(piece)}`);
+    }).toThrow(`Theme ${themeWithoutReskin.name} does not have a reskin for ${pieceString(piece)}`);
 
 });

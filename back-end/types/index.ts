@@ -1,11 +1,5 @@
-type Color = "w" | "b";
-type ColorString = "WHITE" | "BLACK";
-
-type PieceType = "K" | "Q" | "R" | "B" | "N" | "P";
-type PieceTypeString = "KING" | "QUEEN" | "ROOK" | "BISHOP" | "KNIGHT" | "PAWN";
-
-type Piece = `${Color}${PieceType}`;
-type PieceString = `${ColorString} ${PieceTypeString}`;
+type PieceColor = "WHITE" | "BLACK";
+type PieceType = "PAWN" | "ROOK" | "KNIGHT" | "BISHOP" | "QUEEN" | "KING";
 
 type PresetInput = {
     userId: number;
@@ -14,8 +8,13 @@ type PresetInput = {
 };
 
 type ReskinInput = {
-    piece: Piece;
+    piece: PieceInput;
     themeId: number;
+}
+
+type PieceInput = {
+    color: PieceColor;
+    type: PieceType;
 }
 
 type UserInput = {
@@ -25,12 +24,8 @@ type UserInput = {
 }
 
 export {
-    Color,
+    PieceColor,
     PieceType,
-    Piece,
-    ColorString,
-    PieceTypeString,
-    PieceString,
     PresetInput,
     ReskinInput,
     UserInput,

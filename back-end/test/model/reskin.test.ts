@@ -1,12 +1,11 @@
+import { pieceOf } from '../../model/piece';
 import { Reskin }   from '../../model/reskin';
 import { Theme }    from '../../model/theme';
-
-import utils from '../../util';
 
 // EXPECTED VALUES _______________________________________________________________________________
 
 const valid = {
-    piece: utils.pieceOf({
+    piece: pieceOf({
         color: 'WHITE',
         type: 'KING',
     }),

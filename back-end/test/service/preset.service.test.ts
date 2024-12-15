@@ -8,8 +8,7 @@ import userService      from '../../service/user.service';
 import reskinService    from '../../service/reskin.service';
 
 import presetDB         from '../../repository/preset.db';
-
-import utils            from '../../util';
+import { pieceOf } from '../../model/piece';
 
 // MOCK SETUP ____________________________________________________________________________________
 
@@ -43,7 +42,7 @@ const valid = {
     reskins: [
         new Reskin({ 
             id: 1,
-            piece: utils.pieceOf({
+            piece: pieceOf({
                 color: 'WHITE',
                 type: 'KING',
             }),
@@ -100,7 +99,12 @@ test('given: valid preset input, when: invoking createPreset, then: the preset i
     // GIVEN ------------------------------------
     const userId = valid.user.id!;
     const name = valid.name;
-    const reskinInputs = valid.reskins.map(Reskin.toInput);
+    const reskinInputs = valid.reskins.map(reskin => {
+        return {
+            piece: reskin.piece,
+            themeId: reskin.theme.id!,
+        };
+    });
 
     // MOCK -------------------------------------
     userService.getUserById = mockUserServiceGetUserById.mockReturnValue(valid.user);
@@ -125,7 +129,12 @@ test('given: userId and name matching existing preset, when: invoking createPres
 
     const userId = existingPreset.user.id!;
     const name = existingPreset.name; 
-    const reskinInputs = valid.reskins.map(Reskin.toInput);
+    const reskinInputs = valid.reskins.map(reskin => {
+        return {
+            piece: reskin.piece,
+            themeId: reskin.theme.id!,
+        };
+    });
 
     // MOCK -------------------------------------
     userService.getUserById = mockUserServiceGetUserById.mockReturnValue(valid.user);

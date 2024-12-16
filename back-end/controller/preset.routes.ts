@@ -138,11 +138,11 @@ const presetRouter = express.Router();
  *               $ref: '#/components/schemas/Preset'
  */
 
-presetRouter.get('/:userId', (req: Request, res: Response, next: NextFunction) => {
+presetRouter.get('/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = parseInt(req.params.userId);
         
-        const presets = presetService.getPresetsByUserId({ userId });
+        const presets = await presetService.getPresetsByUser({ userId });
 
         res.json(presets);
     } catch (error) {

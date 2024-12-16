@@ -1,22 +1,21 @@
-import { Piece, PieceType } from "../model/piece";
+import { Piece } from "../model/piece";
 
 import reskinDb from "../repository/reskin.db";
-import { Theme } from "../model/theme";
 
 // RETRIEVAL _______________________________________________________________________________________
 
-const getReskinsByPieceType = ({ pieceType }: { pieceType: PieceType }) => {
+const getReskinsByPiece = async ({ piece }: { piece: Piece }) => {
     // retrieve reskins by piece
-    return reskinDb.getReskinsByPieceType({ pieceType });
+    return await reskinDb.getReskinsByPiece({ piece });
 };
 
-const getReskinByPieceAndTheme = ({ piece, theme }: { piece: Piece, theme: Theme }) => {
+const getReskinByPieceAndTheme = async ({ piece, themeId }: { piece: Piece, themeId: number}) => {
     // retrieve reskin by piece and theme
-    const reskin = reskinDb.getReskinByPieceAndTheme({ piece, theme });
+    const reskin = await reskinDb.getReskinByPieceAndTheme({ piece, themeId });
 
     // ensure reskin exists
     if (!reskin) {
-        throw new Error(`Theme ${theme.name} does not have a reskin for ${piece}`);
+        throw new Error("Reskin not found");
     }
 
     return reskin;
@@ -24,6 +23,6 @@ const getReskinByPieceAndTheme = ({ piece, theme }: { piece: Piece, theme: Theme
 
 
 export default {
-    getReskinsByPieceType: getReskinsByPieceType,
+    getReskinsByPiece: getReskinsByPiece,
     getReskinByPieceAndTheme,
 };

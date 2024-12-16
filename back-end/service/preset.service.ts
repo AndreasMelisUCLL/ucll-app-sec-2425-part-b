@@ -1,46 +1,51 @@
+import { PresetInput }  from '../types'
+
+import { Piece }        from '../model/piece';
 import { Preset }       from '../model/preset';
+
+import reskinService    from './reskin.service';
+import userService      from './user.service';
 
 import presetDB         from '../repository/preset.db';
 
-import userService      from './user.service';
-import reskinService    from './reskin.service';
-
-import { PresetInput }  from '../types'
-import themeService from './theme.service';
-import { Piece } from '../model/piece';
 
 // RETRIEVAL _______________________________________________________________________________________
 
-const getPresetsByUserId = ({ userId }: { userId: number }): Preset[] => {
-    const user = userService.getUserById({ id: userId });
+const getPresetsByUser = async ({ 
+    userId 
+}: { 
+    userId: number 
+}): Promise<Preset[]> => {
+    const user = await userService.getUserById({ id: userId });
     if (!user) {
         throw new Error('User not found');
     }
-    return presetDB.getPresetsByUser({ user });
+    return await presetDB.getPresetsByUser({ userId });
 }
 
 // CREATION ________________________________________________________________________________________
 
-const createPreset = ({ 
+const createPreset = async ({ 
     userId,
     name,
     reskinInputs,
-}: PresetInput): Preset => {
+}: PresetInput): Promise<Preset> => {
     // retrieve user by id
-    const user = userService.getUserById({ id: userId });
+    const user = await userService.getUserById({ id: userId });
 
     // check preset name is unique for user
-    if (presetDB.getPresetByUserAndName({ user, name })) {
+    if (await presetDB.getPresetByUserAndName({ userId, name })) {
         throw new Error(`Preset with name "${name}" already exists for this user.`);
     }
     
     // retrieve reskins by piece and theme id
-    const reskins = reskinInputs.map(reskinInput => {
+    const reskins = await Promise.all(reskinInputs.map(reskinInput => {
         const piece = new Piece(reskinInput.pieceInput);
-        const theme = themeService.getThemeById({id: reskinInput.themeId});
-        
-        return reskinService.getReskinByPieceAndTheme({ piece, theme });
-    });
+        return reskinService.getReskinByPieceAndTheme({ 
+            piece, 
+            themeId: reskinInput.themeId
+        });
+    }));
 
     // exclude domain errors during creation
     const preset = new Preset({
@@ -49,11 +54,11 @@ const createPreset = ({
         user
     });
 
-    return presetDB.save(preset);
+    return await presetDB.save(preset);
 }
 
 
 export default { 
-    getPresetsByUserId, 
+    getPresetsByUser, 
     createPreset 
 };

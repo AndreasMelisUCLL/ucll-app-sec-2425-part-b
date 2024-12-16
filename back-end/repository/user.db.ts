@@ -1,40 +1,41 @@
 import { User } from "../model/user";
-
-// DUMMY DATA _____________________________________________________________________________________
-
-const users: User[] = [
-    new User({
-        id: 1,
-        username: "john_doe",
-        password: "john123"
-    }),
-    new User({
-        id: 2,
-        username: "jane_toe",
-        password: "jane123"
-    })
-];
+import database from "../util/database";
 
 // METHODS _______________________________________________________________________________________
 
-const getUserById = ({ id }: { id: number }): User | undefined => {
+const getUserById = async ({ id }: { id: number }) => {
     try {
-        return users.find((user) => user.id === id);
+        const userPrisma = await database.user.findUnique({
+            where: {
+                id
+            }
+        });
+        return userPrisma
+            ? User.from(userPrisma)
+            : null;
+
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 }
 
-const getUserByUsername = ({ username }: { username: string }): User | undefined => {
+const getUserByUsername = async ({ username }: { username: string }) => {
     try {
-        return users.find((user) => user.username === username);
+        const userPrisma = await database.user.findUnique({
+            where: {
+                username
+            }
+        });
+        return userPrisma
+            ? User.from(userPrisma)
+            : null;
+            
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
-};
-
+}
 
 export default { 
     getUserById,

@@ -1,3 +1,5 @@
+import { Theme as ThemePrisma } from '@prisma/client';
+
 // THEME _________________________________________________________________________________________
 export class Theme {
 
@@ -43,4 +45,17 @@ export class Theme {
         return this.name === theme.name;
     }
 
+
+    // FROM -------------------------------------
+    static from({
+        id,
+        name,
+        description
+    }: ThemePrisma): Theme {
+        return new Theme({
+            id,
+            name,
+            description
+        });
+    }
 }

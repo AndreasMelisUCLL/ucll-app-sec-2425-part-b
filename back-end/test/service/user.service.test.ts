@@ -25,7 +25,7 @@ const valid = {
 
 // GET USER BY ID ________________________________________________________________________________
 
-test('given: valid id, when: invoking getUserById, then: user is returned', () => {  
+test('given: valid id, when: invoking getUserById, then: user is returned', async () => {  
     // GIVEN ------------------------------------
     const id = valid.id;
 
@@ -33,7 +33,7 @@ test('given: valid id, when: invoking getUserById, then: user is returned', () =
     userDB.getUserById = mockUserDbGetUserById.mockReturnValue(new User(valid));
     
     // WHEN -------------------------------------
-    const foundUser = userService.getUserById({ id });
+    const foundUser = await userService.getUserById({ id });
 
     // THEN -------------------------------------
     expect(mockUserDbGetUserById).toHaveBeenCalledWith({ id })

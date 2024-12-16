@@ -1,3 +1,8 @@
+import { 
+    Reskin as ReskinPrisma,
+    Theme as ThemePrisma
+} from '@prisma/client';
+
 import { Piece } from './piece';
 import { Theme } from "./theme";
 
@@ -27,6 +32,22 @@ export class Reskin {
             this.piece === reskin.piece &&
             this.theme.equals(reskin.theme)
         );
+    }
+
+
+    // FROM -------------------------------------
+    static from({
+        id,
+        piece,
+        theme
+    }: ReskinPrisma & {
+        theme: ThemePrisma
+    }): Reskin {
+        return new Reskin({
+            id,
+            piece: Piece.from(piece),
+            theme: Theme.from(theme)
+        });
     }
 
 }

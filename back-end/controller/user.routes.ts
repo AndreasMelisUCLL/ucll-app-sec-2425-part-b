@@ -45,10 +45,10 @@ const userRouter = express.Router();
  *               $ref: '#/components/schemas/User'
  */
 // get user by id
-userRouter.get('/:id', (req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
-        const user = userService.getUserById({ id });
+        const user = await userService.getUserById({ id });
 
         res.json(user);
     } catch (error) {

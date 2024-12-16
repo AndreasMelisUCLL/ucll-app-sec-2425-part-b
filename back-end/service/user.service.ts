@@ -2,8 +2,8 @@ import userDB from '../repository/user.db';
 
 // RETRIEVAL _______________________________________________________________________________________
 
-const getUserById = ({ id }: { id: number }) => {
-    const user = userDB.getUserById({ id });
+const getUserById = async ({ id }: { id: number }) => {
+    const user = await userDB.getUserById({ id });
     if (!user) {
         throw new Error('User not found');
     }

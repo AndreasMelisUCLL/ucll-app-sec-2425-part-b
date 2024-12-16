@@ -8,22 +8,25 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  username    String    @unique
-  password    String
+  id              Int       @id @default(autoincrement())
+  username        String    @unique
+  password        String
 
-  presets     Preset[]
+  presets         Preset[]
+  activePresetId  Int?      @unique
+  activePreset    Preset?   @relation("ActivePreset", fields: [activePresetId], references: [id])
+
+  @@unique([id, activePresetId])
 }
 
 model Preset {
-  id          Int       @id @default(autoincrement())
-  name        String
-  isCurrent   Boolean
+  id            Int       @id @default(autoincrement())
+  name          String
 
-  userId      Int
-  user        User      @relation(fields: [userId], references: [id])
-
-  reskins     ReskinsForPresets[]
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+  activeUser    User?     @relation("ActivePreset")
+  reskins       ReskinsForPresets[]
 
   @@unique([userId, name])
 }
@@ -56,5 +59,3 @@ model Theme {
 
   reskins     Reskin[]
 }
-
-

@@ -1,3 +1,5 @@
+import { User as UserPrisma } from "@prisma/client";
+
 // USER __________________________________________________________________________________________
 export class User {
 
@@ -44,5 +46,15 @@ export class User {
     // EQUALS -----------------------------------
     equals(user: User): boolean {
         return this.username === user.username;
+    }
+
+
+    // FROM -------------------------------------
+    static from(userPrisma: UserPrisma): User {
+        return new User({
+            id: userPrisma.id,
+            username: userPrisma.username,
+            password: userPrisma.password,
+        });
     }
 }

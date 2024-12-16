@@ -1,83 +1,122 @@
-import { Piece } from "../model/piece";
+import database     from "../util/database";
+
 import { Preset }   from "../model/preset";
-import { Reskin }   from "../model/reskin";
-import { Theme }    from "../model/theme";
-import { User }     from "../model/user";
 
-// DUMMY DATA _____________________________________________________________________________________
-
-const user: User = new User({
-    id: 1,
-    username: 'john_doe',
-    password: 'john123'
-});
-
-const sniperTheme = new Theme({
-    name: 'sniper bishop',
-    description: 'lining up the shots'
-});
-
-const sniperReskins = [
-    new Reskin({
-        piece: new Piece({
-            color: 'BLACK',
-            type: 'BISHOP',
-        }),
-        theme: sniperTheme
-    }),
-    new Reskin({
-        piece: new Piece({
-            color: 'WHITE',
-            type: 'BISHOP',
-        }),
-        theme: sniperTheme
-    }),
-];
-
-const presets: Preset[] = [
-    new Preset({
-        name: 'default',
-        reskins: [],
-        user
-    }),
-    new Preset({
-        name: 'american sniper',
-        reskins: sniperReskins,
-        user
-    })
-];
 
 // METHODS _______________________________________________________________________________________
 
-const save = (preset: Preset): Preset => {
-    presets.push(preset);
-    return preset;
+const save = async ({ name, user, reskins }: Preset): Promise<Preset> => {
+    try {
+        const presetPrisma = await database.preset.create({ 
+            data: {
+                name,
+                user: { 
+                    connect: { id: user.id } 
+                },
+                reskins: {
+                    create: reskins.map(reskin => {
+                        return { 
+                            reskin: { connect: { id: reskin.id } } 
+                        }
+                    })
+                },
+            },
+            include: {
+                user: true,
+                reskins: { include: { reskin: { include: { theme: true }}} },
+            }
+        });
+
+        return Preset.from(presetPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
-const getPresetsByUser = ({ user }: { user: User }): Preset[] => {
-    return presets.filter(preset => 
-        preset.user.equals(user)
-    );
+const getPresetsByUser = async ({ 
+    userId 
+}: {
+    userId: number
+}) => {
+    try {
+        const presetsPrisma = await database.preset.findMany({
+            where: {
+                userId
+            },
+            include: {
+                user: true,
+                reskins: { include: { reskin: { include: { theme: true }}} },
+            }
+        });
+
+        return presetsPrisma.map(Preset.from);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
-const getCurrentPresetByUser = ({ user }: { user: User }): Preset | undefined => {
-    return presets.find(preset => 
-        preset.user.equals(user) && 
-        preset.isCurrent
-    );
+const getActivePresetByUser = async ({
+    userId
+}: {
+    userId: number
+}) => {
+    try {
+        const presetPrisma = await database.preset.findFirst({
+            where: {
+                userId: userId,
+                activeUser: { id: userId }
+            },
+            include: {
+                user: true,
+                reskins: { include: { reskin: { include: { theme: true }}} },
+            }
+        });
+
+        return presetPrisma 
+            ? Preset.from(presetPrisma)
+            : null;
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
-const getPresetByUserAndName = ({ user, name }: { user: User, name: string }): Preset[] => {
-    return presets.filter(preset => 
-        preset.user === user &&
-        preset.name === name 
-    );
+const getPresetByUserAndName = async ({
+    userId,
+    name
+}: {
+    userId: number,
+    name: string
+}) => {
+    try {
+        const presetPrisma = await database.preset.findFirst({
+            where: {
+                userId,
+                name
+            },
+            include: {
+                user: true,
+                reskins: { include: { reskin: { include: { theme: true }}} },
+            }
+        });
+
+        return presetPrisma 
+            ? Preset.from(presetPrisma) 
+            : null;
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
 
 export default {
     save, 
+    getActivePresetByUser,
     getPresetsByUser,
     getPresetByUserAndName,
-    getCurrentPresetByUser,
 };

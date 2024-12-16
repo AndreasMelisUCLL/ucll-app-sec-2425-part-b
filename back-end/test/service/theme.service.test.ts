@@ -1,3 +1,4 @@
+import { get } from "http";
 import themeDb from "../../repository/theme.db";
 import themeService from "../../service/theme.service";
 
@@ -22,7 +23,7 @@ afterEach(() => {
 
 // GET THEME BY ID ________________________________________________________________________________
 
-test('given: valid theme id, when: invoking getThemeById, then: theme is returned', () => {
+test('given: valid theme id, when: invoking getThemeById, then: theme is returned', async () => {
     // GIVEN ------------------------------------
     const id = valid.id;
 
@@ -30,7 +31,7 @@ test('given: valid theme id, when: invoking getThemeById, then: theme is returne
     themeDb.getThemeById = mockThemeDbGetThemeById.mockReturnValue(valid);
     
     // WHEN -------------------------------------
-    const theme = themeService.getThemeById({ id });
+    const theme = await themeService.getThemeById({ id });
 
     // THEN -------------------------------------
     expect(theme).toEqual(valid);
@@ -45,10 +46,11 @@ test('given: invalid theme id, when: invoking getThemeById, then: error is throw
     themeDb.getThemeById = mockThemeDbGetThemeById.mockReturnValue(null);
 
     // WHEN -------------------------------------
-    expect(() => {
+    const getThemeById = async () => 
         themeService.getThemeById({ id });
 
     // THEN -------------------------------------
-    }).toThrow(`Theme with id ${id} not found`);
-
+    expect(getThemeById).rejects.toThrow(
+        `Theme with id ${id} not found`
+    );
 });

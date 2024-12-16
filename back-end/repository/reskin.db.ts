@@ -1,49 +1,49 @@
-import { Piece, PieceType }   from '../model/piece';
-import { Reskin }           from '../model/reskin';
-import { Theme }            from '../model/theme';
+import database from "../util/database";
 
-// DUMMY DATA _____________________________________________________________________________________
-
-const sniperTheme = new Theme({
-    name: 'sniper bishop',
-    description: 'lining up the shots'
-});
-const reskins = [
-    new Reskin({
-        piece: new Piece({
-            color: 'BLACK',
-            type: 'BISHOP',
-        }),
-        theme: sniperTheme
-    }),
-    new Reskin({
-        piece: new Piece({
-            color: 'WHITE',
-            type: 'BISHOP',
-        }),
-        theme: sniperTheme
-    }),
-];
+import { Piece } from '../model/piece';
+import { Reskin } from '../model/reskin';
 
 // METHODS _______________________________________________________________________________________
 
-const getReskinsByPieceType = ({ pieceType }: { pieceType: PieceType }): Reskin[] => {
+const getReskinsByPiece = async ({ piece }: { piece: Piece }) => {
     try {
-        return reskins.filter(reskin => 
-            reskin.piece.type === pieceType
-        );
+        const reskinsPrisma = await database.reskin.findMany({
+            where: {
+                piece: piece.toString()
+            },
+            include: {
+                theme: true
+            }
+        });
+
+        return reskinsPrisma.map(Reskin.from);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 }
 
-const getReskinByPieceAndTheme = ({ piece, theme }: { piece: Piece, theme: Theme }): Reskin | undefined => {
+const getReskinByPieceAndTheme = async ({ piece, themeId }: { 
+    piece: Piece, 
+    themeId: number 
+}) => {
     try {
-        return reskins.find(reskin => 
-            reskin.piece === piece &&
-            reskin.theme.equals(theme)
-        );
+        const reskinPrisma = await database.reskin.findUnique({
+            where: {
+                themeId_piece: {
+                    themeId: themeId,
+                    piece: piece.toString(),
+                }
+            },
+            include: {
+                theme: true
+            }
+        });
+
+        return reskinPrisma
+            ? Reskin.from(reskinPrisma)
+            : null;
+
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
@@ -52,6 +52,6 @@ const getReskinByPieceAndTheme = ({ piece, theme }: { piece: Piece, theme: Theme
 
 
 export default {
-    getReskinsByPieceType,
+    getReskinsByPiece,
     getReskinByPieceAndTheme,
 };

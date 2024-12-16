@@ -1,4 +1,4 @@
-import { pieceOf, pieceString }      from "../../model/piece";
+import { Piece }      from "../../model/piece";
 import { Reskin }       from "../../model/reskin";
 import { Theme }        from "../../model/theme";
 
@@ -10,7 +10,7 @@ import reskinDb         from "../../repository/reskin.db";
 
 const valid = {
     id: 1,
-    piece: pieceOf({
+    piece: new Piece({
         color: 'WHITE',
         type: 'KING',
     }),
@@ -23,28 +23,28 @@ const valid = {
 
 // MOCK SETUP ____________________________________________________________________________________
 
-let mockReskinDbGetReskinsByPiece: jest.Mock;
+let mockReskinDbGetReskinsByPieceType: jest.Mock;
 let mockReskinDbGetReskinByPieceAndTheme: jest.Mock;
 
 beforeEach(() => {
-    mockReskinDbGetReskinsByPiece = jest.fn();
+    mockReskinDbGetReskinsByPieceType = jest.fn();
     mockReskinDbGetReskinByPieceAndTheme = jest.fn();
 });
 afterEach(() => {
     jest.clearAllMocks();
 });
 
-// GET RESKINS BY PIECE __________________________________________________________________________
+// GET RESKINS BY PIECETYPE __________________________________________________________________________
 
 test('given: valid piece, when: invoking getReskinsByPiece, then: reskins are returned', () => {
     // GIVEN ------------------------------------
-    const piece = valid.piece;
+    const pieceType = valid.piece.type;
 
     // MOCK -------------------------------------
-    reskinDb.getReskinsByPiece = mockReskinDbGetReskinsByPiece.mockReturnValue([new Reskin(valid)]);
+    reskinDb.getReskinsByPieceType = mockReskinDbGetReskinsByPieceType.mockReturnValue([new Reskin(valid)]);
 
     // WHEN -------------------------------------
-    const reskins = reskinService.getReskinsByPiece({ piece });
+    const reskins = reskinService.getReskinsByPieceType({ pieceType });
 
     // THEN -------------------------------------
     expect(reskins).toEqual([new Reskin(valid)]);
@@ -56,13 +56,13 @@ test('given: valid piece, when: invoking getReskinsByPiece, then: reskins are re
 test('given: valid piece and theme id, when: invoking getReskinByPieceAndThemeId, then: reskin is returned', () => {
     // GIVEN ------------------------------------
     const piece = valid.piece;
-    const themeId = valid.theme.id!;
+    const theme = valid.theme;
 
     // MOCK -------------------------------------
     reskinDb.getReskinByPieceAndTheme = mockReskinDbGetReskinByPieceAndTheme.mockReturnValue(new Reskin(valid));
 
     // WHEN -------------------------------------
-    const reskin = reskinService.getReskinByPieceAndThemeId({ piece, themeId });
+    const reskin = reskinService.getReskinByPieceAndTheme({ piece, theme });
 
     // THEN -------------------------------------
     expect(reskin).toEqual(new Reskin(valid));
@@ -73,7 +73,7 @@ test('given: id of a theme without reskin for piece, when: invoking getReskinByP
     // GIVEN ------------------------------------
     const themeWithoutReskin = valid.theme;
 
-    const themeId = themeWithoutReskin.id!;
+    const theme = themeWithoutReskin;
     const piece = valid.piece;
 
     // MOCK -------------------------------------
@@ -81,9 +81,9 @@ test('given: id of a theme without reskin for piece, when: invoking getReskinByP
 
     // WHEN -------------------------------------
     expect(() => {
-        reskinService.getReskinByPieceAndThemeId({ piece, themeId });
+        reskinService.getReskinByPieceAndTheme({ piece, theme });
 
     // THEN -------------------------------------
-    }).toThrow(`Theme ${themeWithoutReskin.name} does not have a reskin for ${pieceString(piece)}`);
+    }).toThrow(`Theme ${themeWithoutReskin.name} does not have a reskin for ${piece}`);
 
 });

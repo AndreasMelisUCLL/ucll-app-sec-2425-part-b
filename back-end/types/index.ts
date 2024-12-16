@@ -1,5 +1,7 @@
-type PieceColor = "WHITE" | "BLACK";
-type PieceType = "PAWN" | "ROOK" | "KNIGHT" | "BISHOP" | "QUEEN" | "KING";
+type PieceInput = {
+    color: string;
+    type: string;
+}
 
 type PresetInput = {
     userId: number;
@@ -8,14 +10,10 @@ type PresetInput = {
 };
 
 type ReskinInput = {
-    piece: PieceInput;
+    pieceInput: PieceInput;
     themeId: number;
 }
 
-type PieceInput = {
-    color: PieceColor;
-    type: PieceType;
-}
 
 type UserInput = {
     id?: number;
@@ -24,8 +22,7 @@ type UserInput = {
 }
 
 export {
-    PieceColor,
-    PieceType,
+    PieceInput,
     PresetInput,
     ReskinInput,
     UserInput,

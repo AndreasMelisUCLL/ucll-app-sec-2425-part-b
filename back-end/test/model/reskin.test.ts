@@ -1,11 +1,11 @@
-import { pieceOf } from '../../model/piece';
+import { Piece } from '../../model/piece';
 import { Reskin }   from '../../model/reskin';
 import { Theme }    from '../../model/theme';
 
 // EXPECTED VALUES _______________________________________________________________________________
 
 const valid = {
-    piece: pieceOf({
+    piece: new Piece({
         color: 'WHITE',
         type: 'KING',
     }),

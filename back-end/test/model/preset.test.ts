@@ -1,4 +1,4 @@
-import { pieceOf } from "../../model/piece";
+import { Piece } from "../../model/piece";
 import { Preset }   from "../../model/preset";
 import { Reskin }   from "../../model/reskin";
 import { Theme }    from "../../model/theme";
@@ -14,7 +14,7 @@ const valid = {
         }),
     reskins: [
         new Reskin({
-            piece: pieceOf({
+            piece: new Piece({
                 color: "WHITE",
                 type: "KING",
             }),
@@ -72,7 +72,7 @@ test('given: multiple reskins for the same piece, when: preset is created, then:
     const name = valid.name;
     const user = valid.user
 
-    const duplicatePiece = pieceOf({
+    const duplicatePiece = new Piece({
         color: 'WHITE',
         type: 'KING',
     });

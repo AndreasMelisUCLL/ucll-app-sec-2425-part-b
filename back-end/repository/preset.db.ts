@@ -1,4 +1,4 @@
-import { pieceOf } from "../model/piece";
+import { Piece } from "../model/piece";
 import { Preset }   from "../model/preset";
 import { Reskin }   from "../model/reskin";
 import { Theme }    from "../model/theme";
@@ -19,14 +19,14 @@ const sniperTheme = new Theme({
 
 const sniperReskins = [
     new Reskin({
-        piece: pieceOf({
+        piece: new Piece({
             color: 'BLACK',
             type: 'BISHOP',
         }),
         theme: sniperTheme
     }),
     new Reskin({
-        piece: pieceOf({
+        piece: new Piece({
             color: 'WHITE',
             type: 'BISHOP',
         }),

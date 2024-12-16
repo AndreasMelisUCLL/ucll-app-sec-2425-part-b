@@ -1,13 +1,14 @@
+import { PieceType } from '../model/piece';
 import express, { Request, Response } from 'express';
 import reskinService from '../service/reskin.service';
-import { Piece } from '../types';
 
 const reskinRouter = express.Router();
 
-reskinRouter.get('/:piece', (req: Request, res: Response) => {
+reskinRouter.get('/:pieceType', (req: Request, res: Response) => {
     try {
-        const piece = req.params.piece as Piece;
-        const reskins = reskinService.getReskinsByPiece({ piece });
+        const pieceType = req.params.pieceType as PieceType;
+        const reskins = reskinService.getReskinsByPieceType({ pieceType });
+        
         res.status(200).json(reskins);
     } catch (error) {
         console.error(error);

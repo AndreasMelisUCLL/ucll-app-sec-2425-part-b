@@ -1,33 +1,23 @@
-import { PieceColor, PieceType } from "../types";
+export type PieceColor = "WHITE" | "BLACK";
+export type PieceType = "PAWN" | "ROOK" | "KNIGHT" | "BISHOP" | "QUEEN" | "KING";
 
-export interface Piece {
-    color: PieceColor;
-    type: PieceType;
-}
+export class Piece {
 
-export function validatePiece(piece: { color: string, type: string }): void {
-    if (!["WHITE", "BLACK"].includes(piece.color)) {
-        throw new Error("Invalid color");
-    } 
-    if (!["PAWN", "ROOK", "KNIGHT", "BISHOP", "QUEEN", "KING"].includes(piece.type)) {
-        throw new Error("Invalid piece");
+    readonly color: PieceColor;
+    readonly type: PieceType;
+
+    public constructor({ 
+        color: colorString, 
+        type: typeString 
+    }: {
+        color: string,
+        type: string
+    }) {
+        this.color = colorString as PieceColor;
+        this.type = typeString as PieceType;
+    }
+
+    public toString(): string {
+        return `${this.color} ${this.type}`.toLowerCase();
     }
 }
-
-export function pieceOf(piece: {
-    color: string, 
-    type: string
-}): Piece {
-
-    validatePiece(piece);
-
-    return {
-        color: piece.color as PieceColor,
-        type: piece.type as PieceType
-    };
-}
-
-export function pieceString(piece: Piece): string {
-    return `${piece.color} ${piece.type}`.toLowerCase();
-}
-

@@ -8,7 +8,7 @@ import userService      from '../../service/user.service';
 import reskinService    from '../../service/reskin.service';
 
 import presetDB         from '../../repository/preset.db';
-import { pieceOf } from '../../model/piece';
+import { Piece } from '../../model/piece';
 
 // MOCK SETUP ____________________________________________________________________________________
 
@@ -16,14 +16,14 @@ let mockUserServiceGetUserById: jest.Mock;
 let mockPresetDbSave: jest.Mock;
 let mockPresetDbGetPresetsByUser: jest.Mock;
 let mockPresetDbGetPresetByUserAndName: jest.Mock;
-let mockReskinServiceGetReskinByPieceAndThemeId: jest.Mock;
+let mockReskinServiceGetReskinByPieceAndTheme: jest.Mock;
 
 beforeEach(() => {
     mockUserServiceGetUserById = jest.fn();
     mockPresetDbSave = jest.fn();
     mockPresetDbGetPresetsByUser = jest.fn();
     mockPresetDbGetPresetByUserAndName = jest.fn();
-    mockReskinServiceGetReskinByPieceAndThemeId = jest.fn();
+    mockReskinServiceGetReskinByPieceAndTheme = jest.fn();
 });
 
 afterEach(() => {
@@ -42,7 +42,7 @@ const valid = {
     reskins: [
         new Reskin({ 
             id: 1,
-            piece: pieceOf({
+            piece: new Piece({
                 color: 'WHITE',
                 type: 'KING',
             }),
@@ -52,6 +52,15 @@ const valid = {
                 description: 'default theme',
             }),
         })
+    ],
+    reskinInputs: [
+        {
+            pieceInput: {
+                color: 'WHITE',
+                type: 'KING',
+            },
+            themeId: 1,
+        }
     ]
 };
 
@@ -99,18 +108,13 @@ test('given: valid preset input, when: invoking createPreset, then: the preset i
     // GIVEN ------------------------------------
     const userId = valid.user.id!;
     const name = valid.name;
-    const reskinInputs = valid.reskins.map(reskin => {
-        return {
-            piece: reskin.piece,
-            themeId: reskin.theme.id!,
-        };
-    });
+    const reskinInputs = valid.reskinInputs;
 
     // MOCK -------------------------------------
     userService.getUserById = mockUserServiceGetUserById.mockReturnValue(valid.user);
     presetDB.getPresetByUserAndName = mockPresetDbGetPresetByUserAndName.mockReturnValue(null);
     presetDB.save = mockPresetDbSave.mockReturnValue(new Preset(valid));
-    reskinService.getReskinByPieceAndThemeId = mockReskinServiceGetReskinByPieceAndThemeId.mockReturnValue(valid.reskins[0]);
+    reskinService.getReskinByPieceAndTheme = mockReskinServiceGetReskinByPieceAndTheme.mockReturnValue(valid.reskins[0]);
 
     // WHEN -------------------------------------
     const createdPreset = presetService.createPreset({ userId, name, reskinInputs });
@@ -119,7 +123,7 @@ test('given: valid preset input, when: invoking createPreset, then: the preset i
     expect(createdPreset).toEqual(new Preset(valid));
     expect(createdPreset.reskins).toEqual(valid.reskins);
     expect(presetDB.save).toHaveBeenCalledWith(new Preset(valid));
-    expect(mockReskinServiceGetReskinByPieceAndThemeId).toHaveBeenCalled();
+    expect(mockReskinServiceGetReskinByPieceAndTheme).toHaveBeenCalled();
 
 });
 
@@ -129,12 +133,7 @@ test('given: userId and name matching existing preset, when: invoking createPres
 
     const userId = existingPreset.user.id!;
     const name = existingPreset.name; 
-    const reskinInputs = valid.reskins.map(reskin => {
-        return {
-            piece: reskin.piece,
-            themeId: reskin.theme.id!,
-        };
-    });
+    const reskinInputs = valid.reskinInputs;
 
     // MOCK -------------------------------------
     userService.getUserById = mockUserServiceGetUserById.mockReturnValue(valid.user);

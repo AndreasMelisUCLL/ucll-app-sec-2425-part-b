@@ -1,4 +1,4 @@
-import { Piece, pieceOf }   from '../model/piece';
+import { Piece, PieceType }   from '../model/piece';
 import { Reskin }           from '../model/reskin';
 import { Theme }            from '../model/theme';
 
@@ -10,14 +10,14 @@ const sniperTheme = new Theme({
 });
 const reskins = [
     new Reskin({
-        piece: pieceOf({
+        piece: new Piece({
             color: 'BLACK',
             type: 'BISHOP',
         }),
         theme: sniperTheme
     }),
     new Reskin({
-        piece: pieceOf({
+        piece: new Piece({
             color: 'WHITE',
             type: 'BISHOP',
         }),
@@ -27,10 +27,10 @@ const reskins = [
 
 // METHODS _______________________________________________________________________________________
 
-const getReskinsByPiece = ({ piece }: { piece: Piece }): Reskin[] => {
+const getReskinsByPieceType = ({ pieceType }: { pieceType: PieceType }): Reskin[] => {
     try {
         return reskins.filter(reskin => 
-            reskin.piece === piece
+            reskin.piece.type === pieceType
         );
     } catch (error) {
         console.error(error);
@@ -52,6 +52,6 @@ const getReskinByPieceAndTheme = ({ piece, theme }: { piece: Piece, theme: Theme
 
 
 export default {
-    getReskinsByPiece,
+    getReskinsByPieceType,
     getReskinByPieceAndTheme,
 };

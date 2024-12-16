@@ -6,6 +6,8 @@ import userService      from './user.service';
 import reskinService    from './reskin.service';
 
 import { PresetInput }  from '../types'
+import themeService from './theme.service';
+import { Piece } from '../model/piece';
 
 // RETRIEVAL _______________________________________________________________________________________
 
@@ -33,9 +35,12 @@ const createPreset = ({
     }
     
     // retrieve reskins by piece and theme id
-    const reskins = reskinInputs.map(reskinInput =>
-        reskinService.getReskinByPieceAndThemeId(reskinInput)
-    );
+    const reskins = reskinInputs.map(reskinInput => {
+        const piece = new Piece(reskinInput.pieceInput);
+        const theme = themeService.getThemeById({id: reskinInput.themeId});
+        
+        return reskinService.getReskinByPieceAndTheme({ piece, theme });
+    });
 
     // exclude domain errors during creation
     const preset = new Preset({

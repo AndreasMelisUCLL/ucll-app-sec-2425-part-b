@@ -1,26 +1,22 @@
-import { Piece, pieceString } from "../model/piece";
-
-import themeService from "../service/theme.service";
+import { Piece, PieceType } from "../model/piece";
 
 import reskinDb from "../repository/reskin.db";
+import { Theme } from "../model/theme";
 
 // RETRIEVAL _______________________________________________________________________________________
 
-const getReskinsByPiece = ({ piece }: { piece: Piece }) => {
+const getReskinsByPieceType = ({ pieceType }: { pieceType: PieceType }) => {
     // retrieve reskins by piece
-    return reskinDb.getReskinsByPiece({ piece });
+    return reskinDb.getReskinsByPieceType({ pieceType });
 };
 
-const getReskinByPieceAndThemeId = ({ piece, themeId }: { piece: Piece, themeId: number }) => {
-    // retrieve theme by id
-    const theme = themeService.getThemeById({ id: themeId });
-    
+const getReskinByPieceAndTheme = ({ piece, theme }: { piece: Piece, theme: Theme }) => {
     // retrieve reskin by piece and theme
     const reskin = reskinDb.getReskinByPieceAndTheme({ piece, theme });
 
     // ensure reskin exists
     if (!reskin) {
-        throw new Error(`Theme ${theme.name} does not have a reskin for ${pieceString(piece)}`);
+        throw new Error(`Theme ${theme.name} does not have a reskin for ${piece}`);
     }
 
     return reskin;
@@ -28,6 +24,6 @@ const getReskinByPieceAndThemeId = ({ piece, themeId }: { piece: Piece, themeId:
 
 
 export default {
-    getReskinsByPiece,
-    getReskinByPieceAndThemeId,
+    getReskinsByPieceType: getReskinsByPieceType,
+    getReskinByPieceAndTheme,
 };

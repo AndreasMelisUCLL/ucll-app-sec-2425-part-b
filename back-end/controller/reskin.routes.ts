@@ -4,9 +4,13 @@ import reskinService from '../service/reskin.service';
 
 const reskinRouter = express.Router();
 
-reskinRouter.get('/:piece', async (req: Request, res: Response) => {
+reskinRouter.get('/:color/:type', async (req: Request, res: Response) => {
+    console.log("route hut")
     try {
-        const pieceString = req.params.piece as PieceString;
+        const color = req.params.color;
+        const type = req.params.type;
+        
+        const pieceString = `${color.toUpperCase()} ${type.toUpperCase()}` as PieceString;
         const piece = Piece.from(pieceString);
 
         const reskins = await reskinService.getReskinsByPiece({ piece });

@@ -22,6 +22,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
+import { UserInput } from '../types';
 
 const userRouter = express.Router();
 
@@ -53,6 +54,35 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
         res.json(user);
     } catch (error) {
         next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /user/signup:
+ *   post:
+ *     summary: Create a user
+ *     requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *              schema:
+ *                  $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: A user object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+userRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userInput = <UserInput>req.body;
+        const user = await userService.createUser(userInput);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error)
     }
 });
 

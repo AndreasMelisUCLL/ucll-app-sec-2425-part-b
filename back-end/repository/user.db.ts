@@ -54,5 +54,6 @@ const createUser = async({
 
 export default { 
     getUserById,
-    getUserByUsername
+    getUserByUsername,
+    createUser
 };

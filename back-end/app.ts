@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import { presetRouter } from './controller/preset.routes';
 import { reskinRouter } from './controller/reskin.routes';
+import { expressjwt } from 'express-jwt';
 
 
 const app = express();
@@ -15,6 +16,15 @@ const port = process.env.APP_PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(expressjwt({
+    secret: `${process.env.JWT_SECRET}`,
+    algorithms: ['HS256']
+}).unless({
+    path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status'],
+})
+
+);
 
 app.use('/user', userRouter);
 app.use('/preset', presetRouter);
@@ -38,7 +48,11 @@ const swaggerSpec = swaggerJSDoc(swaggerOpts);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (err.name === "UnauthorizedError"){
+        res.status(401).json({status: "application error", message: err.message})
+    } else {
     res.status(400).json({status: "application error", message: err.message})
+    }
 });
 
 app.listen(port || 3000, () => {

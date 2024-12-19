@@ -19,6 +19,15 @@
  *         password:
  *           type: string
  *           description: The password of the user
+ *     AuthenticationRequest:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *           description: The username of the user
+ *         password:
+ *           type: string
+ *           description: The password of the user   
  */
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
@@ -30,6 +39,8 @@ const userRouter = express.Router();
  * @swagger
  * /user/{id}:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a user by their id
  *     parameters:
  *       - in: path
@@ -81,6 +92,35 @@ userRouter.post('/signup', async (req: Request, res: Response, next: NextFunctio
         const userInput = <UserInput>req.body;
         const user = await userService.createUser(userInput);
         res.status(200).json(user);
+    } catch (error) {
+        next(error)
+    }
+});
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: log in using username and password
+ *     requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *              schema:
+ *                  $ref: '#/components/schemas/AuthenticationRequest'
+ *     responses:
+ *       200:
+ *         description: A user object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthenticationResponse'
+ */
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userInput = <UserInput>req.body;
+        const response = await userService.authenticate(userInput);
+        res.status(200).json({message: "Authentication success", ...response})
     } catch (error) {
         next(error)
     }

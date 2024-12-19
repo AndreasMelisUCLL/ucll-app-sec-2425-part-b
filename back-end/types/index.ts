@@ -21,9 +21,15 @@ type UserInput = {
     password: string;
 }
 
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+}
+
 export {
     PieceInput,
     PresetInput,
     ReskinInput,
     UserInput,
+    AuthenticationResponse
 }

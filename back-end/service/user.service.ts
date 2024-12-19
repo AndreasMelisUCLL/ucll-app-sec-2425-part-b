@@ -1,4 +1,6 @@
+import { User } from '@prisma/client';
 import userDB from '../repository/user.db';
+import { UserInput }  from '../types'
 
 // RETRIEVAL _______________________________________________________________________________________
 
@@ -10,6 +12,9 @@ const getUserById = async ({ id }: { id: number }) => {
     return user;
 }
 
+const createUser = async ({username, password}: UserInput): Promise<User> => {
+    return null
+}
 
 export default { 
     getUserById,

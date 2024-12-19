@@ -37,6 +37,21 @@ const getUserByUsername = async ({ username }: { username: string }) => {
     }
 }
 
+const createUser = async({
+    username,
+    password
+}: User): Promise<User> =>{
+    try {
+        const userPrisma = await database.user.create({
+            data: {username, password}
+        })
+        return User.from(userPrisma)
+    } catch (error) {
+        console.error(error);
+        throw new Error("Database error, check log")
+    }
+};
+
 export default { 
     getUserById,
     getUserByUsername

@@ -29,12 +29,12 @@ export class User {
         password: string
     }) {
         // username
-        if (!user.username || user.username.trim() === '') {
+        if (user.username?.trim() === '') {
             throw new Error('Username is required');
         }
 
         // password
-        if (!user.password || user.password.trim() === '') {
+        if (user.password?.trim() === '') {
             throw new Error('Password is required');
         }
         if (user.password.length <= 6) {

@@ -26,7 +26,7 @@ type Theme = {
 }
 
 type Reskin = {
-    piece: PieceString;
+    piece: PieceCode;
     theme: Theme;
 }
 

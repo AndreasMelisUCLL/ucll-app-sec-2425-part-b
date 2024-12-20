@@ -2,14 +2,29 @@ import Head from "next/head";
 import styles from "@/styles/Profile.module.css";
 import Header from "@/components/Header";
 import ChessBoard from "@/components/ChessBoard";
+import { PieceCode } from "@/types";
 
 const Profile: React.FC = () => {
     const reskins = [
-        { piece: "wK", theme: { name: "california" } },
-        { piece: "wQ", theme: { name: "horsey" } },
-        { piece: "wR", theme: { name: "california" } },
-        { piece: "wB", theme: { name: "horsey" } },
-        { piece: "bP", theme: { name: "california" } },
+        { 
+            piece: "wK" as PieceCode, 
+            theme: { name: "california" } 
+        },
+        { 
+            piece: "wQ" as PieceCode, 
+            theme: { name: "horsey" } 
+        },
+        { 
+            piece: "wR" as PieceCode, 
+            theme: { name: "california" } 
+        },
+        { 
+            piece: "wB" as PieceCode, 
+            theme: { name: "horsey" } },
+        { 
+            piece: "bP" as PieceCode, 
+            theme: { name: "california" } 
+        },
     ];
     const perspective = "black";
 

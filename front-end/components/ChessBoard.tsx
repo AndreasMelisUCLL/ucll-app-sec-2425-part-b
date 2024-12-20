@@ -43,7 +43,7 @@ const Chessboard = ({
         transform: perspective === 'black' ? 'rotate(180deg)' : 'none',
       }}
     >
-      {Object.entries(defaultPieces).map(([position, pieceCode]) => {
+      {Object.entries(currentPieces).map(([position, pieceCode]) => {
         const pieceTheme = reskins.find(({ piece }) => piece === pieceCode)?.theme.name || '_default';
         const piecePath = `/piece/${pieceTheme}/${pieceCode}.svg`;
 

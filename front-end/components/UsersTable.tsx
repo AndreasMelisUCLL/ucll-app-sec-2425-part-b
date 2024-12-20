@@ -1,14 +1,26 @@
+import { useTranslation } from "react-i18next";
 import styles from "../styles/UsersTable.module.css";
+import { useEffect, useState } from "react";
 
 const UsersTable: React.FC = () => {
+  const { t } = useTranslation();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Ensure that translation happens on the client side
+  }, []);
+
+  if (!isClient) {
+    return null; // Render nothing on the server side
+  }
   return (
     <>
       <table className={styles.table}>
         <thead className={styles.thead}>
           <tr>
-            <th className={styles.th}>Username</th>
-            <th className={styles.th}>Password</th>
-            <th className={styles.th}>Role</th>
+            <th className={styles.th}>{t("username")}</th>
+            <th className={styles.th}>{t("password")}</th>
+            <th className={styles.th}>{t("role")}</th>
           </tr>
         </thead>
         <tbody>
@@ -27,5 +39,4 @@ const UsersTable: React.FC = () => {
     </>
   );
 };
-
 export default UsersTable;

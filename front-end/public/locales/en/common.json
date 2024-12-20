@@ -1,0 +1,17 @@
+{
+  "welcome": "Welcome {{role}} {{username}}",
+  "welcome_guest": "Welcome Guest",
+  "username": "Username",
+  "password": "Password",
+  "role": "role",
+  
+  "register": "register",
+  "usernamePlaceholder": "Please enter your username",
+  "passwordPlaceholder": "enter your password",
+  "accountspan": "Already have an account?",
+  "logIn": "Log In",
+  "Something went wrong": "Something went wrong",
+  "Both fields are required": "Both fields are required",
+  "dontHaveAccount": "Don't have an account yet?",
+  "Wrong credentials": "Wrong credentials"
+}

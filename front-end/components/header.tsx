@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "../styles/Header.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import Language from "./Language";
 
 type TabName = "home" | "profile" | "community" | "preset";
 type HeaderProps = {
@@ -59,6 +60,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
           </Link>
         </div>
 
+        <div>
         {/* Right */}
         <button
           className={styles.logoutButton}
@@ -66,6 +68,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
         >
           {isLoggedIn ? "Logout" : "Login"}
         </button>
+
+        <Language/>
+        </div>
       </nav>
     </header>
   );

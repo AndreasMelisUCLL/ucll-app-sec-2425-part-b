@@ -1,0 +1,18 @@
+{
+    "welcome": "Welkom {{role}} {{username}}",
+    "welcome_guest": "Welkom Gast",
+    "username": "Gebruikersnaam",
+    "password": "Wachtwoord",
+    "role": "rol",
+    
+    "register": "Registreren",
+    "usernamePlaceholder": "Voer je gebruikersnaam in",
+    "passwordPlaceholder": "Voer je wachtwoord in",
+    "accountspan": "Heb je al een account?",
+    "logIn": "Inloggen",
+    "Something went wrong": "Er is iets mis gegaan",
+    "Both fields are required": "Beide velden zijn verplicht",
+    "dontHaveAccount": "Heb je nog geen account?",
+    "Wrong credentials": "Onjuiste inloggegevens"
+  }
+  

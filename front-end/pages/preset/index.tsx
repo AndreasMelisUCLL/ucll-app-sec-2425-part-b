@@ -2,16 +2,21 @@ import Head from "next/head";
 import Header from "@/components/header";
 import PresetForm from "@/components/presetForm";
 import { useEffect, useState } from "react";
+import { User } from "@/types";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
 
 
 const Preset: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+  const {t} = useTranslation();
   useEffect(() => {
     const loggedInUser = sessionStorage.getItem("loggedInUser");
     setIsLoggedIn(!!loggedInUser);
 }, []);
 
-if (!isLoggedIn) {
+if (!isLoggedIn || loggedInUser?.role === "guest") {
     return (
         <>
             <Header activeTab="preset" />
@@ -35,5 +40,15 @@ if (!isLoggedIn) {
     </div>
     );
 }
+
+export const getServerSideProps = async (context: { locale: any; }) => {
+    const {locale} = context;
+  
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? "nl", ["common"])),
+      },
+    };
+  };
 
 export default Preset;

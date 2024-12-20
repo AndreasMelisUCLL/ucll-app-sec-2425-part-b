@@ -5,9 +5,12 @@ import styles from "@/styles/Profile.module.css";
 import Header from "@/components/header";
 import { useEffect, useState } from "react";
 import ProfileOverview from "@/components/profile/ProfileOverview";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
 
 
 const Profile: React.FC = () => {
+      const {t} = useTranslation();
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -26,7 +29,7 @@ const Profile: React.FC = () => {
             
             <main className={styles.main}>
                 <h1>Profile</h1>
-                {loggedInUser
+                {loggedInUser && !(loggedInUser.role === "guest")
                     ? <ProfileOverview />
                     : <h2>Please login to view this page</h2>
                 }
@@ -34,5 +37,15 @@ const Profile: React.FC = () => {
         </div>
   );
 }
+
+export const getServerSideProps = async (context: { locale: any; }) => {
+    const {locale} = context;
+  
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? "nl", ["common"])),
+      },
+    };
+  };
 
 export default Profile;

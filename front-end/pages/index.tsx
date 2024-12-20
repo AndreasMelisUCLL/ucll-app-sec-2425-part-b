@@ -14,11 +14,11 @@ const Home: React.FC = () => {
       const user = JSON.parse(userJSON);
       setLoggedInUser({
         username: user.username,
-        role: user.role ?? "user",
+        role: user.role,
       });
     }
   }, []);
-
+  console.log(loggedInUser)
   return (
     <div className="min-h-full">
       <Head>

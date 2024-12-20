@@ -26,6 +26,7 @@ const LoginForm: React.FC = () => {
       const response = await UserService.loginUser(user)
       if (response.status === 200){ 
         const user = await response.json();
+        console.log("User from API response:", user);
         sessionStorage.setItem(
             'loggedInUser',
             JSON.stringify({

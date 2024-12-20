@@ -1,3 +1,5 @@
+import { Role }     from "../../types";
+
 import { User }     from "../../model/user";
 
 import userService  from "../../service/user.service";
@@ -20,7 +22,8 @@ afterEach(() => {
 const valid = {
     id: 1,
     username: 'john_doe',
-    password: 'john123'
+    password: 'john123',
+    role: 'user' as Role,
 };
 
 // GET USER BY ID ________________________________________________________________________________

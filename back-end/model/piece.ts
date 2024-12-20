@@ -2,6 +2,10 @@ export type PieceColor = "WHITE" | "BLACK";
 export type PieceType = "PAWN" | "ROOK" | "KNIGHT" | "BISHOP" | "QUEEN" | "KING";
 export type PieceString = `${PieceColor} ${PieceType}`;
 
+export type pieceColorCode = "w" | "b";
+export type pieceTypeCode = "P" | "R" | "N" | "B" | "Q" | "K";
+export type PieceCode = `${pieceColorCode}${pieceTypeCode}`;
+
 export class Piece {
 
     readonly color: PieceColor;

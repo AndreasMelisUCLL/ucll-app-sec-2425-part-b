@@ -22,6 +22,11 @@ const UsersTable: React.FC = () => {
             <td className={styles.td}>adminpass</td>
             <td className={styles.td}>admin</td>
           </tr>
+          <tr className={styles.tr}>
+            <td className={styles.td}>john_doe</td>
+            <td className={styles.td}>john123</td>
+            <td className={styles.td}>guest</td>
+          </tr>
         </tbody>
       </table>
     </>

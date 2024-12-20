@@ -5,7 +5,7 @@ type PieceInput = {
     type: string;
 }
 
-type Role = "admin" | "user";
+type Role = "admin" | "user" | "guest";
 
 type PresetInput = {
     userId: number;

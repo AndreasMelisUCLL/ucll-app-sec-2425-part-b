@@ -26,7 +26,7 @@ const Profile: React.FC = () => {
             
             <main className={styles.main}>
                 <h1>Profile</h1>
-                {loggedInUser
+                {loggedInUser && !(loggedInUser.role === "guest")
                     ? <ProfileOverview />
                     : <h2>Please login to view this page</h2>
                 }

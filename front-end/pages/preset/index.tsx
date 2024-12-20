@@ -2,16 +2,18 @@ import Head from "next/head";
 import Header from "@/components/header";
 import PresetForm from "@/components/presetForm";
 import { useEffect, useState } from "react";
+import { User } from "@/types";
 
 
 const Preset: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   useEffect(() => {
     const loggedInUser = sessionStorage.getItem("loggedInUser");
     setIsLoggedIn(!!loggedInUser);
 }, []);
 
-if (!isLoggedIn) {
+if (!isLoggedIn || loggedInUser?.role === "guest") {
     return (
         <>
             <Header activeTab="preset" />

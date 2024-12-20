@@ -43,7 +43,7 @@ const ProfileOverview: React.FC = () => {
         if(!activeUser?.id) return;
 
         presetService.getPresets()
-        presetService.getActivePreset({})
+        presetService.getActivePreset()
             .then((preset) => {
                 setActivePreset(preset);
                 setReskinSelection(preset.reskins || []);

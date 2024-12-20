@@ -6,15 +6,3 @@
     padding: 3rem;
     min-height: 80vh;
 }
-
-.profile-container {
-    display: flex;
-    flex-direction: row;
-    justify-items: center;
-    gap: 20px;
-}
-
-.user-info {
-    max-width: 500px;
-    flex-wrap: wrap;
-}

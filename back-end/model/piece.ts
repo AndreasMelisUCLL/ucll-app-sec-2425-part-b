@@ -53,4 +53,27 @@ export class Piece {
             throw new Error('Invalid piece string');
         }
     }
+    public static fromPieceCode(pieceCode: string): Piece {
+        try {
+            let color: PieceColor;
+            switch (pieceCode[0]) {
+                case 'w': color = 'WHITE'; break;
+                case 'b': color = 'BLACK'; break;
+                default: throw new Error('Invalid piece code');
+            }
+            let type: PieceType;
+            switch (pieceCode[1]) {
+                case 'K': type = 'KING'; break;
+                case 'Q': type = 'QUEEN'; break;
+                case 'R': type = 'ROOK'; break;
+                case 'B': type = 'BISHOP'; break;
+                case 'N': type = 'KNIGHT'; break;
+                case 'P': type = 'PAWN'; break;
+                default: throw new Error('Invalid piece code');
+            }
+            return new Piece({ color, type });
+        } catch (error) {
+            throw new Error('Invalid piece code');
+        }
+    }
 }

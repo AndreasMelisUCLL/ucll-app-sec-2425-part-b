@@ -30,6 +30,13 @@ type Reskin = {
     theme: Theme;
 }
 
+type Preset = {
+    id?: number;
+    name?: string;
+    userId?: number;
+    reskins?: Reskin[];
+}
+
 type User = {
     id?: number;
     username?: string;
@@ -68,6 +75,7 @@ export type {
     
     Theme, 
     Reskin,
+    Preset,
     
     User,
 };

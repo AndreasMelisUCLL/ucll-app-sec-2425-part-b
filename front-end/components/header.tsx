@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
   };
 
   const handleLogin = () => {
-    router.push("/login");
+    router.push("#");
   };
 
   return (

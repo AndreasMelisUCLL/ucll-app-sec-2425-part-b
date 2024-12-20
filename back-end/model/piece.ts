@@ -26,6 +26,13 @@ export class Piece {
         return `${this.color} ${this.type}`;
     }
 
+    // TO PIECE CODE ----------------------------
+    public toPieceCode(): string {
+        const colorCode = this.color[0].toLowerCase();
+        const typeCode = (this.type === 'KNIGHT') ? 'N' : this.type[0].toUpperCase();
+        return `${colorCode}${typeCode}`;
+    }
+
 
     // EQUALS -----------------------------------
     public equals(piece: Piece): boolean {

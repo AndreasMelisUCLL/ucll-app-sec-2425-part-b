@@ -14,7 +14,7 @@ const Chessboard = ({
     reskins = [],
     theme = '_default', 
     boardSize = 600, 
-    position: pieces = {},
+    position: pieces,
     perspective = 'white',
 }: ChessboardProps) => {
   const boardPath = `/board/${theme}.png`;
@@ -27,7 +27,7 @@ const Chessboard = ({
     a1: 'wR', b1: 'wN', c1: 'wB', d1: 'wQ', e1: 'wK', f1: 'wB', g1: 'wN', h1: 'wR',
   };
 
-  const currentPieces = pieces || defaultPieces;
+  const currentPieces = pieces ?? defaultPieces;
 
   // Calculate tile size based on board size
   const tileSize = boardSize / 8;

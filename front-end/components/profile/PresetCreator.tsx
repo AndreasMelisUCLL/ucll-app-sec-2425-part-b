@@ -27,6 +27,7 @@ const PresetCreator = ({
         const fetchThemes = async () => {
             for (const piece of pieces) {
                 const reskins = await reskinService.getReskinsByPiece(piece);
+                console.log(`Fetched reskins for ${`${piece.color} ${piece.type}`}:`, reskins);
                 themesPerPiece.set(pieceToString(piece), reskins);
             }
             setThemesPerPiece(themesPerPiece);
@@ -55,7 +56,12 @@ const PresetCreator = ({
                 </>
             ))}
             <button onClick={onCancel}>Cancel</button>
-            <button>Save</button>
+            <button onClick={
+                () => {
+                    // setLoadout(Array.from(reskinPerPiece.values()));
+                    onConfirm();
+                }
+            }>Save</button>
         </form>
     );
 }

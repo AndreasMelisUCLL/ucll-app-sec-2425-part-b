@@ -9,8 +9,6 @@ const LoginForm: React.FC = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const savedUsername = localStorage.getItem("username");
-    const savedPassword = localStorage.getItem("password");
     setUsername("jane_doe"), setPassword("jane123")
   }, []);
 

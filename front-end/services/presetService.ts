@@ -1,10 +1,13 @@
 const savePreset = async (loadout: any): Promise<any> => {
     try {
+        const storedUser = sessionStorage.getItem('loggedInUser');
+        const token = storedUser ? JSON.parse(storedUser).token : undefined;
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/preset`, {
             method: 'POST',
             body: JSON.stringify(loadout),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization:  `Bearer ${token}`,
             },
         });
 

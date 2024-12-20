@@ -3,10 +3,13 @@ import { PieceDTO, Reskin } from '@/types';
 
 const getReskinsByPiece = async (piece: PieceDTO): Promise<Array<Reskin>> => {
     try {
+        const storedUser = sessionStorage.getItem('loggedInUser');
+        const token = storedUser ? JSON.parse(storedUser).token : undefined;
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reskin/${piece.color}/${piece.type}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization:  `Bearer ${token}`,
             },
         });
 

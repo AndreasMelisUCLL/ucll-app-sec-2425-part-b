@@ -5,7 +5,6 @@ import reskinService from '../service/reskin.service';
 const reskinRouter = express.Router();
 
 reskinRouter.get('/:color/:type', async (req: Request, res: Response) => {
-    console.log("route hut")
     try {
         const color = req.params.color;
         const type = req.params.type;

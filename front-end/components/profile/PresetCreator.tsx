@@ -55,6 +55,7 @@ const PresetCreator = ({
                 </>
             ))}
             <button onClick={onCancel}>Cancel</button>
+            <button>Save</button>
         </form>
     );
 }

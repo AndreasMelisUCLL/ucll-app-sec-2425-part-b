@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
     <header className={styles.header}>
       <nav className={styles.nav}>
         {/* Left */}
-        <Link href="/preset" className={styles.logoContainer}>
+        <Link href="/" className={styles.logoContainer}>
           <img src="/logo.png" alt="Logo" className={styles.logo} />
           <span className={styles.siteName}>BoardFlex</span>
         </Link>
@@ -52,12 +52,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
           >
             Profile
           </Link>
-          <Link
+          {/* <Link
             href="#"
             className={`${styles.tab} ${activeTab === "community" ? styles.activeTab : ""}`}
           >
             Community
-          </Link>
+          </Link> */}
         </div>
 
         <div>

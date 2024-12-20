@@ -17,14 +17,14 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(expressjwt({
-    secret: `${process.env.JWT_SECRET}`,
-    algorithms: ['HS256']
-}).unless({
-    path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status'],
-})
+// app.use(expressjwt({
+//     secret: `${process.env.JWT_SECRET}`,
+//     algorithms: ['HS256']
+// }).unless({
+//     path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status'],
+// })
 
-);
+// );
 
 app.use('/user', userRouter);
 app.use('/preset', presetRouter);

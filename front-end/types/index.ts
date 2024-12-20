@@ -1,35 +1,64 @@
-export const enum Color {
-    "WHITE",
-    "BLACK"
-}
+// export const enum Color {
+//     "WHITE",
+//     "BLACK"
+// }
 
-export const enum PieceType {
-    "KING",
-    "QUEEN",
-    "ROOK",
-    "BISHOP",
-    "KNIGHT",
-    "PAWN"
-}
+// export const enum PieceType {
+//     "KING",
+//     "QUEEN",
+//     "ROOK",
+//     "BISHOP",
+//     "KNIGHT",
+//     "PAWN"
+// }
 
-type Piece = {
-    type: PieceType;
-    color: Color;
-}
+type PieceColor = "WHITE" | "BLACK";
+type PieceType = "KING" | "QUEEN" | "ROOK" | "BISHOP" | "KNIGHT" | "PAWN";
+type PieceString = `${PieceColor} ${PieceType}`;
 
-type PieceDTO = {
-    type: string;
-    color: string;
-}
+type pieceColorCode = "w" | "b";
+type pieceTypeCode = "K" | "Q" | "R" | "B" | "N" | "P";
+type PieceCode = `${pieceColorCode}${pieceTypeCode}`;
 
-type Loadout = Map<PieceDTO, string>;
+type Theme = {
+    id?: number;
+    name: string;
+}
 
 type Reskin = {
-    piece: PieceDTO;
-    theme: {
-        id: number;
-        name: string;
-    }
+    piece: PieceString;
+    theme: Theme;
 }
 
-export type { Piece, Loadout, Reskin, PieceDTO };
+// type Piece = {
+//     type: PieceType;
+//     color: Color;
+// }
+
+// type PieceDTO = {
+//     type: string;
+//     color: string;
+// }
+
+// type Loadout = Map<PieceDTO, string>;
+
+// type Reskin = {
+//     piece: PieceDTO;
+//     theme: {
+//         id: number;
+//         name: string;
+//     }
+// }
+
+export type { 
+    PieceColor, 
+    PieceType, 
+    PieceString,
+
+    pieceColorCode, 
+    pieceTypeCode, 
+    PieceCode, 
+    
+    Theme, 
+    Reskin
+};

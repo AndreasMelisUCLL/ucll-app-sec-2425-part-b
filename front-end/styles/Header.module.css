@@ -1,0 +1,56 @@
+.header {
+    min-height: 60px;
+    padding: 0px 20px;
+    background-color: #f8f9fa;
+}
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoContainer {
+    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo {
+    height: 40px;
+}
+.siteName {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+}
+
+.tabContainer {
+    align-self: flex-end;
+    display: flex;
+    gap: 15px;
+}
+.tab {
+    min-width: 150px;
+    padding: 10px 15px;
+    background-color: #bbb;
+    border-radius: 8px 8px 0 0;
+
+    color: #eee;
+    font-size: 20px;
+    text-align: center;
+}
+.activeTab {
+    color: #333;
+    background-color: rgb(214, 219, 220);
+
+    /* font-weight: bold; */
+}
+
+.profileButton {
+    padding: 8px 16px;
+    background-color: #c99b46;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

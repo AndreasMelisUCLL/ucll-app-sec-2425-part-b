@@ -1,12 +1,11 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import PresetForm from "@/components/presetForm";
 
-
-export default function Home() {
+const Home: React.FC = () => {
   return (
-    <>
+    <div className="min-h-full">
       <Head>
         <title>Boardflex</title>
         <meta name="description" content="Boardflex app" />
@@ -14,9 +13,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={`${styles.main}`}>
+      <main>
+        <h1>New Preset</h1>
         <PresetForm />
       </main>
-    </>
+    </div>
   );
 }
+
+export default Home;

@@ -58,8 +58,27 @@ const createUser = async({
 }: User): Promise<User> =>{
     try {
         const userPrisma = await database.user.create({
-            data: {username, password, role}
+            data: {
+                username, 
+                password, 
+                role,
+                presets: {
+                    create: {
+                        name: 'default',
+                    },
+                },
+            },
+            include: {
+                presets: true,
+            },
         })
+
+        // set default active preset
+        await database.user.update({
+            where: { id: userPrisma.id },
+            data: { activePresetId: userPrisma.presets[0].id },
+        });
+
         return User.from(userPrisma)
     } catch (error) {
         console.error(error);

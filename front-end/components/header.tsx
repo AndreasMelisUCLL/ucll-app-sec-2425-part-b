@@ -1,21 +1,17 @@
 import Link from "next/link";
-
 import styles from "../styles/Header.module.css";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
+type TabName = "home" | "profile" | "community";
 type HeaderProps = {
-  activeTab?: string;
+  activeTab?: TabName;
 };
-const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => { 
-  const [loggedInUser, setLoggedInUser] = useState<String | null>(null);
-
-  useEffect(() => {
-    setLoggedInUser(localStorage.getItem("loggedInUser"));
-  }, []);
+const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
+  const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
-    setLoggedInUser(null);
+    sessionStorage.removeItem("loggedInUser");
+    router.push("/login");
   };
 
   return (
@@ -37,6 +33,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
         {/* Center */}
         <div className={styles.tabContainer}>
           <Link 
+            href="/" 
+            className={`${styles.tab} ${activeTab === "home" ? styles.activeTab : ""}`}
+          >
+            Home
+          </Link>
+          <Link 
             href="/profile" 
             className={`${styles.tab} ${activeTab === "profile" ? styles.activeTab : ""}`}
           >
@@ -50,7 +52,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
           </Link>
         </div>
         {/* Right */}
-        <button className={styles.profileButton}>Profile</button>
+        <button 
+          className={styles.logoutButton}
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </nav>
     </header>
   );

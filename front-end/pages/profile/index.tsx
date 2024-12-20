@@ -1,8 +1,10 @@
 import Head from "next/head";
-import styles from "@/styles/Profile.module.css";
-import Header from "@/components/Header";
-import ChessBoard from "@/components/ChessBoard";
+
 import { PieceCode } from "@/types";
+import styles from "@/styles/Profile.module.css";
+
+import ChessBoard from "@/components/ChessBoard";
+import Header from "@/components/Header";
 
 const Profile: React.FC = () => {
     const reskins = [

@@ -1,9 +1,7 @@
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
-import Header from "@/components/Header";
-import PresetForm from "@/components/presetForm";
 import { useEffect } from "react";
 import router from "next/router";
+import Header from "@/components/Header";
 
 
 const Home: React.FC = () => {
@@ -24,7 +22,7 @@ const Home: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header activeTab="home"/>
       <main>
         "hi"
       </main>

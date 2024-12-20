@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
+import UsersTable from "@/components/UsersTable"
 import { User } from "@/types";
 import { useRouter } from "next/router";
 
@@ -29,6 +30,7 @@ const Home: React.FC = () => {
       <Header activeTab="home" />
       <main>
         <h1>{`Welcome ${loggedInUser? `${loggedInUser.role} ${loggedInUser.username}` : "Guest" }`}</h1>	
+        <UsersTable/>
       </main>
     </div>
   );

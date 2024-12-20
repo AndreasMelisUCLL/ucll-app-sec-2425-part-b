@@ -17,7 +17,6 @@ const getReskinByPieceAndTheme = async ({ piece, themeId }: { piece: Piece, them
     if (!reskin) {
         throw new Error("Reskin not found");
     }
-
     return reskin;
 }
 

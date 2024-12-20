@@ -189,6 +189,9 @@ presetRouter.get('/active/:userId', async (req: Request & {auth: any}, res: Resp
  * @swagger
  * /preset:
  *   post:
+ *     get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Create a new preset
  *     requestBody:
  *       required: true
@@ -205,14 +208,15 @@ presetRouter.get('/active/:userId', async (req: Request & {auth: any}, res: Resp
  *               $ref: '#/components/schemas/Preset'
  */
 // create a new preset
-presetRouter.post('/', (req: Request & {auth: any}, res: Response, next: NextFunction) => {
+presetRouter.post('/', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
     try {
-        const preset = <PresetInput> req.body;  
-        const newPreset = presetService.createPreset(preset);
+        const preset = <PresetInput> req.body;
+        const newPreset = await presetService.createPreset(preset);
         res.status(200).json(newPreset);
     } catch (error) {
         next(error);
     }
 });
+
 
 export { presetRouter };

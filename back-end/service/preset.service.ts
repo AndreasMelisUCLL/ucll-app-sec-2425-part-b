@@ -23,6 +23,22 @@ const getPresetsByUser = async ({
     return await presetDB.getPresetsByUser({ userId });
 }
 
+const getActivePresetByUser = async ({ 
+    userId 
+}: { 
+    userId: number 
+}): Promise<Preset> => {
+    const user = await userService.getUserById({ id: userId });
+    if (!user) {
+        throw new Error('User not found');
+    }
+    const preset = await presetDB.getActivePresetByUser({ userId })
+    if (preset){return preset}
+    else{throw new Error("No Preset Found")}
+
+    
+}
+
 // CREATION ________________________________________________________________________________________
 
 const createPreset = async ({ 
@@ -60,5 +76,6 @@ const createPreset = async ({
 
 export default { 
     getPresetsByUser, 
-    createPreset 
+    createPreset,
+    getActivePresetByUser
 };

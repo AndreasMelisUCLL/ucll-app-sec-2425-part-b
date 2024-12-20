@@ -150,6 +150,40 @@ presetRouter.get('/:userId', async (req: Request, res: Response, next: NextFunct
     }
 });
 
+/**
+ * @swagger
+ * /preset/active/{userId}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get the active preset by the user id
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A Preset object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Preset'
+ */
+
+presetRouter.get('/active/:userId', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        
+        const preset = await presetService.getActivePresetByUser({ userId });
+
+        res.json(preset);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 /**
  * @swagger

@@ -15,7 +15,6 @@ export class Preset {
     readonly name: string;
     readonly reskins!: Reskin[];
     readonly user: User;
-    readonly isCurrent: boolean;
     
     // CONSTRUCTOR ------------------------------
     constructor(preset: {
@@ -30,7 +29,6 @@ export class Preset {
         this.name = preset.name;
         this.reskins = preset.reskins;
         this.user = preset.user;
-        this.isCurrent = false;
     }
 
     // STATICS ----------------------------------

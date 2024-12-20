@@ -18,7 +18,6 @@ const Home: React.FC = () => {
       });
     }
   }, []);
-  console.log(loggedInUser)
   return (
     <div className="min-h-full">
       <Head>

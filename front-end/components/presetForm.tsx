@@ -11,8 +11,8 @@ const presetForm: React.FC = () => {
     //     console.log(loadout);
     // }
 
-    const pieceTypes = ["KING", "QUEEN", "ROOK", "BISHOP", "KNIGHT", "PAWN"];
-    const colors = ["White", "Black"];
+    const pieceTypes = ["K", "Q", "R", "B", "K", "P"];
+    const colors = ["w", "b"];
     const pieces = pieceTypes.flatMap((type) => colors.map((color) => ({ type, color })));
     const pieceToString = (piece: { type: string, color: string }) => `${piece.color} ${piece.type}`;
 

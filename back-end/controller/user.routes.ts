@@ -25,9 +25,11 @@
  *         username:
  *           type: string
  *           description: The username of the user
+ *           default: "admin1"
  *         password:
  *           type: string
  *           description: The password of the user   
+ *           default: "adminpass"
  */
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';

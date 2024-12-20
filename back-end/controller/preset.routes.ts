@@ -43,6 +43,48 @@
  *           items:
  *             $ref: '#/components/schemas/ReskinInput'
  *           description: A list of reskin configurations.
+ *     Preset:
+ *         type: object
+ *         properties:
+ *           id:
+ *             minimum: 1  # Added minimum for Preset id
+ *             type: integer
+ *             format: int64
+ *           name:
+ *             type: string
+ *           reskins:
+ *             type: array
+ *             items:
+ *               $ref: '#/components/schemas/Reskin'
+ *           user:
+ *             $ref: '#/components/schemas/User'
+ *     Reskin:
+ *         type: object
+ *         properties:
+ *           id:
+ *             minimum: 1  # Added minimum for Reskin id
+ *             type: integer
+ *             format: int64
+ *           for:
+ *             type: string
+ *             enum: [Pawn, Knight, King]
+ *           as:
+ *             type: string
+ *             enum: [black, white] 
+ *           theme:
+ *             $ref: '#/components/schemas/Theme'           
+ *     Theme:
+ *         type: object
+ *         properties:
+ *           id:
+ *             minimum: 1  # Added minimum for Theme id
+ *             type: integer
+ *             format: int64
+ *           name:
+ *             type: string
+ *           description:
+ *             type: string
+ *  
  */
 
 import express, { NextFunction, Request, Response } from 'express';

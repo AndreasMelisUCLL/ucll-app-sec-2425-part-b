@@ -57,12 +57,38 @@ const userRouter = express.Router();
  *               $ref: '#/components/schemas/User'
  */
 // get user by id
-userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/:id', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         const user = await userService.getUserById({ id });
 
         res.json(user);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: get the userinfo of a user or if the user is an admin a list of all users
+ *     responses:
+ *       200:
+ *         description: A user object or Array.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+userRouter.get('/', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
+    try {
+        const {username, role} = req.auth;
+        const users = await userService.getUserByUsername({ username, role });
+
+        res.status(200).json(users);
     } catch (error) {
         next(error);
     }

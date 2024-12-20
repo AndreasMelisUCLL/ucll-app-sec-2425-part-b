@@ -29,6 +29,7 @@ type AuthenticationResponse = {
     token: string;
     username: string;
     role: string;
+    userId: number;
 }
 
 declare global {

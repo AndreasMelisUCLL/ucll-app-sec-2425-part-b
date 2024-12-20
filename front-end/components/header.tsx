@@ -1,6 +1,8 @@
 import Link from "next/link";
 import styles from "../styles/Header.module.css";
 import { useRouter } from "next/router";
+import React from "react";
+import { User } from "@/types";
 
 type TabName = "home" | "profile" | "community";
 type HeaderProps = {
@@ -8,10 +10,11 @@ type HeaderProps = {
 };
 const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
   const router = useRouter();
+  const [loggedInUser , setLoggedInUser] = React.useState<User | undefined>(undefined);
 
   const handleLogout = () => {
     sessionStorage.removeItem("loggedInUser");
-    router.push("/login");
+    router.push("/");
   };
 
   return (

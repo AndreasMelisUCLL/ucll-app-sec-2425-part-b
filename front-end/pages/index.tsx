@@ -1,18 +1,23 @@
 import Head from "next/head";
 import { useEffect } from "react";
-import router from "next/router";
 import Header from "@/components/Header";
+import { User } from "@/types";
+import { useState } from "react";
 
 
 const Home: React.FC = () => {
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+
   useEffect(() => {
-    const loggedInUser = sessionStorage.getItem("loggedInUser");
-
-    if (!loggedInUser) {
-      router.push("/login");
+    const userJSON = sessionStorage.getItem("loggedInUser");
+    if (userJSON) {
+      const user = JSON.parse(userJSON);
+      setLoggedInUser({
+        username: user.username,
+        role: user.role ?? "user",
+      });
     }
-  }, [router]);
-
+  }, [Header]);
   
   return (
     <div className="min-h-full">
@@ -24,7 +29,7 @@ const Home: React.FC = () => {
       </Head>
       <Header activeTab="home"/>
       <main>
-        "hi"
+        <h1>{`Welcome ${loggedInUser? `${loggedInUser.role} ${loggedInUser.username}` : "Guest" }`}</h1>	
       </main>
     </div>
   );

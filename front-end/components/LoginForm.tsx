@@ -36,7 +36,9 @@ const LoginForm: React.FC = () => {
             router.push("/");
           }, 500);
       }
-
+      else {
+        setError("Wrong credentials");
+      }
     }
   };
 

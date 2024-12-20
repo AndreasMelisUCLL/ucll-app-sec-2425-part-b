@@ -26,6 +26,7 @@ const LoginForm: React.FC = () => {
       const response = await UserService.loginUser(user)
       if (response.status === 200){ 
         const user = await response.json();
+        console.log("User from API response:", user);
         sessionStorage.setItem(
             'loggedInUser',
             JSON.stringify({
@@ -45,9 +46,10 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
-        <h2>Login</h2>
+        <h2>Log in</h2>
+        <img src="/logo.png" alt="logo" className={styles.logo}/>
         {error && <div className={styles.error}>{error}</div>}
         <div>
           <label htmlFor="username">Username</label>
@@ -71,8 +73,9 @@ const LoginForm: React.FC = () => {
         </div>
         <button type="submit" className={styles.submitButton}>Login</button>
       </form>
+      <span>Don't have an account yet?</span>
       <button className={styles.registerButton} onClick={handleRegisterClick}>Register</button>
-    </>
+    </div>
   );  
 };
 

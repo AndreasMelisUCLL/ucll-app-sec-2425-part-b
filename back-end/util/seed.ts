@@ -46,7 +46,23 @@ const main = async () => {
             presets: true,
         },
     });
-    
+
+    const user3 = await prisma.user.create({
+        data: {
+            username: 'admin1',
+            password: await bcrypt.hash('adminpass', 12),
+            role: "admin",
+            presets: {
+                create: {
+                    name: 'default',
+                },
+            },
+        },
+        include: {
+            presets: true,
+        },
+    });
+
     // Set default active preset for both users
     await prisma.user.update({
         where: { id: user1.id },
@@ -57,6 +73,12 @@ const main = async () => {
         where: { id: user2.id },
         data: { activePresetId: user2.presets[0].id },
     });
+
+    await prisma.user.update({
+        where: { id: user3.id },
+        data: { activePresetId: user3.presets[0].id },
+    });
+
 
 
     // THEMES AND RESKINS___________________________________________________________________________

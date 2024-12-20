@@ -25,11 +25,11 @@ const savePreset = async (loadout: any): Promise<any> => {
     }
 }
 
-const getActivePreset = async ({ userId }: { userId: number }): Promise<Preset> => {
+const getActivePresetByUser = async ({ userId }: { userId: number }): Promise<Preset> => {
     try {
         const storedUser = sessionStorage.getItem('loggedInUser');
         const token = storedUser ? JSON.parse(storedUser).token : undefined;
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/activePreset/${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/preset/active/${userId}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,9 +49,59 @@ const getActivePreset = async ({ userId }: { userId: number }): Promise<Preset> 
     }
 }
 
+const getActivePreset = async (): Promise<Preset> => {
+    try {
+        const storedUser = sessionStorage.getItem('loggedInUser');
+        const id = storedUser ? JSON.parse(storedUser).id : undefined;
+        
+        return await getActivePresetByUser({ userId: id });
+    } catch (error) {
+        console.error('Error getting active preset:', error);
+        throw error;
+    }
+}
 
+const getPresetsByUser = async ({userId}: {userId: number}): Promise<Preset[]> => {
+    try {
+        const storedUser = sessionStorage.getItem('loggedInUser');
+        const token = storedUser ? JSON.parse(storedUser).token : undefined;
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/preset/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization:  `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Network response was not ok');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error getting presets:', error);
+        throw error;
+    }
+}
+
+const getPresets = async (): Promise<Preset[]> => {
+    try {
+        const storedUser = sessionStorage.getItem('loggedInUser');
+        const id = storedUser ? JSON.parse(storedUser).id : undefined;
+        
+        return await getPresetsByUser({ userId: id });
+    } catch (error) {
+        console.error('Error getting presets:', error);
+        throw error;
+    }
+}
+    
 
 export default {
     savePreset,
+    getPresetsByUser,
+    getActivePresetByUser,
+    getPresets,
     getActivePreset,
 }

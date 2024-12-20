@@ -1,5 +1,5 @@
-import { PieceCode, Preset, User } from "@/types";
-import ChessBoard from "../ChessBoard";
+import { PieceCode, Preset, Reskin, User } from "@/types";
+import ChessBoard from "./ChessBoard";
 import styles from "@/styles/UserProfile.module.css";
 import { useState, useEffect } from "react";
 import presetService from "@/services/presetService";
@@ -32,6 +32,9 @@ const ProfileOverview: React.FC = () => {
     const [ activeUser, setActiveUser ] = useState<User | undefined>(undefined);
     const [ activePreset, setActivePreset ] = useState<Preset | undefined>(undefined);
 
+    const [ reskinSelection, setReskinSelection ] = useState<Reskin[]>([]);
+    const [ presets ] = useState<Preset[]>([]);
+
     useEffect(() => {
         const userJSON = sessionStorage.getItem("loggedInUser");      
         if (!userJSON) return;
@@ -39,21 +42,31 @@ const ProfileOverview: React.FC = () => {
         setActiveUser(JSON.parse(userJSON));
         if(!activeUser?.id) return;
 
-        presetService.getActivePreset({userId: activeUser.id}).then(setActivePreset);
+        presetService.getPresets()
+        presetService.getActivePreset({})
+            .then((preset) => {
+                setActivePreset(preset);
+                setReskinSelection(preset.reskins || []);
+            })
+
     }, []);
     
     return (
         <div className={styles["profile-container"]}>
             <ChessBoard 
-                reskins={activePreset?.reskins || []}
+                reskins={reskinSelection}
                 // position={position}
                 // perspective={perspective}
             />
             <div className={styles["user-info"]}>
                 <h2>User Information</h2>
-                <p>Name: John Doe</p>
-                <p>Email: john.doe@example.com</p>
-                <p>Bio: A passionate chess player and software developer. 
+                <p>
+                    Username: <br />
+                    {activeUser?.username} <br />
+                </p>
+                <p>
+                    Bio: <br />
+                    A passionate chess player and software developer. 
                     Loves to solve complex problems and contribute to open-source projects.</p>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Header from "@/components/header";
+import UsersTable from "@/components/UsersTable"
 import { User } from "@/types";
 import { useRouter } from "next/router";
 
@@ -13,11 +14,11 @@ const Home: React.FC = () => {
       const user = JSON.parse(userJSON);
       setLoggedInUser({
         username: user.username,
-        role: user.role ?? "user",
+        role: user.role,
       });
     }
   }, []);
-
+  console.log(loggedInUser)
   return (
     <div className="min-h-full">
       <Head>
@@ -29,6 +30,7 @@ const Home: React.FC = () => {
       <Header activeTab="home" />
       <main>
         <h1>{`Welcome ${loggedInUser? `${loggedInUser.role} ${loggedInUser.username}` : "Guest" }`}</h1>	
+        <UsersTable/>
       </main>
     </div>
   );

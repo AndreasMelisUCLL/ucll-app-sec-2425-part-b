@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
             Profile
           </Link>
           <Link
-            href="/login"
+            href="#"
             className={`${styles.tab} ${activeTab === "community" ? styles.activeTab : ""}`}
           >
             Community

@@ -37,9 +37,10 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <h2>Register</h2>
+        <img src="/logo.png" alt="logo" className={styles.logo}/>
         {error && <div className={styles.error}>{error}</div>}
         <div>
           <label htmlFor="username">Username</label>
@@ -63,8 +64,9 @@ const RegisterForm: React.FC = () => {
         </div>
         <button type="submit" className={styles.submitButton}>Register</button>
       </form>
+      <span>Already have an account?</span>
       <button className={styles.registerButton} onClick={handleLoginClick}>Log In</button>
-    </>
+    </div>
   );  
 };
 

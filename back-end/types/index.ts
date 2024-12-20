@@ -1,4 +1,5 @@
-import { Request } from 'express';
+import { PieceCode } from "../model/piece";
+
 type PieceInput = {
     color: string;
     type: string;
@@ -17,6 +18,20 @@ type ReskinInput = {
     themeId: number;
 }
 
+type presetDTO = {
+    id?: number;
+    name: string;
+    userId: number;
+    reskins: ReskinDTO[];
+}
+
+type ReskinDTO = {
+    piece: PieceCode;
+    theme: {
+        id?: number;
+        name: string;
+    }
+}
 
 type UserInput = {
     id?: number;

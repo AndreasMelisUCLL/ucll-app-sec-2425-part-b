@@ -7,9 +7,7 @@ const Register: React.FC = () => {
       <Head>
         <title>Register - BoardFlex</title>
       </Head>
-      <div className="w-full max-w-sm">
-        <RegisterForm />
-      </div>
+      <RegisterForm />
     </div>
   );
 };

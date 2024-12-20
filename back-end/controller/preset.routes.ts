@@ -1,114 +1,48 @@
 /**
  * @swagger
- *   components:
- *     securitySchemes:
- *       bearerAuth:
- *         type: http
- *         scheme: bearer
- *         bearerFormat: JWT
- *     schemas:
- *       Preset:
- *         type: object
- *         properties:
- *           id:
- *             minimum: 1  # Added minimum for Preset id
- *             type: integer
- *             format: int64
- *           name:
- *             type: string
- *           reskins:
- *             type: array
- *             items:
- *               $ref: '#/components/schemas/Reskin'
- *           user:
- *             $ref: '#/components/schemas/User'
- *           isCurrent:
- *             type: boolean
- *       PresetInput:
- *         type: object
- *         required:
- *           - name
- *           - reskins
- *           - user
- *           - isCurrent
- *         properties:
- *           id:
- *             minimum: 1  # Added minimum for PresetInput id
- *             type: integer
- *             format: int64
- *           name:
- *             type: string
- *           reskins:
- *             type: array
- *             items:
- *               $ref: '#/components/schemas/ReskinInput'
- *           user:
- *             $ref: '#/components/schemas/UserInput'
- *           isCurrent:
- *             type: boolean
- *       Reskin:
- *         type: object
- *         properties:
- *           id:
- *             minimum: 1  # Added minimum for Reskin id
- *             type: integer
- *             format: int64
- *           for:
- *             type: string
- *             enum: [Pawn, Knight, King]
- *           as:
- *             type: string
- *             enum: [black, white] 
- *           theme:
- *             $ref: '#/components/schemas/Theme'
- *       ReskinInput:
- *         type: object
- *         properties:
- *           id:
- *             minimum: 1  # Added minimum for ReskinInput id
- *             type: integer
- *             format: int64
- *           for:
- *             type: string
- *             enum: [Pawn, Knight, King]
- *           as:
- *             type: string
- *             enum: [black, white]
- *           theme:
- *             $ref: '#/components/schemas/Theme'
- *       Theme:
- *         type: object
- *         properties:
- *           id:
- *             minimum: 1  # Added minimum for Theme id
- *             type: integer
- *             format: int64
- *           name:
- *             type: string
- *           description:
- *             type: string
- *       User:
- *         type: object
- *         properties:
- *           id:
- *             minimum: 1  # Added minimum for User id
- *             type: integer
- *             format: int64
- *           username:
- *             type: string
- *           email:
- *             type: string
- *       UserInput:
- *         type: object
- *         properties:
- *           id: 
- *             minimum: 1  # Added minimum for UserInput id
- *             type: integer
- *             format: int64
- *           username:
- *             type: string
- *           email:
- *             type: string
+ * components:
+ *   schemas:
+ *     PieceInput:
+ *       type: object
+ *       required:
+ *         - type
+ *         - color
+ *       properties:
+ *         type:
+ *           type: string
+ *           default: "BISHOP"
+ *         color:
+ *           type: string
+ *           default: "BLACK"
+ *     ReskinInput:
+ *       type: object
+ *       required:
+ *         - pieceInput
+ *         - themeId
+ *       properties:
+ *         pieceInput:
+ *           $ref: '#/components/schemas/PieceInput'
+ *         themeId:
+ *           type: integer
+ *           default: 5
+ *     PresetInput:
+ *       type: object
+ *       required:
+ *         - userId
+ *         - name
+ *         - reskinInputs
+ *       properties:
+ *         userId:
+ *           type: integer
+ *           default: 4
+ *         name:
+ *           type: string
+ *           description: The name of the preset (e.g., "strifeng").
+ *         reskinInputs:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/ReskinInput'
+ *           description: A list of reskin configurations.
  */
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -189,7 +123,6 @@ presetRouter.get('/active/:userId', async (req: Request & {auth: any}, res: Resp
  * @swagger
  * /preset:
  *   post:
- *     get:
  *     security:
  *       - bearerAuth: []
  *     summary: Create a new preset
@@ -201,13 +134,10 @@ presetRouter.get('/active/:userId', async (req: Request & {auth: any}, res: Resp
  *             $ref: '#/components/schemas/PresetInput'
  *     responses:
  *       200:
- *         description: Preset created successfully.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Preset'
+ *         description: Successfully created the preset
+ *       400:
+ *         description: Invalid input
  */
-// create a new preset
 presetRouter.post('/', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
     try {
         const preset = <PresetInput> req.body;

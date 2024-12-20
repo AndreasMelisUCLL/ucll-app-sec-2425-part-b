@@ -51,7 +51,7 @@ const createPreset = async ({
 
     // check preset name is unique for user
     if (await presetDB.getPresetByUserAndName({ userId, name })) {
-        throw new Error(`Preset with name "${name}" already exists for this user.`);
+        throw new Error(`Preset with name ${name} already exists for this user.`);
     }
     
     // retrieve reskins by piece and theme id

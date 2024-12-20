@@ -5,8 +5,11 @@ import styles from "@/styles/Profile.module.css";
 
 import ChessBoard from "@/components/ChessBoard";
 import Header from "@/components/Header";
+import { useEffect, useState } from "react";
+
 
 const Profile: React.FC = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
     const reskins = [
         { 
             piece: "wK" as PieceCode, 
@@ -29,6 +32,21 @@ const Profile: React.FC = () => {
         },
     ];
     const perspective = "black";
+
+    useEffect(() => {
+        const loggedInUser = sessionStorage.getItem("loggedInUser");
+        setIsLoggedIn(!!loggedInUser);
+    }, []);
+    
+    if (!isLoggedIn) {
+        return (
+            <>
+                <Header activeTab="profile" />
+                <h1>Please Login to view this page</h1>
+            </>
+        );
+    }
+    
 
     return (
         <div className="min-h-full">

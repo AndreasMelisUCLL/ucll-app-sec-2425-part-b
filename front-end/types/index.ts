@@ -31,8 +31,10 @@ type Reskin = {
 }
 
 type User = {
-    username: string;
-    password: string;
+    id?: number;
+    username?: string;
+    password?: string;
+    role?: string;
 }
 
 // type Piece = {

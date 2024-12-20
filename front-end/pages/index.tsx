@@ -1,19 +1,23 @@
 import Head from "next/head";
-import { useEffect } from "react";
-import router from "next/router";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
-
+import { User } from "@/types";
+import { useRouter } from "next/router";
 
 const Home: React.FC = () => {
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+  const router = useRouter();
   useEffect(() => {
-    const loggedInUser = sessionStorage.getItem("loggedInUser");
-
-    if (!loggedInUser) {
-      router.push("/login");
+    const user = sessionStorage.getItem("loggedInUser");
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      setLoggedInUser({
+        username: parsedUser.username,
+        role: parsedUser.role ?? "user",
+      });
     }
-  }, [router]);
+  }, []);
 
-  
   return (
     <div className="min-h-full">
       <Head>
@@ -22,9 +26,9 @@ const Home: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header activeTab="home"/>
+      <Header activeTab="home" />
       <main>
-        "hi"
+        <h1>{`Welcome ${loggedInUser ? `${loggedInUser.role} ${loggedInUser.username}` : "Guest"}`}</h1>
       </main>
     </div>
   );

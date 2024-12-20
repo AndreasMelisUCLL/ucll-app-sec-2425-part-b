@@ -1,9 +1,24 @@
 import Head from "next/head";
 import Header from "@/components/Header";
 import PresetForm from "@/components/presetForm";
+import { useEffect, useState } from "react";
 
 
 const Preset: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    setIsLoggedIn(!!loggedInUser);
+}, []);
+
+if (!isLoggedIn) {
+    return (
+        <>
+            <Header activeTab="preset" />
+            <h1>Please Login to view this page</h1>
+        </>
+    );
+}
   return (
     <div className="min-h-full">
         <Head>

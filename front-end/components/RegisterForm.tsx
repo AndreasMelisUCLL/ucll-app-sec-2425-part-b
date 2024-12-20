@@ -3,7 +3,7 @@ import styles from "../styles/LoginForm.module.css";
 import UserService from "@/services/userService"
 import router from "next/router";
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -12,8 +12,8 @@ const LoginForm: React.FC = () => {
     setUsername("jane_doe"), setPassword("jane123")
   }, []);
 
-  const handleRegisterClick = () => {
-    router.push('/register');
+  const handleLoginClick = () => {
+    router.push('/login');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,24 +22,16 @@ const LoginForm: React.FC = () => {
       setError("Both fields are required");
     } else {
       setError("");
-      const user = {username, password}
-      const response = await UserService.loginUser(user)
+      const role = "user"
+      const user = {username, password, role}
+      const response = await UserService.registerUser(user)
       if (response.status === 200){ 
-        const user = await response.json();
-        sessionStorage.setItem(
-            'loggedInUser',
-            JSON.stringify({
-                token: user.token,
-                username: user.username,
-                role: user.role,
-            })
-        );
         setTimeout(() => {
-            router.push("/");
+            router.push('/login');
           }, 500);
       }
       else {
-        setError("Wrong credentials");
+        setError("Something went wrong");
       }
     }
   };
@@ -47,7 +39,7 @@ const LoginForm: React.FC = () => {
   return (
     <>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
-        <h2>Login</h2>
+        <h2>Register</h2>
         {error && <div className={styles.error}>{error}</div>}
         <div>
           <label htmlFor="username">Username</label>
@@ -69,11 +61,11 @@ const LoginForm: React.FC = () => {
             placeholder="Enter your password"
           />
         </div>
-        <button type="submit" className={styles.submitButton}>Login</button>
+        <button type="submit" className={styles.submitButton}>Register</button>
       </form>
-      <button className={styles.registerButton} onClick={handleRegisterClick}>Register</button>
+      <button className={styles.registerButton} onClick={handleLoginClick}>Log In</button>
     </>
   );  
 };
 
-export default LoginForm;
+export default RegisterForm;

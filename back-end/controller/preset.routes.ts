@@ -160,6 +160,18 @@ presetRouter.get('/active/:userId', async (req: Request & {auth: any}, res: Resp
     }
 });
 
+presetRouter.put('/active/:presetId', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
+    try {
+        const presetId = parseInt(req.params.presetId);
+        const userId = req.auth.userId;
+        const activePreset = await presetService.setActivePreset({userId, presetId});
+
+        res.status(200).json(activePreset);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 /**
  * @swagger

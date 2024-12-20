@@ -22,6 +22,7 @@ const main = async () => {
             role: "user",
             presets: {
                 create: {
+                    id: 1,
                     name: 'default',
                 },
             },
@@ -38,6 +39,7 @@ const main = async () => {
             role: "user",
             presets: {
                 create: {
+                    id: 2,
                     name: 'default',
                 },
             },
@@ -54,6 +56,7 @@ const main = async () => {
             role: "admin",
             presets: {
                 create: {
+                    id: 3,
                     name: 'default',
                 },
             },
@@ -83,10 +86,10 @@ const main = async () => {
 
     // THEMES AND RESKINS___________________________________________________________________________
 
-    const sniperTheme = await prisma.theme.create({
+    const horseyTheme = await prisma.theme.create({
         data: {
-            name: 'sniper bishop',
-            description: 'lining up the shots',
+            name: 'horsey',
+            description: 'goofy',
             reskins: {
                 create: [
                     { piece: 'BLACK BISHOP' },
@@ -99,10 +102,10 @@ const main = async () => {
         },
     });   
 
-    const matriarchyTheme = await prisma.theme.create({
+    const monarchyTheme = await prisma.theme.create({
         data: {
-            name: 'the matriarchy',
-            description: 'time for a change',
+            name: 'monarchy',
+            description: 'classy',
             reskins: {
                 create: [
                     { piece: 'WHITE QUEEN' },
@@ -118,14 +121,14 @@ const main = async () => {
     
     // PRESETS_______________________________________________________________________________________
 
-    const sniperPreset = await prisma.preset.create({
+    const horseyPreset = await prisma.preset.create({
         data: {
-            name: 'american sniper',
+            name: 'horsey snipers',
             userId: user1.id,
             reskins: {
                 create: [
-                    { reskin: { connect: { id: sniperTheme.reskins[0].id } } },
-                    { reskin: { connect: { id: sniperTheme.reskins[1].id } } },
+                    { reskin: { connect: { id: horseyTheme.reskins[0].id } } },
+                    { reskin: { connect: { id: horseyTheme.reskins[1].id } } },
                 ],
             },
         },
@@ -133,14 +136,14 @@ const main = async () => {
 
     await prisma.preset.create({
         data: {
-            name: 'all of the above',
+            name: 'healthy mix',
             userId: user2.id,
             reskins: {
                 create: [
-                    { reskin: { connect: { id: matriarchyTheme.reskins[0].id } } },
-                    { reskin: { connect: { id: matriarchyTheme.reskins[1].id } } },
-                    { reskin: { connect: { id: sniperTheme.reskins[0].id } } },
-                    { reskin: { connect: { id: sniperTheme.reskins[1].id } } },
+                    { reskin: { connect: { id: monarchyTheme.reskins[0].id } } },
+                    { reskin: { connect: { id: monarchyTheme.reskins[1].id } } },
+                    { reskin: { connect: { id: horseyTheme.reskins[0].id } } },
+                    { reskin: { connect: { id: horseyTheme.reskins[1].id } } },
                 ],
             },
         },
@@ -149,7 +152,7 @@ const main = async () => {
     // Update active preset for user1 to sniperPreset
     await prisma.user.update({
         where: { id: user1.id },
-        data: { activePresetId: sniperPreset.id },
+        data: { activePresetId: horseyPreset.id },
     });
 
 };

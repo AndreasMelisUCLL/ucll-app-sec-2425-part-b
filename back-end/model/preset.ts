@@ -15,6 +15,7 @@ export class Preset {
     readonly name: string;
     readonly reskins!: Reskin[];
     readonly user: User;
+    readonly isActive: boolean;
     
     // CONSTRUCTOR ------------------------------
     constructor(preset: {
@@ -22,6 +23,7 @@ export class Preset {
         name: string,
         reskins: Reskin[],
         user: User,
+        isActive?: boolean,
     }) {
         Preset.validate(preset);
 
@@ -29,6 +31,7 @@ export class Preset {
         this.name = preset.name;
         this.reskins = preset.reskins;
         this.user = preset.user;
+        this.isActive = preset.isActive ?? false;
     }
 
     // STATICS ----------------------------------
@@ -66,16 +69,19 @@ export class Preset {
         id,
         name,
         reskins,
-        user
+        user,
+        activeUser,
     }: PresetPrisma & {
         reskins: ({reskin: ReskinPrisma & {theme: ThemePrisma}})[],
-        user: UserPrisma
+        user: UserPrisma,
+        activeUser?: UserPrisma | null,
     }) {
         return new Preset({
             id,
             name,
             reskins: reskins.map((item) => Reskin.from(item.reskin)),
             user: User.from(user),
+            isActive: activeUser ? true : false,
         });
     }
 

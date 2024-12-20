@@ -1,6 +1,5 @@
 import React from 'react';
-import styles from "@/styles/Board.module.css";
-import { Reskin } from '@/types';
+import { PieceCode, PieceColor, PieceDTO, PieceType, pieceTypeCode, Reskin } from '@/types';
 
 
 interface ChessboardProps {
@@ -28,6 +27,12 @@ const Chessboard = ({
   };
 
   const currentPieces = pieces ?? defaultPieces;
+  
+const toPieceCode = ({type, color}: PieceDTO): PieceCode => {
+    const pieceColorCode = color === 'WHITE' as PieceColor ? 'w' : 'b';
+    const pieceTypeCode = type === "KNIGHT" as PieceType? "N" : type[0].toUpperCase() as pieceTypeCode;
+    return `${pieceColorCode}${pieceTypeCode}` as PieceCode;
+}
 
   // Calculate tile size based on board size
   const tileSize = boardSize / 8;
@@ -38,13 +43,14 @@ const Chessboard = ({
         position: 'relative',
         width: boardSize,
         height: boardSize,
+        flexShrink: 0,
         backgroundImage: `url(${boardPath})`,
         backgroundSize: 'cover',
         transform: perspective === 'black' ? 'rotate(180deg)' : 'none',
       }}
     >
       {Object.entries(currentPieces).map(([position, pieceCode]) => {
-        const pieceTheme = reskins.find(({ piece }) => piece === pieceCode)?.theme.name || '_default';
+        const pieceTheme = reskins.find(({ piece }) => toPieceCode(piece) === pieceCode)?.theme.name || '_default';
         const piecePath = `/piece/${pieceTheme}/${pieceCode}.svg`;
 
         // Convert chess position (like e4) to indices ([4, 4])

@@ -25,8 +25,13 @@ type Theme = {
     name: string;
 }
 
+type PieceDTO = {
+    type: PieceType;
+    color: PieceColor;
+}
+
 type Reskin = {
-    piece: PieceCode;
+    piece: PieceDTO;
     theme: Theme;
 }
 
@@ -34,7 +39,8 @@ type Preset = {
     id?: number;
     name?: string;
     userId?: number;
-    reskins?: Reskin[];
+    reskins: Reskin[];
+    isActive?: boolean;
 }
 
 type User = {
@@ -42,6 +48,13 @@ type User = {
     username?: string;
     password?: string;
     role?: string;
+}
+
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    role: string;
+    userId: number;
 }
 
 // type Piece = {
@@ -72,10 +85,12 @@ export type {
     pieceColorCode, 
     pieceTypeCode, 
     PieceCode, 
+    PieceDTO,
     
     Theme, 
     Reskin,
     Preset,
     
     User,
+    AuthenticationResponse,
 };

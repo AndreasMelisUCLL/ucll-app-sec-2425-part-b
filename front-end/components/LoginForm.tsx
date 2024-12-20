@@ -33,6 +33,7 @@ const LoginForm: React.FC = () => {
                 token: user.token,
                 username: user.username,
                 role: user.role,
+                userId: user.userId,
             })
         );
         setTimeout(() => {

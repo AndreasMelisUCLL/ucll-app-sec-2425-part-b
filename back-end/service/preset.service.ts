@@ -11,6 +11,18 @@ import presetDB         from '../repository/preset.db';
 
 // RETRIEVAL _______________________________________________________________________________________
 
+const getPresetById = async ({
+    id
+}: {
+    id: number
+}): Promise<Preset> => {
+    const preset = await presetDB.getPresetById({ id });
+    if (!preset) {
+        throw new Error('Preset not found');
+    }
+    return preset;
+}
+
 const getPresetsByUser = async ({ 
     userId 
 }: { 
@@ -37,6 +49,19 @@ const getActivePresetByUser = async ({
     else{throw new Error("No Preset Found")}
 
     
+}
+
+const setActivePreset = async ({
+    userId,
+    presetId
+}: {
+    userId: number,
+    presetId: number
+}): Promise<Preset> => {
+    const preset = await getPresetById({ id: presetId });
+    await userService.setActivePreset({ userId, presetId });
+    
+    return preset;
 }
 
 // CREATION ________________________________________________________________________________________
@@ -75,7 +100,9 @@ const createPreset = async ({
 
 
 export default { 
+    getPresetById,
     getPresetsByUser, 
     createPreset,
-    getActivePresetByUser
+    getActivePresetByUser,
+    setActivePreset
 };

@@ -59,6 +59,13 @@ const createUser = async ({username, password, role,}: UserInput): Promise<User>
     return await userDB.createUser(user)
 }
 
+const setActivePreset = async ({ userId, presetId }: { userId: number, presetId: number }) => {
+    const user = await getUserById({ id: userId });
+    await userDB.setActivePreset({ userId, presetId });
+    
+    return user;
+}
+
 export default { 
-    getUserById,createUser, authenticate, getUserByUsername
+    getUserById,createUser, authenticate, getUserByUsername, setActivePreset
 };

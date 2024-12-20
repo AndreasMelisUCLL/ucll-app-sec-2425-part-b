@@ -146,7 +146,7 @@ test('given: userId and name matching existing preset, when: invoking createPres
 
     // THEN -------------------------------------
     expect(createPreset).rejects.toThrow(
-        `Preset with name "${name}" already exists for this user.`
+        `Preset with name ${name} already exists for this user.`
     );
 
 });

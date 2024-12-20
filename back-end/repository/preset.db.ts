@@ -34,6 +34,26 @@ const save = async ({ name, user, reskins }: Preset): Promise<Preset> => {
     }
 }
 
+const getPresetById = async ({ id }: { id: number }) => {
+    try {
+        const presetPrisma = await database.preset.findUnique({
+            where: { id },
+            include: {
+                user: true,
+                reskins: { include: { reskin: { include: { theme: true }}} },
+            }
+        });
+
+        return presetPrisma 
+            ? Preset.from(presetPrisma) 
+            : null;
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+}
+
 const getPresetsByUser = async ({ 
     userId 
 }: {
@@ -46,6 +66,7 @@ const getPresetsByUser = async ({
             },
             include: {
                 user: true,
+                activeUser: true,
                 reskins: { include: { reskin: { include: { theme: true }}} },
             }
         });
@@ -117,6 +138,7 @@ const getPresetByUserAndName = async ({
 export default {
     save, 
     getActivePresetByUser,
+    getPresetById,
     getPresetsByUser,
     getPresetByUserAndName,
 };

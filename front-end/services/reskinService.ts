@@ -1,7 +1,7 @@
 import { PieceDTO, Reskin } from '@/types';
 
 
-const getReskinsByPiece = async (piece: PieceDTO): Promise<Array<Reskin>> => {
+const getReskinsByPiece = async (piece: {color: string, type: string}): Promise<Array<Reskin>> => {
     try {
         const storedUser = sessionStorage.getItem('loggedInUser');
         const token = storedUser ? JSON.parse(storedUser).token : undefined;

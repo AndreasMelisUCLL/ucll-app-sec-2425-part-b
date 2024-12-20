@@ -1,3 +1,4 @@
+import { Preset } from "../model/preset";
 import { User } from "../model/user";
 import database from "../util/database";
 
@@ -86,9 +87,23 @@ const createUser = async({
     }
 };
 
+const setActivePreset = async ({ userId, presetId }: { userId: number, presetId: number }) => {
+    try {
+        const userPrisma = await database.user.update({
+            where: { id: userId },
+            data: { activePresetId: presetId }
+        });
+        return User.from(userPrisma)
+    } catch (error) {
+        console.error(error);
+        throw new Error("Database error, check log")
+    }
+}
+
 export default { 
     getUserById,
     getUserByUsername,
     createUser,
     getAllUsers,
+    setActivePreset
 };

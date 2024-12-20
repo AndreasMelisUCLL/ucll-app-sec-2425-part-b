@@ -52,7 +52,7 @@ const getActivePresetByUser = async ({ userId }: { userId: number }): Promise<Pr
 const getActivePreset = async (): Promise<Preset> => {
     try {
         const storedUser = sessionStorage.getItem('loggedInUser');
-        const id = storedUser ? JSON.parse(storedUser).id : undefined;
+        const id = storedUser ? JSON.parse(storedUser).userId : undefined;
         
         return await getActivePresetByUser({ userId: id });
     } catch (error) {
@@ -88,11 +88,36 @@ const getPresetsByUser = async ({userId}: {userId: number}): Promise<Preset[]> =
 const getPresets = async (): Promise<Preset[]> => {
     try {
         const storedUser = sessionStorage.getItem('loggedInUser');
-        const id = storedUser ? JSON.parse(storedUser).id : undefined;
+        const id = storedUser ? JSON.parse(storedUser).userId : undefined;
+        console.log(storedUser);
         
         return await getPresetsByUser({ userId: id });
     } catch (error) {
         console.error('Error getting presets:', error);
+        throw error;
+    }
+}
+
+const putActivePreset = async (presetId: number): Promise<any> => {
+    try {
+        const storedUser = sessionStorage.getItem('loggedInUser');
+        const token = storedUser ? JSON.parse(storedUser).token : undefined;
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/preset/active/${presetId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization:  `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Network response was not ok');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error setting active preset:', error);
         throw error;
     }
 }
@@ -104,4 +129,5 @@ export default {
     getActivePresetByUser,
     getPresets,
     getActivePreset,
+    putActivePreset,
 }

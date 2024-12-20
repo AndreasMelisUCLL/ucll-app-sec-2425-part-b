@@ -1,0 +1,5 @@
+{
+    "welcome": "Welkom {{role}} {{username}}",
+    "welcome_guest": "Welkom Gast"
+  }
+  

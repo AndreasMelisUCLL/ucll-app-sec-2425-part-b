@@ -19,6 +19,7 @@ const main = async () => {
         data: {
             username: 'john_doe',
             password: await bcrypt.hash('john123', 12),
+            role: "user",
             presets: {
                 create: {
                     name: 'default',
@@ -34,6 +35,7 @@ const main = async () => {
         data: {
             username: 'jane_doe',
             password: await bcrypt.hash('jane123', 12),
+            role: "user",
             presets: {
                 create: {
                     name: 'default',

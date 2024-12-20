@@ -1,7 +1,10 @@
+import { Request } from 'express';
 type PieceInput = {
     color: string;
     type: string;
 }
+
+type Role = "admin" | "user";
 
 type PresetInput = {
     userId: number;
@@ -19,6 +22,7 @@ type UserInput = {
     id?: number;
     username: string;
     password: string;
+    role: Role;
 }
 
 type AuthenticationResponse = {
@@ -26,10 +30,19 @@ type AuthenticationResponse = {
     username: string;
 }
 
+declare global {
+    namespace Express {
+        interface Request {
+            auth: any; 
+        }
+    }
+}
+
 export {
     PieceInput,
     PresetInput,
     ReskinInput,
     UserInput,
-    AuthenticationResponse
+    AuthenticationResponse,
+    Role
 }

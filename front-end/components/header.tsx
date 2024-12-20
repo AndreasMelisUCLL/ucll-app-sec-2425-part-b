@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
       >
         {/* Left */}
         <Link
-          href="/"
+          href="/preset"
           className={styles.logoContainer}
         >
           <img src="/logo.png" alt="Logo" className={styles.logo} />
@@ -43,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
             Profile
           </Link>
           <Link 
-            href="#" 
+            href="/login" 
             className={`${styles.tab} ${activeTab === "community" ? styles.activeTab : ""}`}
           >
             Community

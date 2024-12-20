@@ -30,6 +30,11 @@ type Reskin = {
     theme: Theme;
 }
 
+type User = {
+    username: string;
+    password: string;
+}
+
 // type Piece = {
 //     type: PieceType;
 //     color: Color;
@@ -60,5 +65,7 @@ export type {
     PieceCode, 
     
     Theme, 
-    Reskin
+    Reskin,
+    
+    User,
 };

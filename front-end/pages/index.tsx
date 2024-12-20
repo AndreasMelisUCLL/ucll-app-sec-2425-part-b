@@ -2,8 +2,20 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import Header from "@/components/Header";
 import PresetForm from "@/components/presetForm";
+import { useEffect } from "react";
+import router from "next/router";
+
 
 const Home: React.FC = () => {
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+
+    if (!loggedInUser) {
+      router.push("/login");
+    }
+  }, [router]);
+
+  
   return (
     <div className="min-h-full">
       <Head>
@@ -14,8 +26,7 @@ const Home: React.FC = () => {
       </Head>
       <Header />
       <main>
-        <h1>New Preset</h1>
-        <PresetForm />
+        "hi"
       </main>
     </div>
   );

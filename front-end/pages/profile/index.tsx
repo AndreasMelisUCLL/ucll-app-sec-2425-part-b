@@ -31,7 +31,7 @@ const Profile: React.FC = () => {
             theme: { name: "california" } 
         },
     ];
-    const perspective = "black";
+    const perspective = "white";
 
     useEffect(() => {
         const loggedInUser = sessionStorage.getItem("loggedInUser");
@@ -62,6 +62,7 @@ const Profile: React.FC = () => {
                     <ChessBoard 
                         reskins={reskins}
                         perspective={perspective}
+                        // position={{a8: 'bK', a7:'bP', b7:'bP', b8: 'bR', c7: 'wN', e5: 'wK'}}
                     />
                     <div className={styles["user-info"]}>
                         <h2>User Information</h2>

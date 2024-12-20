@@ -8,12 +8,12 @@ const Home: React.FC = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const router = useRouter();
   useEffect(() => {
-    const user = sessionStorage.getItem("loggedInUser");
-    if (user) {
-      const parsedUser = JSON.parse(user);
+    const userJSON = sessionStorage.getItem("loggedInUser");
+    if (userJSON) {
+      const user = JSON.parse(userJSON);
       setLoggedInUser({
-        username: parsedUser.username,
-        role: parsedUser.role ?? "user",
+        username: user.username,
+        role: user.role ?? "user",
       });
     }
   }, []);
@@ -28,7 +28,7 @@ const Home: React.FC = () => {
       </Head>
       <Header activeTab="home" />
       <main>
-        <h1>{`Welcome ${loggedInUser ? `${loggedInUser.role} ${loggedInUser.username}` : "Guest"}`}</h1>
+        <h1>{`Welcome ${loggedInUser? `${loggedInUser.role} ${loggedInUser.username}` : "Guest" }`}</h1>	
       </main>
     </div>
   );

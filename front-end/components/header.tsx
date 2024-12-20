@@ -3,8 +3,9 @@ import Link from "next/link";
 import styles from "../styles/Header.module.css";
 import { useEffect, useState } from "react";
 
+type TabName = "home" | "profile" | "community";
 type HeaderProps = {
-  activeTab?: string;
+  activeTab?: TabName;
 };
 const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => { 
   const [loggedInUser, setLoggedInUser] = useState<String | null>(null);
@@ -36,6 +37,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
 
         {/* Center */}
         <div className={styles.tabContainer}>
+          <Link 
+            href="/" 
+            className={`${styles.tab} ${activeTab === "home" ? styles.activeTab : ""}`}
+          >
+            Home
+          </Link>
           <Link 
             href="/profile" 
             className={`${styles.tab} ${activeTab === "profile" ? styles.activeTab : ""}`}

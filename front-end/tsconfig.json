@@ -18,7 +18,6 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["./components/*"],
       "@/*": ["./*"]
     },
     "forceConsistentCasingInFileNames": true

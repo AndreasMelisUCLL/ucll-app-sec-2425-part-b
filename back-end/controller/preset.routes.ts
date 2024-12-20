@@ -138,7 +138,7 @@ const presetRouter = express.Router();
  *               $ref: '#/components/schemas/Preset'
  */
 
-presetRouter.get('/:userId', async (req: Request, res: Response, next: NextFunction) => {
+presetRouter.get('/:userId', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
     try {
         const userId = parseInt(req.params.userId);
         
@@ -205,7 +205,7 @@ presetRouter.get('/active/:userId', async (req: Request & {auth: any}, res: Resp
  *               $ref: '#/components/schemas/Preset'
  */
 // create a new preset
-presetRouter.post('/', (req: Request, res: Response, next: NextFunction) => {
+presetRouter.post('/', (req: Request & {auth: any}, res: Response, next: NextFunction) => {
     try {
         const preset = <PresetInput> req.body;  
         const newPreset = presetService.createPreset(preset);

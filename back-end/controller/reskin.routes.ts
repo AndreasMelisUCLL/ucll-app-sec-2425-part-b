@@ -4,7 +4,7 @@ import reskinService from '../service/reskin.service';
 
 const reskinRouter = express.Router();
 
-reskinRouter.get('/:color/:type', async (req: Request, res: Response) => {
+reskinRouter.get('/:color/:type', async (req: Request & {auth: any}, res: Response) => {
     try {
         const color = req.params.color;
         const type = req.params.type;

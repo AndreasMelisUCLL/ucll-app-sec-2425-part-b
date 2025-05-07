@@ -58,7 +58,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className="h-screen flex flex-col justify-center items-center gap-5">
-      <form onSubmit={handleSubmit} className="bg-[#d9dfe4] px-8 py-16 rounded-2xl shadow-md w-full max-w-md mx-auto text-center">
+      <form onSubmit={handleSubmit} className="bg-[#bebebe] px-8 py-16 rounded-2xl shadow-md w-full max-w-md mx-auto text-center">
         <img src="/logo.png" alt="logo" className="h-24 w-24 mb-2 mx-auto" />
         <h1 >{t("logIn")}</h1>
         {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
@@ -85,7 +85,7 @@ const LoginForm: React.FC = () => {
           />
         </div>
         <button type="submit" className="bg-[#04114d] text-white w-full py-4 border-none rounded-md cursor-pointer text-base transition-colors hover:bg-[#005bb5]">
-          {t("login")}
+          {t("logIn")}
         </button>
       </form>
       <span>{t("dontHaveAccount")}</span>

@@ -5,12 +5,14 @@ import Header from "@/components/header";
 
 const Register: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="w-full min-h-screen flex items-center justify-center">
       <Head>
         <title>Register - BoardFlex</title>
       </Head>
-      <Header/>
-      <RegisterForm />
+      <div className="w-full">
+        <Header/>
+        <RegisterForm />
+      </div>
     </div>
   );
 };

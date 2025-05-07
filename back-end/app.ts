@@ -12,7 +12,7 @@ import helmet from 'helmet';
 
 
 const app = express();
-app.use(helmet())
+app.use(helmet());
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
@@ -24,10 +24,9 @@ app.use(expressjwt({
     algorithms: ['HS256']
 }).unless({
     path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status'],
-})
+}));
 
-);
-
+app.use('/user', helmet.hsts()); // Enable HSTS for /user routes
 app.use('/user', userRouter);
 app.use('/preset', presetRouter);
 app.use('/reskin', reskinRouter);

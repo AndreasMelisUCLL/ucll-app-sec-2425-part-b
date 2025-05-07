@@ -7,11 +7,11 @@ import Header from "@/components/header";
 const Login: React.FC = () => {
   const {t} = useTranslation();
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="w-full min-h-screen flex items-center justify-center">
       <Head>
         <title>Login - BoardFlex</title>
       </Head>
-      <div className="w-full max-w-sm">
+      <div className="w-full">
         <Header/>
         <LoginForm />
       </div>

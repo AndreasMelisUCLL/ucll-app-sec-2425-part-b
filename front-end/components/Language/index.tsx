@@ -11,12 +11,12 @@ const Language: React.FC = () => {
     };
 
     return (
-        <div className="ml-6">
-            <select id="language" className="ml-2 p-1" value={locale} onChange={handleLanguageChange}>
+        
+            <select id="language" className="p-1 bg-gray-400 text-white" value={locale} onChange={handleLanguageChange}>
                 <option value="en">English</option>
                 <option value="nl">Dutch</option>
             </select>
-        </div>
+        
     );
 };
 

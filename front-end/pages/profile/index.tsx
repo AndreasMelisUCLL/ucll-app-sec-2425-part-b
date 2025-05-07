@@ -20,14 +20,14 @@ const Profile: React.FC = () => {
     
 
     return (
-        <div className="min-h-full">
+        <div>
             <Head>
                 <title>Boardflex | Profile</title>
             </Head>
 
             <Header activeTab="profile"/>
             
-            <main className={styles.main}>
+            <main>
                 <h1>Profile</h1>
                 {loggedInUser && !(loggedInUser.role === "guest")
                     ? <ProfileOverview />

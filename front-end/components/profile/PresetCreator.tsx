@@ -37,23 +37,23 @@ const PresetCreator = ({
     }, []);
 
     return (
-        <form>
+        <form className="flex">
             {colors.map((color) => (
-                <>
-                <h3>{color}</h3>
-                <div className={styles['reskins']}>
-                    {pieceTypes.map((pieceType) => (
-                        <select
-                            value={reskinPerPiece.get(`${color} ${pieceType}`)?.theme.name}
-                        >
-                            <option value={undefined}>Default</option>
-                            {themesPerPiece.get(`${color} ${pieceType}`)?.map((reskin: Reskin) => 
-                                    <option value={reskin.theme.name}>{reskin.theme.name}</option>
-                        )}
-                        </select>
-                    ))}
+                <div>
+                    <h3>{color}</h3>
+                    <div className={styles['reskins']}>
+                        {pieceTypes.map((pieceType) => (
+                            <select
+                                value={reskinPerPiece.get(`${color} ${pieceType}`)?.theme.name}
+                            >
+                                <option value={undefined}>Default</option>
+                                {themesPerPiece.get(`${color} ${pieceType}`)?.map((reskin: Reskin) => 
+                                        <option value={reskin.theme.name}>{reskin.theme.name}</option>
+                            )}
+                            </select>
+                        ))}
+                    </div>
                 </div>
-                </>
             ))}
             <button onClick={onCancel}>Cancel</button>
             <button onClick={

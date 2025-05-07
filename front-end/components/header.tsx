@@ -1,5 +1,4 @@
 import Link from "next/link";
-import styles from "../styles/Header.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Language from "./Language";
@@ -30,46 +29,58 @@ const Header: React.FC<HeaderProps> = ({ activeTab }: HeaderProps) => {
   };
 
   return (
-    <header className={styles.header}>
-      <nav className={styles.nav}>
+    <header className="w-full min-h-[60px] bg-[#f8f9fa] px-5">
+      <nav className="flex justify-between items-center">
         {/* Left */}
-        <Link href="/" className={styles.logoContainer}>
-          <img src="/logo.png" alt="Logo" className={styles.logo} />
-          <span className={styles.siteName}>BoardFlex</span>
+        <Link href="/" className="my-2.5 flex items-center gap-2.5">
+          <img src="/logo.png" alt="Logo" className="h-10" />
+          <span className="text-3xl font-bold text-[#333]">BoardFlex</span>
         </Link>
 
         {/* Center */}
-        <div className={styles.tabContainer}>
+        <div className="self-end flex gap-4">
           <Link
             href="/"
-            className={`${styles.tab} ${activeTab === "home" ? styles.activeTab : ""}`}
+            className={`min-w-[150px] px-4 py-2.5 rounded-t-lg text-center text-xl ${
+              activeTab === "home" 
+                ? "bg-[rgb(214,219,220)] text-[#333]" 
+                : "bg-[#bbb] text-[#eee]"
+            }`}
           >
             Home
           </Link>
           <Link
             href="/profile"
-            className={`${styles.tab} ${activeTab === "profile" ? styles.activeTab : ""}`}
+            className={`min-w-[150px] px-4 py-2.5 rounded-t-lg text-center text-xl ${
+              activeTab === "profile" 
+                ? "bg-[rgb(214,219,220)] text-[#333]" 
+                : "bg-[#bbb] text-[#eee]"
+            }`}
           >
             Profile
           </Link>
           {/* <Link
             href="#"
-            className={`${styles.tab} ${activeTab === "community" ? styles.activeTab : ""}`}
+            className={`min-w-[150px] px-4 py-2.5 rounded-t-lg text-center text-xl ${
+              activeTab === "community" 
+                ? "bg-[rgb(214,219,220)] text-[#333]" 
+                : "bg-[#bbb] text-[#eee]"
+            }`}
           >
             Community
           </Link> */}
         </div>
 
-        <div>
-        {/* Right */}
-        <button
-          className={styles.logoutButton}
-          onClick={isLoggedIn ? handleLogout : handleLogin}
-        >
-          {isLoggedIn ? "Logout" : "Login"}
-        </button>
+        <div className="flex items-center gap-4">
+          {/* Right */}
+          <button
+            className="px-4 py-2 bg-[#c99b46] text-white border-none rounded cursor-pointer"
+            onClick={isLoggedIn ? handleLogout : handleLogin}
+          >
+            {isLoggedIn ? "Logout" : "Login"}
+          </button>
 
-        <Language/>
+          <Language/>
         </div>
       </nav>
     </header>

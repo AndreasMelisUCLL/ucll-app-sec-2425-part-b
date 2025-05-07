@@ -48,14 +48,14 @@ const ProfileOverview: React.FC = () => {
     }, []);
     
     return (
-        <div className={styles["profile-container"]}>
+        <div className="flex justify-center max-w-[100%] max-h-[100%] gap-5">
             <ChessBoard 
                 boardSize={400}
                 reskins={loadout}
                 // position={position}
                 // perspective={perspective}
             />
-                <div className={styles["presets-container"]}>
+                <div className="w-[100%] max-w-[300px]">
                     {action === "Create" ? (  
                         <PresetCreator 
                             loadout={loadout}

@@ -22,7 +22,7 @@ afterEach(() => {
 const valid = {
     id: 1,
     username: 'john_doe',
-    password: 'john123',
+    password: 'john1234',
     role: 'user' as Role,
 };
 

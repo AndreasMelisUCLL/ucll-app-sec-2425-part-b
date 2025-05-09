@@ -42,7 +42,11 @@ export class Preset {
         user: User,
     }) {
         // name
-        if (!preset.name || preset.name.trim() === "") {
+        const nameRegex = /^[a-zA-Z0-9_ ]+$/; // Only alphanumeric + underscore + space
+        if (!nameRegex.test(preset.name)) {
+            throw new Error("Name can only contain letters, numbers, underscores and spaces");
+        }
+        if (preset.name.trim() === "") {
             throw new Error("Name cannot be blank");
         }
 

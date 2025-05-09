@@ -13,12 +13,37 @@ const RegisterForm: React.FC = () => {
     router.push('/login');
   };
 
+  const validate = () => {
+    if (!username || !password) {
+      setError("Both fields are required");
+      return false;
+    }
+    // new validation
+    if (username.length < 3) {
+      setError("Username must be at least 3 characters long");
+      return false;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return false;
+    }
+    const usernameRegex = /^[a-zA-Z0-9_]$/; // Only alphanumeric + underscore, min. 3 chars
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$/; // Min 1 letter and number, min. 8 chars
+    if (!usernameRegex.test(username)) {
+      setError("Username can only contain letters, numbers, and underscores");
+      return false;
+    }
+    if (!passwordRegex.test(password)) {
+      setError("Password must contain at least one letter and one number");
+      return false;
+    }
+    return true;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !password) {
-      setError(t("Both fields are required"));
-    } else {
-      setError("");
+    setError("");
+    if (validate()) {
       const role = "user"
       const user = {username, password, role}
       const response = await UserService.registerUser(user)

@@ -5,13 +5,13 @@ import { Role } from "../../types";
 
 const valid = {
     username: 'john_doe',
-    password: 'john123',
+    password: 'john1234',
     role: 'user' as Role,
 }
 const error = {
-    blankUserName: 'Username is required',
-    blankPassword: 'Password is required',
-    shortPassword: 'Password must be at least 6 characters long',
+    shortUserName: 'Username must be at least 3 characters long',
+    shortPassword: 'Password must be at least 8 characters long',
+    invalidCharPassword: 'Password must contain at least one letter and one number',
 }
 
 // CREATE USER ___________________________________________________________________________________
@@ -35,48 +35,29 @@ test('given: valid values for user, when: user is created, then: user is created
 
 });
 
-test('given: blank username for user, when: user is created, then: error is thrown', () => {
+test('given: too short username for user, when: user is created, then: error is thrown', () => {
     // GIVEN ------------------------------------
-    const blankUsername = ' ';
+    const shortUsername = 'us';
     const password = valid.password;
     const role = valid.role;
 
     // WHEN -------------------------------------
     expect(() => {
         new User({
-            username: blankUsername,
+            username: shortUsername,
             password,
             role,
         });
 
     // THEN -------------------------------------
-    }).toThrow(error.blankUserName); 
+    }).toThrow(error.shortUserName); 
 
 });
 
-test('given: blank password for user, when: user is created, then: error is thrown', () => {
+test('given: too short password for user, when: user is created, then: error is thrown', () => {
     // GIVEN ------------------------------------
     const username = valid.username;
-    const blankPassword = ' ';
-    const role = valid.role;
-
-    // WHEN -------------------------------------
-    expect(() => {
-        new User({
-            username,
-            password: blankPassword,
-            role,
-        });
-
-    // THEN -------------------------------------
-    }).toThrow(error.blankPassword); 
-
-});
-
-test('given: too short of a password for user, when: user is created, then: error is thrown', () => {
-    // GIVEN ------------------------------------
-    const username = valid.username;
-    const shortPassword = '123';
+    const shortPassword = 'p1';
     const role = valid.role;
 
     // WHEN -------------------------------------
@@ -88,6 +69,25 @@ test('given: too short of a password for user, when: user is created, then: erro
         });
 
     // THEN -------------------------------------
-    }).toThrow(error.shortPassword);
+    }).toThrow(error.shortPassword); 
+
+});
+
+test('given: password without number for user, when: user is created, then: error is thrown', () => {
+    // GIVEN ------------------------------------
+    const username = valid.username;
+    const invalidPassword = 'password';
+    const role = valid.role;
+
+    // WHEN -------------------------------------
+    expect(() => {
+        new User({
+            username,
+            password: invalidPassword,
+            role,
+        });
+
+    // THEN -------------------------------------
+    }).toThrow(error.invalidCharPassword);
 
 });

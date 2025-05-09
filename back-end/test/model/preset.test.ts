@@ -10,7 +10,7 @@ const valid = {
     name: 'preset1',
     user: new User({ 
             username: 'john_doe', 
-            password: 'john123',
+            password: 'john1234',
             role: 'user',
         }),
     reskins: [

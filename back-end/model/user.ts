@@ -34,21 +34,21 @@ export class User {
         role: Role
     }) {
         // username
-        if (user.username?.trim() === '') {
-            throw new Error('Username is required');
+        if (user.username.length < 3) {
+            throw new Error("Username must be at least 3 characters long");
+        }
+        const usernameRegex = /^[a-zA-Z0-9_]+$/; // Only alphanumeric + underscore, min. 3 chars
+        if (!usernameRegex.test(user.username)) {
+            throw new Error("Username can only contain letters, numbers, and underscores");
         }
 
         // password
-        if (user.password?.trim() === '') {
-            throw new Error('Password is required');
+        if (user.password.length < 8) {
+            throw new Error("Password must be at least 8 characters long");
         }
-        if (user.password.length <= 6) {
-            throw new Error("Password must be at least 6 characters long");
-        }
-
-        // role
-        if (user.role?.trim() === '') {
-            throw new Error('Role is required');
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/; // Min 1 letter and number, min. 8 chars
+        if (!passwordRegex.test(user.password)) {
+            throw new Error("Password must contain at least one letter and one number");
         }
     }
 

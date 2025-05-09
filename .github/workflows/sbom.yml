@@ -1,0 +1,29 @@
+name: Create and Scan SBOM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create SBOM
+        uses: anchore/sbom-action@v0
+        id: sbom
+        with:
+          format: spdx-json
+          output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
+      
+      - name: Scan SBOM
+        uses: anchore/scan-action@v6
+        id: scan
+        with:
+          sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
+          fail-build: false
+          severity-cutoff: medium
+          output-format: json

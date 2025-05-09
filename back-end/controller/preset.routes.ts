@@ -194,9 +194,10 @@ presetRouter.put('/active/:presetId', async (req: Request & {auth: any}, res: Re
  */
 presetRouter.post('/', async (req: Request & {auth: any}, res: Response, next: NextFunction) => {
     try {
-        const preset = <PresetInput> req.body;
-        const newPreset = await presetService.createPreset(preset);
-        res.status(200).json(newPreset);
+        const auth = req.auth;
+        const presetInput = <PresetInput> req.body;
+        const preset = await presetService.createPreset(presetInput);
+        res.status(200).json(preset);
     } catch (error) {
         next(error);
     }

@@ -9,10 +9,13 @@ import { presetRouter } from './controller/preset.routes';
 import { reskinRouter } from './controller/reskin.routes';
 import { expressjwt } from 'express-jwt';
 import helmet from 'helmet';
-
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
 
 const app = express();
 app.use(helmet());
+app.use(helmet.hsts());
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
@@ -26,7 +29,6 @@ app.use(expressjwt({
     path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status'],
 }));
 
-app.use('/user', helmet.hsts()); // Enable HSTS for /user routes
 app.use('/user', userRouter);
 app.use('/preset', presetRouter);
 app.use('/reskin', reskinRouter);
@@ -56,6 +58,11 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-app.listen(port || 3000, () => {
+const httpsOpts = {
+    key: fs.readFileSync(path.join(__dirname, 'certificates', 'selfsigned.key')),
+    cert: fs.readFileSync(path.join(__dirname, 'certificates', 'selfsigned.crt')),
+};
+
+https.createServer(httpsOpts, app).listen(port || 3000, () => {
     console.log(`Back-end is running on port ${port}.`);
 });

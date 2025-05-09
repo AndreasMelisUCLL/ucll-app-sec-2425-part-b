@@ -13,8 +13,8 @@ const handle = app.getRequestHandler();
 const httpsOptions = (() => {
   try {
     return {
-      key: fs.readFileSync(path.join(__dirname, 'certificates', 'localhost+2-key.pem')),
-      cert: fs.readFileSync(path.join(__dirname, 'certificates', 'localhost+2.pem')),
+      key: fs.readFileSync(path.join(__dirname, 'certificates', 'selfsigned.key')),
+      cert: fs.readFileSync(path.join(__dirname, 'certificates', 'selfsigned.crt')),
     };
   } catch (error) {
     console.warn('Failed to load HTTPS certificates, falling back to HTTP', error);

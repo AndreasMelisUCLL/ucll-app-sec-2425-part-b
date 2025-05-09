@@ -5,7 +5,7 @@
     "dev:https": "node server.js",
     "build": "next build",
     "start": "npm run dev",
-    "start:https": "NODE_ENV=production node server.js"
+    "start:https": "npm run dev:https"
   },
   "dependencies": {
     "@types/react": "18.0.28",
